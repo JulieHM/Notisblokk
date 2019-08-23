@@ -1,0 +1,4 @@
+image: gradle:jdk12
+
+job:
+  script: echo 'Welcome to IT1901'
