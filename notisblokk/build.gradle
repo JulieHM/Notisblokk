@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'checkstyle'
 }
 
 repositories {
@@ -15,7 +16,13 @@ javafx {
     modules = [ 'javafx.controls' ]
 }
 
-mainClassName = 'notisblokk.view.HelloFX'
+application {
+    mainClassName = 'notisblokk.view.HelloFX'
+}
+
+checkstyle {
+    configFile = project.file("config/checkstyle/google_checkstyle.xml")
+}
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
