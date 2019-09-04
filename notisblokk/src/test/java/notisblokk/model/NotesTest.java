@@ -29,7 +29,7 @@ public class NotesTest {
   }
 
   @Test
-  public void testAddNotes() {
+  public void testAddNotesByCollection() {
     List<Note> noteList = new ArrayList<>();
     noteList.add(new Note("rng title", "rng msg"));
     noteList.add(new Note("test title", "test msg"));
@@ -57,7 +57,8 @@ public class NotesTest {
     Note note2 = new Note("second title", "second msg");
     Note note3 = new Note("third title", "third msg");
     notes.addNotes(note1, note2, note3);
-    Assert.assertEquals(3, notes.getNotes().size());
+    Assert.assertEquals(3, notes.getNumNotes());
+  }
   }
 
 }
