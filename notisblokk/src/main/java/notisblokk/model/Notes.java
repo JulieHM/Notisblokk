@@ -1,6 +1,7 @@
 package notisblokk.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -13,8 +14,8 @@ public class Notes implements Iterable<Note> {
     // Possible to create an empty object of Notes
   }
 
-  public Notes(Note note) {
-    addNote(note);
+  public Notes(Note... note) {
+    addNotes(note);
   }
 
   public Notes(Collection<Note> notes) {
@@ -29,6 +30,10 @@ public class Notes implements Iterable<Note> {
   public void addNote(Note note) {
     // NOTE: possibly return the index it is placed in?
     notes.add(note);
+  }
+
+  public void addNotes(Note... note) {
+    addNotes(Arrays.asList(note));
   }
 
   public void addNotes(Collection<Note> notes) {
