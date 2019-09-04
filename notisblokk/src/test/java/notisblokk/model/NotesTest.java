@@ -1,5 +1,7 @@
 package notisblokk.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,4 +28,14 @@ public class NotesTest {
     notes.addNote(new Note("other title", "other msg"));
     Assert.assertEquals(2, notes.getNumNotes());
   }
+
+  @Test
+  public void testAddNotes() {
+    List<Note> noteList = new ArrayList<>();
+    noteList.add(new Note("rng title", "rng msg"));
+    noteList.add(new Note("test title", "test msg"));
+    notes.addNotes(noteList);
+    Assert.assertEquals(2, notes.getNumNotes());
+  }
+
 }
