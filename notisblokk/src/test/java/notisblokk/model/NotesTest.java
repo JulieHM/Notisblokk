@@ -46,4 +46,13 @@ public class NotesTest {
     Assert.assertEquals(note2, notes.getNote(1));
   }
 
+  @Test
+  public void testGetNotes() {
+    Note note1 = new Note("first title", "first msg");
+    Note note2 = new Note("second title", "second msg");
+    Note note3 = new Note("third title", "third msg");
+    notes.addNotes(note1, note2, note3);
+    Assert.assertEquals(3, notes.getNotes().size());
+  }
+
 }
