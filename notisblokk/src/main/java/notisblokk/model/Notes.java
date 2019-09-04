@@ -55,4 +55,12 @@ public class Notes implements Iterable<Note> {
   public int getNumNotes() {
     return notes.size();
   }
+
+  @Override
+  public String toString() {
+    return "Notes{" +
+        "size=" + getNumNotes() +
+        ", notes=" + notes +
+        '}';
+  }
 }
