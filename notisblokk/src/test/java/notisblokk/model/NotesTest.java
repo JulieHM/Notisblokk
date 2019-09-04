@@ -37,6 +37,11 @@ public class NotesTest {
     Assert.assertEquals(2, notes.getNumNotes());
   }
 
+  @Test(expected = IndexOutOfBoundsException.class)
+  public void testGetNoteWithInvalidIndex() {
+    notes.getNote(5);
+  }
+
   @Test
   public void testGetNote() {
     Note note1 = new Note("first title", "first msg");
