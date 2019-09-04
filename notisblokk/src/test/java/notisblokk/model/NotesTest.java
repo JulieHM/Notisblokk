@@ -59,6 +59,17 @@ public class NotesTest {
     notes.addNotes(note1, note2, note3);
     Assert.assertEquals(3, notes.getNumNotes());
   }
+
+  @Test
+  public void testRemoveNoteByObject() {
+    Note note1 = new Note("first title", "first msg");
+    Note note2 = new Note("second title", "second msg");
+    Note note3 = new Note("third title", "third msg");
+    notes.addNotes(note1, note2, note3);
+    notes.removeNote(note2);
+    Assert.assertEquals(2, notes.getNumNotes());
+    Assert.assertEquals(note3, notes.getNote(1));
+  }
   }
 
 }
