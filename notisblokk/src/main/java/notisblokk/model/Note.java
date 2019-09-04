@@ -48,4 +48,14 @@ public class Note {
   public LocalDateTime getLastEditedDate() {
     return lastEditedDate;
   }
+
+  @Override
+  public String toString() {
+    return "Note{" +
+        "title='" + title + '\'' +
+        ", message='" + message + '\'' +
+        ", lastEditedDate=" + lastEditedDate +
+        ", createdDate=" + createdDate +
+        '}';
+  }
 }
