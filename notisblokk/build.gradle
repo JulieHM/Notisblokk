@@ -1,6 +1,8 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'checkstyle'
+    id 'com.github.spotbugs' version '2.0.0'
 }
 
 repositories {
@@ -15,7 +17,24 @@ javafx {
     modules = [ 'javafx.controls' ]
 }
 
-mainClassName = 'notisblokk.view.HelloFX'
+application {
+    mainClassName = 'notisblokk.view.HelloFX'
+}
+
+checkstyle {
+    configFile = project.file("config/checkstyle/google_checkstyle.xml")
+}
+
+spotbugs {
+    ignoreFailures = true
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
