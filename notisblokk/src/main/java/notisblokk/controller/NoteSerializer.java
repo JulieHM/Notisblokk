@@ -1,6 +1,7 @@
 package notisblokk.controller;
 
 import com.google.gson.Gson;
+import notisblokk.model.Note;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class NoteSerializer {
      * @param noteList list of all notes
      * @return true if the action was completed
      */
-    public boolean SerializeNotes(List<Note> noteList, String path) throws IOException {
+    public boolean serializeNotes(List<Note> noteList, String path) throws IOException {
         //TODO: Should probably make it possible to append notes to the json file
         // instead of rewriting the whole file every time
         String json = gsonSerializer.toJson(noteList);
