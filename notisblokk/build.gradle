@@ -14,11 +14,11 @@ version '1.0-SNAPSHOT'
 
 javafx {
     version = "12.0.2"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml']
 }
 
 application {
-    mainClassName = 'notisblokk.view.HelloFX'
+    mainClassName = 'notisblokk.view.App'
 }
 
 checkstyle {
