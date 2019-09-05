@@ -1,4 +1,4 @@
-package notisblokk.model;
+package notisblokk.controller;
 
 import com.google.gson.Gson;
 import java.io.IOException;
