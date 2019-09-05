@@ -1,9 +1,8 @@
 package notisblokk.controller;
 
 import com.google.gson.Gson;
-import notisblokk.model.Note;
-
 import java.io.IOException;
+import notisblokk.model.Note;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
