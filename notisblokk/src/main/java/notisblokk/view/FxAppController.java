@@ -24,7 +24,7 @@ public class FxAppController {
   private VBox noteContainer;
 
 
-  private void newNote() {
+  private void onSaveClick() {
     
   }
 
