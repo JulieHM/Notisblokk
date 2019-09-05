@@ -38,4 +38,5 @@ tasks.withType(com.github.spotbugs.SpotBugsTask) {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
