@@ -1,2 +1,1 @@
-JavaFX og FXML filer er brukt til å lage brukergrensesnittet. 
-I denne mappen (gui) ligger fxml filen. 
+Used JavaFX and FXML files to make the user interface. In this directory (gui) the FXML file is stored
