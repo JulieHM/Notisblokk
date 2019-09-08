@@ -1,1 +1,1 @@
-Used JavaFX and FXML files to make the user interface. In this directory (gui) the FXML file is stored
+Used JavaFX and FXML files to make the user interface. The FXML file is stored in this directory
