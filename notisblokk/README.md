@@ -27,6 +27,6 @@ user story we worked on is `I want to be able to save the note I wrote to contin
 The project is built and run with Gradle following these steps:
 
 1. Clone this project
-2. Import the project as a Gradle Project to your favorite IDE
+2. Import it to your favourite IDE as a Gradle project
 3. Build with `./gradlew clean build`
 4. Run with `./gradlew run`
