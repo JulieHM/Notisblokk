@@ -10,6 +10,9 @@ public class NoteTest {
   private Note note;
   private LocalDateTime time;
 
+  /**
+   * Creates test objects before each test is run.
+   */
   @Before
   public void init() {
     time = LocalDateTime.of(2050, 2, 20, 4, 50, 43);

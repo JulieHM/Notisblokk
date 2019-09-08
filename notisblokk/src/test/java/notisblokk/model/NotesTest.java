@@ -10,6 +10,9 @@ public class NotesTest {
 
   private Notes notes;
 
+  /**
+   * Creates test objects before each test is run.
+   */
   @Before
   public void init() {
     notes = new Notes();

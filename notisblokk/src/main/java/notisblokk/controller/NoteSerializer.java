@@ -1,13 +1,13 @@
 package notisblokk.controller;
 
 import com.google.gson.Gson;
-import notisblokk.model.Note;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import notisblokk.model.Note;
 
 public class NoteSerializer {
 
@@ -18,6 +18,9 @@ public class NoteSerializer {
 
   private Gson gsonSerializer;
 
+  /**
+   * The default constructor for creating a NoteSerializer object.
+   */
   public NoteSerializer() {
     gsonSerializer = new Gson();
   }

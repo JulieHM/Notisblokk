@@ -16,6 +16,9 @@ public class NoteSerializerTest {
   private List<Note> noteList = new ArrayList<>();
   private String completePath = System.getenv("LOCALAPPDATA") + "\\projectNotes\\notes.json";
 
+  /**
+   * Creates test objects before each test is run.
+   */
   @Before
   public void init() {
     time = LocalDateTime.of(2050, 2, 20, 4, 50, 43);

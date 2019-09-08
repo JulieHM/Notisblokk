@@ -1,7 +1,5 @@
 package notisblokk.view;
 
-import static javafx.application.Application.launch;
-
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +22,9 @@ public class App extends Application {
     stage.setResizable(false);
   }
 
+  /**
+   * The main entry point of the program. This starts up the JavaFX application.
+   */
   public static void main(String[] args) {
     launch(args);
   }
