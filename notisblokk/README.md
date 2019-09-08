@@ -15,6 +15,13 @@ own package and resources separate from Java source code.
 - **src/main/resources** - Other files such as configs, .css and .fxml.
 - **src/test/java** - Test files for our source code.
 
+### User Story
+We are actively using Issues and Milestones in GitLab to track our progress and tasks that
+need to be completed. This is also where we keep most of our user stories.
+
+Week 1: The goal for this week was having a Minimum Viable Product (MVP) ready. One example of an
+user story we worked on is `I want to be able to save the note I wrote to continue later`.
+
 # Quickstart: Build and run
 
 The project is built and run with Gradle following these steps:
