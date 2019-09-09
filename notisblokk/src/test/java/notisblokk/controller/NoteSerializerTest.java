@@ -14,7 +14,7 @@ public class NoteSerializerTest {
   private NoteSerializer noteSerializer = new NoteSerializer();
   private LocalDateTime time;
   private List<Note> noteList = new ArrayList<>();
-  private String completePath = System.getenv("LOCALAPPDATA") + "\\projectNotes\\notes.json";
+  private String savePath = System.getProperty("user.home") + "/.projectNotes/notes.json";
 
   /**
    * Creates test objects before each test is run.
@@ -29,10 +29,10 @@ public class NoteSerializerTest {
 
   @Test
   public void testSerializeNotes() throws IOException {
-    boolean regularSerialization = noteSerializer.serializeNotes(noteList, completePath);
+    boolean regularSerialization = noteSerializer.serializeNotes(noteList, savePath);
     Assert.assertTrue(regularSerialization);
 
-    boolean emptySerialization = noteSerializer.serializeNotes(new ArrayList<Note>(), completePath);
+    boolean emptySerialization = noteSerializer.serializeNotes(new ArrayList<Note>(), savePath);
     Assert.assertTrue(emptySerialization);
   }
 
