@@ -43,7 +43,6 @@ public class NoteSerializer {
       if (!jsonFile.getParentFile().mkdirs()) {
         return false;
       }
-      Files.setAttribute(Paths.get(jsonFile.getParent()), "dos:hidden", true);
       if (!jsonFile.createNewFile()) {
         return false;
       }
