@@ -27,13 +27,14 @@ public class FxAppController {
   private Notes savedNotes = new Notes();
   private ArrayList<Label> labelList = new ArrayList<>();
   private int activeNoteIndex;
+  private static final String SAVE_PATH = System.getProperty("user.home")
+      + "/.projectNotes/notes.json"; // Should use the static one instead?
 
   @FXML
   public void initialize() {
-    String completePath = System.getenv("LOCALAPPDATA") + "\\projectNotes\\notes.json";
     NoteDeserializer noteDeserializer = new NoteDeserializer();
     try {
-      savedNotes.addNotes(noteDeserializer.deserializeNotes(completePath));
+      savedNotes.addNotes(noteDeserializer.deserializeNotes(SAVE_PATH));
     } catch (IOException e) {
       System.err.println("Unable to deserialize notes from json.");
     }
@@ -100,11 +101,10 @@ public class FxAppController {
   }
 
   private void saveNotesToJson() {
-    String completePath = System.getenv("LOCALAPPDATA") + "\\projectNotes\\notes.json";
     NoteSerializer noteSerializer = new NoteSerializer();
     try {
       /* why is a path needed if there's a static one in the class? */
-      noteSerializer.serializeNotes(savedNotes.getNotes(), completePath);
+      noteSerializer.serializeNotes(savedNotes.getNotes(), SAVE_PATH);
     } catch (IOException e) {
       System.err.println("Unable to save notes to json.");
     }
