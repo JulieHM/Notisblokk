@@ -45,9 +45,27 @@ public class FxAppController {
       Note activeNote = savedNotes.getNote(activeNoteIndex);
       titleField.setText(activeNote.getTitle());
       noteText.setText(activeNote.getMessage());
+      updateActiveNote(activeNoteIndex);
     });
 
     noteContainer.getChildren().add(label);
+    updateActiveNote(activeNoteIndex);
+  }
+
+  /**
+   * Updates the background color of all labels. Coloring the currently active while removing
+   * color from inactive labels.
+   *
+   * @param activeNoteIndex Index of the currently active note label.
+   */
+  private void updateActiveNote(int activeNoteIndex) {
+    for (int i = 0; i < labelList.size(); i++) {
+      if (i != activeNoteIndex) {
+        labelList.get(i).setStyle("-fx-background-color: none");
+      } else {
+        labelList.get(i).setStyle("-fx-background-color: green");
+      }
+    }
   }
 
   @FXML
