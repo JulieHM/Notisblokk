@@ -21,9 +21,9 @@ public class FxAppController {
   @FXML
   private VBox noteContainer;
 
- private Notes savedNotes = new Notes();
- private ArrayList<Label> labelList = new ArrayList<>();
- private int activeNoteIndex;
+  private Notes savedNotes = new Notes();
+  private ArrayList<Label> labelList = new ArrayList<>();
+  private int activeNoteIndex;
 
   @FXML
   public void initialize() {
