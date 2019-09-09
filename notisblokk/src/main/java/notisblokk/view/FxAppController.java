@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import notisblokk.controller.NoteDeserializer;
 import notisblokk.controller.NoteSerializer;
 import notisblokk.model.Note;
 import notisblokk.model.Notes;
@@ -29,11 +30,20 @@ public class FxAppController {
 
   @FXML
   public void initialize() {
-
+    String completePath = System.getenv("LOCALAPPDATA") + "\\projectNotes\\notes.json";
+    NoteDeserializer noteDeserializer = new NoteDeserializer();
+    try {
+      savedNotes.addNotes(noteDeserializer.deserializeNotes(completePath));
+    } catch (IOException e) {
+      System.err.println("Unable to deserialize notes from json.");
+    }
+    for (Note note : savedNotes) {
+      addLabel(note.getTitle());
+    }
   }
 
-  private void addLabel() {
-    Label label = new Label("New note");
+  private void addLabel(String title) {
+    Label label = new Label(title);
     label.setPrefHeight(30);
     label.setPrefWidth(100);
     label.setAlignment(Pos.CENTER);
@@ -55,8 +65,8 @@ public class FxAppController {
   }
 
   /**
-   * Updates the background color of all labels. Coloring the currently active while removing
-   * color from inactive labels.
+   * Updates the background color of all labels. Coloring the currently active while removing color
+   * from inactive labels.
    *
    * @param activeNoteIndex Index of the currently active note label.
    */
@@ -77,7 +87,7 @@ public class FxAppController {
 
     Note note = new Note(null, null);
     savedNotes.addNote(note);
-    addLabel();
+    addLabel("New note");
   }
 
   @FXML
@@ -86,7 +96,6 @@ public class FxAppController {
     labelList.get(activeNoteIndex).setText(titleField.getText());
     activeNote.setTitle(titleField.getText());
     activeNote.setMessage(noteText.getText());
-    //TODO serialize
     saveNotesToJson();
   }
 
