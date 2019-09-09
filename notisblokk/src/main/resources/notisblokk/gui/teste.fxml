@@ -16,7 +16,7 @@
    <children>
       <Button fx:id="saveNote" layoutX="200.0" layoutY="327.0" mnemonicParsing="false" onAction="#onSaveClick" prefHeight="38.0" prefWidth="200.0" text="Save note" />
       <TextField fx:id="titleField" layoutX="200.0" layoutY="50.0" prefHeight="38.0" prefWidth="200.0" promptText="title" />
-      <TextArea fx:id="noteText" layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" promptText="note" />
+      <TextArea fx:id="noteText" wrapText="true" layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" promptText="note" />
       <VBox fx:id="noteContainer" layoutX="40.0" layoutY="100.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-style: solid; -fx-border-width: 0.2px; -fx-border-radius: 3;" />
       <Button fx:id="newNote" layoutX="40.0" layoutY="56.0" mnemonicParsing="false" onAction="#onNewNoteClick" prefHeight="27.0" prefWidth="100.0" text="New Note" />
       <Label layoutX="199.0" layoutY="14.0" text="Notepad">
