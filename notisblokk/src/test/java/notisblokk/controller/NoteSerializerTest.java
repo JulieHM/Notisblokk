@@ -14,7 +14,7 @@ public class NoteSerializerTest {
   private NoteSerializer noteSerializer = new NoteSerializer();
   private LocalDateTime time;
   private List<Note> noteList = new ArrayList<>();
-  private String savePath = System.getProperty("user.home") + "/projectNotes/notes.json";
+  private String savePath = System.getProperty("user.home") + "/.projectNotes/notes.json";
 
   /**
    * Creates test objects before each test is run.

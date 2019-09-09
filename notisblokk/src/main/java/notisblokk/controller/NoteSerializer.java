@@ -12,7 +12,7 @@ import notisblokk.model.Note;
 public class NoteSerializer {
 
   private static final String SAVE_PATH =
-      System.getProperty("user.home") + "/projectNotes/notes.json";
+      System.getProperty("user.home") + "/.projectNotes/notes.json";
 
   private Gson gsonSerializer;
 
@@ -43,6 +43,7 @@ public class NoteSerializer {
       if (!jsonFile.getParentFile().mkdirs()) {
         return false;
       }
+      Files.setAttribute(Paths.get(jsonFile.getParent()), "dos:hidden", true);
       if (!jsonFile.createNewFile()) {
         return false;
       }
