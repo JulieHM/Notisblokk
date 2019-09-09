@@ -11,10 +11,8 @@ import notisblokk.model.Note;
 
 public class NoteSerializer {
 
-  //TODO: Find MacOS solution for path (file-saving)
-  public static final String LOCAL_PATH = System.getenv("LOCALAPPDATA");
-  public static final String COMPLETE_PATH =
-      System.getenv("LOCALAPPDATA") + "\\projectNotes\\notes.json";
+  private static final String SAVE_PATH =
+      System.getProperty("user.home") + "/.projectNotes/notes.json";
 
   private Gson gsonSerializer;
 
@@ -41,7 +39,7 @@ public class NoteSerializer {
       writer = new FileWriter(path);
       writer.write(json);
     } else {
-      File jsonFile = new File(COMPLETE_PATH);
+      File jsonFile = new File(SAVE_PATH);
       if (!jsonFile.getParentFile().mkdirs()) {
         return false;
       }
