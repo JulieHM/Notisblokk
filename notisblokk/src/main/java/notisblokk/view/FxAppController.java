@@ -1,5 +1,6 @@
 package notisblokk.view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -7,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import notisblokk.controller.NoteSerializer;
 import notisblokk.model.Note;
 import notisblokk.model.Notes;
 
@@ -85,6 +87,18 @@ public class FxAppController {
     activeNote.setTitle(titleField.getText());
     activeNote.setMessage(noteText.getText());
     //TODO serialize
+    saveNotesToJson();
+  }
+
+  private void saveNotesToJson() {
+    String completePath = System.getenv("LOCALAPPDATA") + "\\projectNotes\\notes.json";
+    NoteSerializer noteSerializer = new NoteSerializer();
+    try {
+      /* why is a path needed if there's a static one in the class? */
+      noteSerializer.serializeNotes(savedNotes.getNotes(), completePath);
+    } catch (IOException e) {
+      System.err.println("Unable to save notes to json.");
+    }
   }
 
 }
