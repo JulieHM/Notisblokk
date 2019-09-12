@@ -2,7 +2,7 @@ package notisblokk.model;
 
 import java.time.LocalDateTime;
 
-public class Note {
+public class Note implements Comparable<Note> {
 
   private String title;
   private String message;
@@ -97,5 +97,10 @@ public class Note {
         + "', lastEditedDate=" + lastEditedDate
         + ", createdDate=" + createdDate
         + '}';
+  }
+
+  @Override
+  public int compareTo(Note note) {
+    return this.getLastEditedDate().compareTo(note.getLastEditedDate());
   }
 }
