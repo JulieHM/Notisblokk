@@ -2,6 +2,10 @@ package notisblokk.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -35,6 +39,7 @@ public class FxAppController {
     NoteDeserializer noteDeserializer = new NoteDeserializer();
     try {
       savedNotes.addNotes(noteDeserializer.deserializeNotes(SAVE_PATH));
+      sortNotesByLastEdited(savedNotes);
     } catch (IOException e) {
       System.err.println("Unable to deserialize notes from json.");
     }
@@ -56,13 +61,12 @@ public class FxAppController {
     label.setOnMouseClicked(event -> {
       activeNoteIndex = labelList.indexOf(label);
       Note activeNote = savedNotes.getNote(activeNoteIndex);
-      titleField.setText(activeNote.getTitle());
-      noteText.setText(activeNote.getMessage());
-      updateActiveNote(activeNoteIndex);
+      updateActiveNote(activeNote, activeNoteIndex);
     });
 
     noteContainer.getChildren().add(label);
-    updateActiveNote(activeNoteIndex);
+    Note activeNote = savedNotes.getNote(activeNoteIndex);
+    updateActiveNote(activeNote, activeNoteIndex);
   }
 
   /**
@@ -71,12 +75,14 @@ public class FxAppController {
    *
    * @param activeNoteIndex Index of the currently active note label.
    */
-  private void updateActiveNote(int activeNoteIndex) {
+  private void updateActiveNote(Note activeNote, int activeNoteIndex) {
     for (int i = 0; i < labelList.size(); i++) {
       if (i != activeNoteIndex) {
         labelList.get(i).setStyle("-fx-background-color: none");
       } else {
         labelList.get(i).setStyle("-fx-background-color: green");
+        titleField.setText(activeNote.getTitle());
+        noteText.setText(activeNote.getMessage());
       }
     }
   }
@@ -97,6 +103,7 @@ public class FxAppController {
     labelList.get(activeNoteIndex).setText(titleField.getText());
     activeNote.setTitle(titleField.getText());
     activeNote.setMessage(noteText.getText());
+    activeNote.setLastEditedDate();
     saveNotesToJson();
   }
 
@@ -108,6 +115,10 @@ public class FxAppController {
     } catch (IOException e) {
       System.err.println("Unable to save notes to json.");
     }
+  }
+
+  private void sortNotesByLastEdited(Notes notes){
+    notes.getNotes().sort(Collections.reverseOrder());
   }
 
 }
