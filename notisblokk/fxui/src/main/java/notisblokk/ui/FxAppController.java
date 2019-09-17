@@ -2,20 +2,17 @@ package notisblokk.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import notisblokk.json.NoteDeserializer;
-import notisblokk.json.NoteSerializer;
 import notisblokk.core.Note;
 import notisblokk.core.Notes;
+import notisblokk.json.NoteDeserializer;
+import notisblokk.json.NoteSerializer;
 
 public class FxAppController {
 
@@ -117,7 +114,7 @@ public class FxAppController {
     }
   }
 
-  private void sortNotesByLastEdited(Notes notes){
+  private void sortNotesByLastEdited(Notes notes) {
     notes.getNotes().sort(Collections.reverseOrder());
   }
 

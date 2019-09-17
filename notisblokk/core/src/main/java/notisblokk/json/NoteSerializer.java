@@ -24,8 +24,8 @@ public class NoteSerializer {
   }
 
   /**
-   * Takes in a list of notes and serializes them to a notisblokk.json-formatted string and saves them
-   * locally.
+   * Takes in a list of notes and serializes them to a notisblokk.json-formatted string
+   * and saves them locally.
    *
    * @param noteList list of all notes
    * @return true if the action was completed
