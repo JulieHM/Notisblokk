@@ -2,6 +2,7 @@ package notisblokk.json;
 
 import com.google.gson.Gson;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,9 +11,6 @@ import java.util.List;
 import notisblokk.core.Note;
 
 public class NoteSerializer {
-
-  private static final String SAVE_PATH =
-      System.getProperty("user.home") + "/.projectNotes/notes.json";
 
   private Gson gsonSerializer;
 
@@ -31,27 +29,18 @@ public class NoteSerializer {
    * @return true if the action was completed
    */
   public boolean serializeNotes(List<Note> noteList, String path) throws IOException {
-    //TODO: Should probably make it possible to append notes to the notisblokk.json file
-    // instead of rewriting the whole file every time
+    /*
+    TODO: Should probably make it possible to append notes to the notisblokk.json file
+          instead of rewriting the whole file every time
+    */
     String json = gsonSerializer.toJson(noteList);
-    FileWriter writer;
-    if (Files.exists(Paths.get(path))) {
-      writer = new FileWriter(path);
+    try (FileWriter writer = new FileWriter(new File(path))) {
       writer.write(json);
-    } else {
-      File jsonFile = new File(SAVE_PATH);
-      if (!jsonFile.getParentFile().mkdirs()) {
-        return false;
-      }
-      if (!jsonFile.createNewFile()) {
-        return false;
-      }
-      writer = new FileWriter(path);
-      writer.write(json);
+      return true;
+    } catch (FileNotFoundException e) {
+      System.err.println("FileNotFound");
+      return false;
     }
-
-    writer.close();
-    return true;
   }
 
 }
