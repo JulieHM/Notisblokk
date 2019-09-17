@@ -7,11 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class App extends Application {
+public class FxApp extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/notisblokk/gui/teste.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/notisblokk/ui/FxApp.fxml"));
 
     Scene scene = new Scene(root);
 

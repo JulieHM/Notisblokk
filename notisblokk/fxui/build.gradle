@@ -9,7 +9,7 @@ javafx {
 }
 
 application {
-    mainClassName = 'notisblokk.view.App'
+    mainClassName = 'notisblokk.ui.FxApp'
 }
 
 dependencies {
