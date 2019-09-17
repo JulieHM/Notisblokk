@@ -1,0 +1,43 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'checkstyle'
+    id 'com.github.spotbugs' version '2.0.0'
+    id 'jacoco'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group 'gr1915'
+version '1.0-SNAPSHOT'
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml']
+}
+
+application {
+    mainClassName = 'notisblokk.view.App'
+}
+
+checkstyle {
+    configFile = project.file("../config/checkstyle/google_checkstyle.xml")
+}
+
+spotbugs {
+    ignoreFailures = true
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.google.code.gson:gson:2.8.2'
+}

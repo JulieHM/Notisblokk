@@ -5,7 +5,7 @@ save them, and open them at a later time.
 
 ![Image of the graphical user interface of the application.](docs/Notisblokk.png)
 
-# Overview
+# Overview [OUTDATED]
 The file structure is based on the MVC architectural pattern. We are keeping each layer in their
 own package and resources separate from Java source code. 
 
