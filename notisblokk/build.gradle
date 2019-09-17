@@ -1,0 +1,38 @@
+plugins {
+    id 'com.github.spotbugs' version '2.0.0' apply false
+}
+
+allprojects {
+    group ='gr1915'
+    version ='1.0-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'checkstyle'
+    apply plugin: 'jacoco'
+    apply plugin: 'com.github.spotbugs'
+
+    repositories {
+        mavenCentral()
+    }
+
+    checkstyle {
+        configFile = project.file("../config/checkstyle/google_checkstyle.xml")
+    }
+
+    spotbugs {
+        ignoreFailures = true
+    }
+
+    tasks.withType(com.github.spotbugs.SpotBugsTask) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    dependencies {
+        testImplementation 'junit:junit:4.12'
+    }
+}
