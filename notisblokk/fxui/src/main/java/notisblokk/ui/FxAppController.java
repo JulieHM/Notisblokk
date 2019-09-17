@@ -36,8 +36,10 @@ public class FxAppController {
     noteListView.getItems().addAll(savedNotes.getNotes());
 
     /* Select and display the most recently edited note */
-    noteListView.getSelectionModel().select(0); // sorted list means index 0 is last edited
-    displayNote(noteListView.getSelectionModel().getSelectedItem());
+    if (savedNotes.getNumNotes() > 0) {
+      noteListView.getSelectionModel().select(0); // sorted list means index 0 is last edited
+      displayNote(noteListView.getSelectionModel().getSelectedItem());
+    }
   }
 
   /**
