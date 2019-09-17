@@ -24,14 +24,14 @@ public class NoteSerializer {
   }
 
   /**
-   * Takes in a list of notes and serializes them to a json-formatted string and saves them
+   * Takes in a list of notes and serializes them to a notisblokk.json-formatted string and saves them
    * locally.
    *
    * @param noteList list of all notes
    * @return true if the action was completed
    */
   public boolean serializeNotes(List<Note> noteList, String path) throws IOException {
-    //TODO: Should probably make it possible to append notes to the json file
+    //TODO: Should probably make it possible to append notes to the notisblokk.json file
     // instead of rewriting the whole file every time
     String json = gsonSerializer.toJson(noteList);
     FileWriter writer;

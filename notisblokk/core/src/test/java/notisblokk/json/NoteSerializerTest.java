@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import notisblokk.model.Note;
+import notisblokk.core.Note;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

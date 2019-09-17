@@ -21,10 +21,10 @@ public class NoteDeserializer {
   }
 
   /**
-   * Takes a local path to a file of json-formatted Note objects. Builds the Note objects
+   * Takes a local path to a file of notisblokk.json-formatted Note objects. Builds the Note objects
    * found in the file and returns them as a List of Note.
    *
-   * @param path The path to the json-formatted file.
+   * @param path The path to the notisblokk.json-formatted file.
    * @return A List of Note objects.
    */
   public List<Note> deserializeNotes(String path) throws IOException {
