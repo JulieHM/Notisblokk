@@ -21,8 +21,11 @@ public class NoteTest {
 
   @Test
   public void testToString() {
+    /*
     String correctToString = "Note{title='title', message='msg', "
         + "lastEditedDate=" + time + ", createdDate=" + time + "}";
+     */
+    String correctToString = "title";
     Assert.assertEquals(correctToString, note.toString());
   }
 

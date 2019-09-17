@@ -91,12 +91,15 @@ public class Note implements Comparable<Note> {
 
   @Override
   public String toString() {
+    /*
     return "Note{"
         + "title='" + title
         + "', message='" + message
         + "', lastEditedDate=" + lastEditedDate
         + ", createdDate=" + createdDate
         + '}';
+     */
+    return title;
   }
 
   @Override
