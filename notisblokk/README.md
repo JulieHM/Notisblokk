@@ -5,15 +5,14 @@ save them, and open them at a later time.
 
 ![Image of the graphical user interface of the application.](docs/Notisblokk.png)
 
-# Overview
-The file structure is based on the MVC architectural pattern. We are keeping each layer in their
-own package and resources separate from Java source code. 
+# Overview 
+The file structure of this project is module based, where different types of logic are put into
+separate Gradle sub-projects.
 
-- **src/main/java/controller** - JSON serialization and deserialization source code.
-- **src/main/java/model** - Domain classes with data and logic source code.
-- **src/main/java/view** - Graphical User Interface source code.
-- **src/main/resources** - Other files such as configs, .css and .fxml.
-- **src/test/java** - Test files for our source code.
+- ***core***/src/main/java - Handles the all the pure logic of the application
+- ***fxui***/src/main/java - All GUI parts
+- ***restapi***/src/main/java - Rest API
+- ***restserver***/src/main/java - Communicates between core and fxui
 
 ### User Story
 We are actively using Issues and Milestones in GitLab to track our progress and tasks that
