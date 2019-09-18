@@ -19,7 +19,7 @@ public class FxAppController {
   private TextArea messageField;
 
   @FXML
-  private ListView<Note> noteListView;
+  private ListView<Note> noteListView; // TODO: Find better solution. Displays Note.toString atm
 
   private Notes savedNotes = new Notes();
   private static final String SAVE_PATH = System.getProperty("user.home")
