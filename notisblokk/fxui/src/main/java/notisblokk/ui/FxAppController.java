@@ -19,7 +19,7 @@ public class FxAppController {
   private TextArea messageField;
 
   @FXML
-  private ListView<Note> noteListView; // TODO: Find better solution. Displays Note.toString atm
+  private ListView<Note> noteListView;
 
   private Notes savedNotes = new Notes();
   private static final String SAVE_PATH = System.getProperty("user.home")
@@ -34,6 +34,7 @@ public class FxAppController {
     loadNotesFromJson();
     savedNotes.sortNotesByLastEdited();
     noteListView.getItems().addAll(savedNotes.getNotes());
+    noteListView.setCellFactory(listView -> new NoteCell()); // custom cell display
 
     /* Select and display the most recently edited note */
     if (savedNotes.getNumNotes() > 0) {
