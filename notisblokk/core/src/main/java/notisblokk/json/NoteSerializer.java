@@ -34,6 +34,12 @@ public class NoteSerializer {
           instead of rewriting the whole file every time
     */
     String json = gsonSerializer.toJson(noteList);
+
+    File file = new File(path);
+    if (!file.exists()) {
+      file.getParentFile().mkdirs();
+    }
+
     try (FileWriter writer = new FileWriter(new File(path))) {
       writer.write(json);
       return true;
