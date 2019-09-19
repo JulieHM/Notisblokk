@@ -32,6 +32,10 @@ subprojects {
         }
     }
 
+    test {
+        finalizedBy jacocoTestReport
+    }
+
     dependencies {
         testImplementation 'junit:junit:4.12'
     }

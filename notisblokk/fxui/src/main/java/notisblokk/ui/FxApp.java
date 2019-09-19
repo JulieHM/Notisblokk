@@ -11,7 +11,8 @@ public class FxApp extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/notisblokk/ui/FxApp.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FxApp.fxml"));
+    Parent root = fxmlLoader.load();
 
     Scene scene = new Scene(root);
 

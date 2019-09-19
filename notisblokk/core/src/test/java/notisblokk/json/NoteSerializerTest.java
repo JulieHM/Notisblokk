@@ -32,7 +32,7 @@ public class NoteSerializerTest {
     boolean regularSerialization = noteSerializer.serializeNotes(noteList, savePath);
     Assert.assertTrue(regularSerialization);
 
-    boolean emptySerialization = noteSerializer.serializeNotes(new ArrayList<Note>(), savePath);
+    boolean emptySerialization = noteSerializer.serializeNotes(new ArrayList<>(), savePath);
     Assert.assertTrue(emptySerialization);
   }
 

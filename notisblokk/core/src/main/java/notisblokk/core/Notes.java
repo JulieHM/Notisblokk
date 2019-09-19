@@ -3,6 +3,7 @@ package notisblokk.core;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -104,6 +105,13 @@ public class Notes implements Iterable<Note> {
    */
   public int getNumNotes() {
     return notes.size();
+  }
+
+  /**
+   * Sorts the list of Notes by most recent edited date.
+   */
+  public void sortNotesByLastEdited() {
+    notes.sort(Collections.reverseOrder());
   }
 
   @Override
