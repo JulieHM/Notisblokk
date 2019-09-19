@@ -98,7 +98,7 @@ public class FxAppController {
    */
   private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
-    note.setMessage(titleField.getText());
+    note.setMessage(messageField.getText());
     note.setTitle(titleField.getText());
   }
 
