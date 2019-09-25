@@ -125,4 +125,12 @@ public class FxAppController {
       System.err.println("Unable to deserialize notes from json.");
     }
   }
+
+  @FXML
+  private void onDeleteClick() {
+    Note selectedNote = noteListView.getSelectionModel().getSelectedItem();
+    savedNotes.removeNote(selectedNote);
+    noteListView.getItems().remove(selectedNote);
+    displayNote(noteListView.getSelectionModel().getSelectedItem());
+  }
 }
