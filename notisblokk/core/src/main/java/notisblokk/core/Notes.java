@@ -121,4 +121,9 @@ public class Notes implements Iterable<Note> {
         + ", notes=" + notes
         + '}';
   }
+
+  public Note replaceNote(int index, Note note){
+    notes.set(index, note);
+    return note;
+  }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class NoteService {
+
   private static final String SAVE_PATH = System.getProperty("user.home")
       + "/.projectNotes/notes.json"; // TODO: move path away from FxAppController class
 
@@ -47,13 +48,17 @@ public class NoteService {
     //saveNotesToJson();
   }
 
-  public Note getNote(int index){
+  public Note getNote(int index) {
     try {
       return notes.getNote(index);
-    }
-    catch (IndexOutOfBoundsException e){
+    } catch (IndexOutOfBoundsException e) {
       throw new RestNoteNotFoundException(index);
     }
+  }
+
+  public Note replaceNote(int index, Note note) {
+    notes.replaceNote(index, note);
+    return note;
   }
 }
 
