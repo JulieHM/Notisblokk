@@ -1,6 +1,7 @@
 package notiskblokk.restapi;
 
 import java.io.IOException;
+import java.util.Optional;
 import notisblokk.core.Note;
 import notisblokk.core.Notes;
 import notisblokk.json.NoteDeserializer;
@@ -44,6 +45,15 @@ public class NoteService {
     notes.addNote(note);
     System.out.println(note);
     //saveNotesToJson();
+  }
+
+  public Note getNote(int index){
+    try {
+      return notes.getNote(index);
+    }
+    catch (IndexOutOfBoundsException e){
+      throw new RestNoteNotFoundException(index);
+    }
   }
 }
 
