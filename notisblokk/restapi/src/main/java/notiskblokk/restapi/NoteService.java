@@ -42,10 +42,12 @@ public class NoteService {
     return notes;
   }
 
-  public void addNote(Note note) {
-    notes.addNote(note);
-    System.out.println(note);
-    //saveNotesToJson();
+  public boolean addNote(Note note) {
+    if (notes.addNote(note)) {
+      saveNotesToJson();
+      return true;
+    }
+    throw new RestInvalidNoteFormatException(note);
   }
 
   public Note getNote(int index) {
@@ -58,6 +60,7 @@ public class NoteService {
 
   public Note replaceNote(int index, Note note) {
     notes.replaceNote(index, note);
+    saveNotesToJson();
     return note;
   }
 }
