@@ -2,6 +2,9 @@ package ui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +20,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.invocation.Invocation;
+import org.mockito.invocation.InvocationOnMock;
 import org.testfx.api.FxAssert;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.control.TableViewMatchers;
@@ -44,8 +49,7 @@ public class FxAppTest extends ApplicationTest {
 
   private FxAppController controller;
   private Note note = Mockito.mock(Note.class);
-  private Notes savedNotes = Mockito.mock(Notes.class);  //hvordan koble opp mot savedNotes
-  //private Notes savedNotes = new Notes();  //trenger vi å lage denne ettersom vi allerede har tatt med controlleren hvor den opprettes
+  private Notes savedNotes = Mockito.mock(Notes.class); //hvordan koble opp mot savedNotes
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -53,7 +57,9 @@ public class FxAppTest extends ApplicationTest {
     Parent root = fxmlLoader.load();
     this.controller = fxmlLoader.load();
     Scene scene = new Scene(root);
+
     setupNotes();
+
     stage.setTitle("Notisblokk");
     stage.setScene(scene);
     stage.show();
@@ -63,9 +69,15 @@ public class FxAppTest extends ApplicationTest {
 
 
   public void setupNotes(){   //vil hente savedNotes
-    when(savedNotes.addNote(any(Note.class)))
-        .then(invocation -> savedNotes.addNote(note));
-  }
+    //List<Note> notes = new ArrayList<>();
+   // Note testNote = new Note("Test123","Test123", LocalDateTime.now(), LocalDateTime.now());
+    //when(savedNotes.addNote(any(Note.class))).then(invocation -> {
+     // notes.add(invocation.getArgument(0,Notes.class));
+      //return notes;
+    //});
+
+    }
+
 
   @Test
   public void testController() {
