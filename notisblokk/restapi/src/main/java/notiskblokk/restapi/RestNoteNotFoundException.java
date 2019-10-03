@@ -1,9 +1,9 @@
 package notiskblokk.restapi;
 
 
-public class RestNoteNotFoundException extends RuntimeException {
+class RestNoteNotFoundException extends RuntimeException {
 
-  public RestNoteNotFoundException(int index){
+  RestNoteNotFoundException(int index){
     super(String.format("Note with index %s not found.", index));
   }
 
