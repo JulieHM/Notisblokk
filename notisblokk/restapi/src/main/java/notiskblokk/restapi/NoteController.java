@@ -29,8 +29,6 @@ public class NoteController {
 
   @PostMapping(consumes = "application/json", produces = "application/json")
   public ResponseEntity<Note> addNote(@RequestBody Note note) {
-    System.out.println(note);
-
     service.addNote(note);
     int index = service.getAllNotes().getNumNotes();
 
@@ -52,8 +50,7 @@ public class NoteController {
     return ResponseEntity.notFound().build();
   }
 
-  @PutMapping("/{index}")
-  @PostMapping(consumes = "application/json", produces = "application/json")
+  @PutMapping(value = "/{index}", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Note> setNote(@PathVariable int index, @RequestBody Note note) {
     Note noteAtIndex = service.getNote(index);
     if (noteAtIndex != null){
