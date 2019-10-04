@@ -1,4 +1,4 @@
-package ui;
+package notisblokk.ui;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,7 +55,6 @@ public class FxAppTest extends ApplicationTest {
   public void start(Stage stage) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FxApp.fxml"));
     Parent root = fxmlLoader.load();
-    this.controller = fxmlLoader.load();
     Scene scene = new Scene(root);
 
     setupNotes();
