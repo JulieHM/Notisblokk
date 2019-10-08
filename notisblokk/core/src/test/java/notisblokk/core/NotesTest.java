@@ -85,15 +85,4 @@ public class NotesTest {
     Assert.assertEquals(note3, notes.getNote(1));
   }
 
-  @Test
-  public void testReplaceNote() {
-    Note noteToBeReplaced = new Note("Replacement note", "Replacement note");
-    int replacementIndex = 7;
-    for (var i = 0; i < 10; i++) {
-      notes.addNote(new Note("Some title", "Some message"));
-    }
-    notes.replaceNote(replacementIndex, noteToBeReplaced);
-    Assert.assertEquals(notes.getNote(replacementIndex), noteToBeReplaced);
-  }
-
 }

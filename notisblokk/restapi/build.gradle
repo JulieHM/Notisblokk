@@ -27,8 +27,6 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    implementation project(":core")
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile("junit:junit")
-    implementation 'com.google.code.gson:gson:2.8.2'
 }
