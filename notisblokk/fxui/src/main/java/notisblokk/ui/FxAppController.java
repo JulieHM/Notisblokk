@@ -1,6 +1,7 @@
 package notisblokk.ui;
 
 import java.io.IOException;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -43,6 +44,29 @@ public class FxAppController {
     }
   }
 
+
+  public void setSavedNotes(final Notes savedNotes) {
+    this.savedNotes = savedNotes;
+    noteListView.getItems().clear();
+    updateLocationViewList(0);
+  }
+
+  private void updateLocationViewList(int selectedIndex) {
+    final Note[] noteArray = new Note[savedNotes.getNumNotes()];
+    for (int i = 0; i < noteArray.length; i++) {
+      noteArray[i] = savedNotes.getNote(i);
+    }
+    final int oldSelectionIndex = noteListView.getSelectionModel().getSelectedIndex();
+    noteListView.setItems(FXCollections.observableArrayList(noteArray));
+    if (selectedIndex < 0 || selectedIndex >= noteArray.length) {
+      selectedIndex = oldSelectionIndex;
+    }
+    if (selectedIndex >= 0 && selectedIndex < savedNotes.getNumNotes()) {
+      noteListView.getSelectionModel().select(selectedIndex);
+    }
+    displayNote(noteListView.getSelectionModel().getSelectedItem());
+  }
+
   /**
    * Event Handler for the ListView. Displays the contents of the selected note.
    */
@@ -56,7 +80,7 @@ public class FxAppController {
    * edited.
    */
   @FXML
-  private void onNewNoteClick() {
+  public void onNewNoteClick() {
     /* Create new note and add to lists */
     Note note = new Note("New note", "");
     savedNotes.addNote(note);
@@ -96,7 +120,7 @@ public class FxAppController {
    *
    * @param note The note to be updated.
    */
-  private void updateNoteInfo(Note note) {
+  void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getText());
     note.setTitle(titleField.getText());
