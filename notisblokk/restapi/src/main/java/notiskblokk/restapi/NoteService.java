@@ -65,7 +65,7 @@ public class NoteService {
     return note;
   }
 
-  boolean removeNote(int index) {
+  public boolean removeNote(int index) {
     try {
       notes.removeNote(index);
       saveNotesToJson();
@@ -73,6 +73,10 @@ public class NoteService {
     } catch (IndexOutOfBoundsException e) {
       return false;
     }
+  }
+
+  public void setNotes(Notes notes){
+    NoteService.notes = notes;
   }
 }
 
