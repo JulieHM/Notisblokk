@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class NoteController {
 
   @Autowired
-  private NoteService service;
+  private NoteService service = new NoteService();
+
+  public NoteService getNoteService() {
+    return this.service;
+  }
 
   @GetMapping(produces = "application/json")
   public Notes getNotes() {
@@ -26,12 +30,13 @@ public class NoteController {
 
   /**
    * Appends a note to the list of notes.
+   *
    * @param note
    * @return
    */
   @PostMapping(consumes = "application/json", produces = "application/json")
   public ResponseEntity<Note> addNote(@RequestBody Note note) {
-    if(service.addNote(note)){
+    if (service.addNote(note)) {
       int index = service.getAllNotes().getNumNotes() - 1;
       return ResponseEntity.ok(service.getNote(index));
     }
@@ -40,6 +45,7 @@ public class NoteController {
 
   /**
    * Fetches the note at the given index
+   *
    * @param index
    * @return
    */
@@ -55,6 +61,7 @@ public class NoteController {
 
   /**
    * Replaces the param note with the current note at the given index
+   *
    * @param index
    * @param note
    * @return
@@ -62,15 +69,15 @@ public class NoteController {
   @PostMapping(value = "/{index}", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Note> setNote(@PathVariable int index, @RequestBody Note note) {
     Note noteAtIndex = service.getNote(index);
-    if (noteAtIndex != null){
+    if (noteAtIndex != null) {
       return ResponseEntity.ok(service.replaceNote(index, note));
     }
     return ResponseEntity.notFound().build();
   }
 
   @DeleteMapping(value = "/{index}")
-  public ResponseEntity<Note> deleteNote(@PathVariable int index){
-    if (service.removeNote(index)){
+  public ResponseEntity<Note> deleteNote(@PathVariable int index) {
+    if (service.removeNote(index)) {
       ResponseEntity.ok(service.getNote(index));
     }
     return ResponseEntity.badRequest().build();
