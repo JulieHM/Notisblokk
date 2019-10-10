@@ -11,6 +11,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+  /**
+   * Custom error response created if RestNoteNotFoundException is thrown.
+   *
+   * @param ex
+   * @param request
+   * @return
+   */
   @ExceptionHandler(RestNoteNotFoundException.class)
   public ResponseEntity<CustomErrorResponse> customHandleNotFound(Exception ex,
       WebRequest request) {
