@@ -1,6 +1,5 @@
 package notiskblokk.restapi;
 
-
 public class RestNoteNotFoundException extends RuntimeException {
 
   RestNoteNotFoundException(int index){
