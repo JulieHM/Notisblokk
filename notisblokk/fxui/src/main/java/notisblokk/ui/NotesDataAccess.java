@@ -64,7 +64,7 @@ public class NotesDataAccess {
           .send(request, HttpResponse.BodyHandlers.ofString());
       return noteDeserializer.deserializeNoteFromString(response.body());
     } catch (IOException | InterruptedException e) {
-      return new Note("test", "test");
+      return null;
     }
   }
 

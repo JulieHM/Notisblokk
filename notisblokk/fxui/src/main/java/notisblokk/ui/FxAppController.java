@@ -82,9 +82,11 @@ public class FxAppController {
   private void displaySelectedNote() {
     int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
     Note selectedNote = notesDataAccess.getNote(selectedIndex);
-    titleField.setText(selectedNote.getTitle());
-    messageField.setText(selectedNote.getMessage());
-    noteListView.scrollTo(selectedIndex); // scroll up/down in list view if needed
+    if (selectedNote != null) {
+      titleField.setText(selectedNote.getTitle());
+      messageField.setText(selectedNote.getMessage());
+      noteListView.scrollTo(selectedIndex); // scroll up/down in list view if needed
+    }
   }
 
   /**
