@@ -132,7 +132,7 @@ public class FxAppController {
   private void saveNotesToJson() {
     NoteSerializer noteSerializer = new NoteSerializer();
     try {
-      noteSerializer.serializeNotes(savedNotes.getNotes(), SAVE_PATH);
+      noteSerializer.serializeNotesToLocal(savedNotes.getNotes(), SAVE_PATH);
     } catch (IOException e) {
       System.err.println("Unable to save notes to json.");
     }
@@ -144,7 +144,7 @@ public class FxAppController {
   private void loadNotesFromJson() {
     NoteDeserializer noteDeserializer = new NoteDeserializer();
     try {
-      savedNotes.addNotes(noteDeserializer.deserializeNotes(SAVE_PATH));
+      savedNotes.addNotes(noteDeserializer.deserializeLocalNotes(SAVE_PATH));
     } catch (IOException e) {
       System.err.println("Unable to deserialize notes from json.");
     }

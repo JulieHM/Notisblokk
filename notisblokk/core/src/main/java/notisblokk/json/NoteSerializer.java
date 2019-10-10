@@ -7,6 +7,7 @@ import java.io.IOException;
 import notisblokk.core.Note;
 import com.google.gson.Gson;
 import java.io.FileNotFoundException;
+import notisblokk.core.Notes;
 
 public class NoteSerializer {
 
@@ -26,7 +27,7 @@ public class NoteSerializer {
    * @param noteList list of all notes
    * @return true if the action was completed
    */
-  public boolean serializeNotes(List<Note> noteList, String path) throws IOException {
+  public boolean serializeNotesToLocal(List<Note> noteList, String path) throws IOException {
     String json = gsonSerializer.toJson(noteList);
 
     File file = new File(path);
@@ -41,6 +42,26 @@ public class NoteSerializer {
       System.err.println("FileNotFound");
       return false;
     }
+  }
+
+  /**
+   * Returns a list of notes as a string.
+   *
+   * @param noteList
+   * @return
+   */
+  public String serializeNotesToString(List<Note> noteList) {
+    return gsonSerializer.toJson(noteList);
+  }
+
+  /**
+   * Returns the parameter note as a string.
+   *
+   * @param note
+   * @return
+   */
+  public String serializeNoteToString(Note note) {
+    return gsonSerializer.toJson(note);
   }
 
 }
