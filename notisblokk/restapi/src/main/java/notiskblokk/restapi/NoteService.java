@@ -1,8 +1,6 @@
 package notiskblokk.restapi;
 
 import java.io.IOException;
-import java.util.Optional;
-import jdk.jfr.events.ExceptionThrownEvent;
 import notisblokk.core.Note;
 import notisblokk.core.Notes;
 import notisblokk.json.NoteDeserializer;
@@ -73,10 +71,6 @@ public class NoteService {
     } catch (IndexOutOfBoundsException e) {
       return false;
     }
-  }
-
-  public void setNotes(Notes notes){
-    NoteService.notes = notes;
   }
 }
 
