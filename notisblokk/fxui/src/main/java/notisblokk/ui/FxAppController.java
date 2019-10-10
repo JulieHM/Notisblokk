@@ -37,12 +37,12 @@ public class FxAppController {
   public void initialize() {
     /* Load and display notes in ListView */
     // savedNotes.sortNotesByLastEdited();
-    noteListView.getItems().addAll(notesDataClass.getNotes().getNotes()); // DataClass.getallNotes()
+    noteListView.getItems().addAll(notesDataClass.getNotes()); // DataClass.getallNotes()
     noteListView.setCellFactory(listView -> new NoteCell()); // custom cell display
 
-    Notes savedNotes = notesDataClass.getNotes();
+    List<Note> savedNotes = notesDataClass.getNotes();
     /* Select and display the most recently edited note */
-    if (savedNotes.getNumNotes() > 0) { // TODO: getNotes -> add to list -> get length of list
+    if (savedNotes.size() > 0) { // TODO: getNotes -> add to list -> get length of list
       noteListView.getSelectionModel().select(0); // sorted list means index 0 is last edited
       displayNote(noteListView.getSelectionModel().getSelectedItem());
     }
@@ -62,7 +62,7 @@ public class FxAppController {
    * @param selectedIndex
    */
   private void updateLocationViewList(int selectedIndex) {
-    final List<Note> noteArray = notesDataClass.getNotes().getNotes();
+    final List<Note> noteArray = notesDataClass.getNotes();
     final int oldSelectionIndex = noteListView.getSelectionModel().getSelectedIndex();
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
     if (selectedIndex < 0 || selectedIndex >= noteArray.size()) {
