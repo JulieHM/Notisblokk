@@ -1,12 +1,5 @@
 package notisblokk.ui;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,9 +7,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
-import notisblokk.json.NoteDeserializer;
-import notisblokk.json.NoteSerializer;
 
 public class FxAppController {
 
@@ -29,7 +19,7 @@ public class FxAppController {
   @FXML
   private ListView<Note> noteListView;
 
-  private NotesDataClass notesDataClass = new NotesDataClass();
+  private NotesDataAccess notesDataAccess = new NotesDataAccess();
   /**
    * Initializes the graphical user interface. Loads previous notes and displays the most recent.
    */
@@ -37,10 +27,10 @@ public class FxAppController {
   public void initialize() {
     /* Load and display notes in ListView */
     // savedNotes.sortNotesByLastEdited();
-    noteListView.getItems().addAll(notesDataClass.getNotes()); // DataClass.getallNotes()
+    noteListView.getItems().addAll(notesDataAccess.getNotes()); // DataClass.getallNotes()
     noteListView.setCellFactory(listView -> new NoteCell()); // custom cell display
 
-    List<Note> savedNotes = notesDataClass.getNotes();
+    List<Note> savedNotes = notesDataAccess.getNotes();
     /* Select and display the most recently edited note */
     if (savedNotes.size() > 0) { // TODO: getNotes -> add to list -> get length of list
       noteListView.getSelectionModel().select(0); // sorted list means index 0 is last edited
@@ -51,8 +41,8 @@ public class FxAppController {
   /**
    * USED IN TESTS
    */
-  public void setSavedNotes(final NotesDataClass notesDataClass) {
-    this.notesDataClass = notesDataClass;
+  public void setSavedNotes(final NotesDataAccess notesDataAccess) {
+    this.notesDataAccess = notesDataAccess;
     noteListView.getItems().clear();
     updateLocationViewList(0);
   }
@@ -62,7 +52,7 @@ public class FxAppController {
    * @param selectedIndex
    */
   private void updateLocationViewList(int selectedIndex) {
-    final List<Note> noteArray = notesDataClass.getNotes();
+    final List<Note> noteArray = notesDataAccess.getNotes();
     final int oldSelectionIndex = noteListView.getSelectionModel().getSelectedIndex();
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
     if (selectedIndex < 0 || selectedIndex >= noteArray.size()) {
@@ -97,7 +87,7 @@ public class FxAppController {
     noteListView.getSelectionModel().select(index);
     noteListView.scrollTo(index); // scrolls to the node in the ListView in case it is not visible
     displayNote(note);
-    notesDataClass.addNote(note);
+    notesDataAccess.addNote(note);
   }
 
   /**
@@ -107,10 +97,10 @@ public class FxAppController {
   @FXML
   private void onSaveClick() {
     int index = noteListView.getSelectionModel().getSelectedIndex();
-    Note note = notesDataClass.getNote(index); // TODO use notesDataClass.getNote(index)
+    Note note = notesDataAccess.getNote(index); // TODO use notesDataClass.getNote(index)
     updateNoteInfo(note); // update selected note
     noteListView.refresh(); // update ListView in case of title change
-    notesDataClass.updateNote(index, note);
+    notesDataAccess.updateNote(index, note);
   }
 
   /**
@@ -139,7 +129,7 @@ public class FxAppController {
   private void onDeleteClick() {
     Note selectedNote = noteListView.getSelectionModel().getSelectedItem();
     int index = noteListView.getSelectionModel().getSelectedIndex();
-    notesDataClass.removeNote(index);
+    notesDataAccess.removeNote(index);
     noteListView.getItems().remove(selectedNote);
     displayNote(noteListView.getSelectionModel().getSelectedItem());
   }

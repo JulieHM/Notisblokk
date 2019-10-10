@@ -12,7 +12,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -42,7 +41,7 @@ public class FxAppTest extends ApplicationTest {
 
   private FxAppController controller;
   private Note note = mock(Note.class);
-  private NotesDataClass notesDataClass = Mockito.mock(NotesDataClass.class);
+  private NotesDataAccess notesDataAccess = Mockito.mock(NotesDataAccess.class);
   private List<Note> noteList;
 
   @Override
@@ -67,11 +66,11 @@ public class FxAppTest extends ApplicationTest {
     Note testNote2 = new Note("Test","Test", LocalDateTime.now(), LocalDateTime.now());
     noteList = new ArrayList<Note>(List.of(testNote, testNote2));
 
-    when(notesDataClass.getNote(anyInt())).then(invocation -> noteList.get(invocation.getArgument(0)));
+    when(notesDataAccess.getNote(anyInt())).then(invocation -> noteList.get(invocation.getArgument(0)));
     //when(notesDataClass.getNumNotes()).then(invocation -> noteList.size());
     //when(notesDataClass.iterator()).then(invocation -> noteList.iterator());
     //when(noteListView.getItems()).then(invocation -> noteList);
-    controller.setSavedNotes(notesDataClass);
+    controller.setSavedNotes(notesDataAccess);
   }
 
 

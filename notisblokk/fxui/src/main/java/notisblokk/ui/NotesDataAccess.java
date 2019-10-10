@@ -11,7 +11,7 @@ import notisblokk.core.Notes;
 import notisblokk.json.NoteDeserializer;
 import notisblokk.json.NoteSerializer;
 
-public class NotesDataClass {
+public class NotesDataAccess {
   private NoteDeserializer noteDeserializer = new NoteDeserializer();
   private NoteSerializer noteSerializer = new NoteSerializer();
 
