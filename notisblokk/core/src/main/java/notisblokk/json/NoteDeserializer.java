@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import notisblokk.core.Note;
+import notisblokk.core.Notes;
 
 public class NoteDeserializer {
 
@@ -48,10 +49,8 @@ public class NoteDeserializer {
    * @return
    */
   public List<Note> deserializeNotesFromString(String notesFromString) {
-    Note[] noteArray = gsonDeserializer.fromJson(notesFromString, Note[].class);
-    List<Note> noteList = new ArrayList<>();
-    Collections.addAll(noteList, noteArray);
-    return noteList;
+    Notes notes = gsonDeserializer.fromJson(notesFromString, Notes.class);
+    return notes.getNotes();
   }
 
   /**

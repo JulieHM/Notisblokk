@@ -4,13 +4,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import notisblokk.core.Note;
+import notisblokk.core.Notes;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class NoteDeserializerTest {
 
-  NoteDeserializer noteDeserializer = new NoteDeserializer();
+  private NoteDeserializer noteDeserializer = new NoteDeserializer();
 
 
   @Before
@@ -20,10 +21,11 @@ public class NoteDeserializerTest {
 
   @Test
   public void testDeserializeNotesFromString(){
-    String notesJson = "["
+    String notesJson = "{\"notes\":["
         + "{\"title\":\"New note 1\",\"message\":\"New note 1\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}},"
         + "{\"title\":\"New note 2\",\"message\":\"New note 2\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}},"
-        + "{\"title\":\"New note 3\",\"message\":\"New note 3\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}}]";
+        + "{\"title\":\"New note 3\",\"message\":\"New note 3\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}}"
+        + "]}";
     List<Note> notesFromJson = noteDeserializer.deserializeNotesFromString(notesJson);
     List<Note> notes = new ArrayList<>();
     LocalDateTime time = LocalDateTime.of(2019, 10, 3, 10, 51, 14, 663673000);
