@@ -17,7 +17,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.testfx.api.FxAssert;
 import org.testfx.framework.junit.ApplicationTest;
 
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -45,7 +44,6 @@ public class FxAppTest extends ApplicationTest {
   private Note note = mock(Note.class);
   private Notes savedNotes = Mockito.mock(Notes.class);
   private List<Note> noteList;
-  //private ListView<Note> noteListView = Mockito.mock(ListView.class);
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -62,7 +60,6 @@ public class FxAppTest extends ApplicationTest {
 
     stage.setResizable(false);
   }
-
 
 
   public void setupNotes(){   //vil hente savedNotes
@@ -90,7 +87,7 @@ public class FxAppTest extends ApplicationTest {
     Assert.assertEquals(noteList, noteListView.getItems()); //ser om savednotes inneholder de samme objektene som noteListView
   }
 
-  /** Test that the top element in listView is selected */
+  /** Test for checking if the top element in listView is selected */
   @Test
   public void testSelected(){
     final ListView<Note> noteListView = lookup("#noteListView").query();
@@ -98,6 +95,7 @@ public class FxAppTest extends ApplicationTest {
   }
 
 
+  /** Test for checking if the messageField contains the same message as the Note object*/
   @Test
   public void testMessageField() {  //tester å legge til note
     final TextArea messageField = lookup("#messageField").query();
@@ -105,17 +103,12 @@ public class FxAppTest extends ApplicationTest {
 
   }
 
+  /** Test for checking if the titleField contains the same title as the Note object */
   @Test
   public void testTitleField(){
     final TextField titleField = lookup("#titleField").query();
     Assert.assertEquals(titleField.getText(), noteList.get(0).getTitle());
   }
-
-
-
-  //@Test
-  //public void testDeleteNote() {
- // }
 
 
 }
