@@ -5,6 +5,10 @@ save them, and open them at a later time.
 
 ![Image of the graphical user interface of the application.](docs/Notisblokk.png)
 
+In delivery 2 we have updated the application with a deletebutton.
+
+![Image of the graphical user interface of the application with deletebutton.](docs/Notisblokk_D2.png)
+
 # Overview 
 The file structure of this project is module based, where different types of logic are put into
 separate Gradle sub-projects.
