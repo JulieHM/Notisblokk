@@ -6,6 +6,6 @@ consist of the following members:
 - Karl Petter Aubert
 - Thomas Haugrud
 - Julie Holte Motland
-- Benedicite Myrvoll
+- Benedicte Myrvoll
 
 The project folder for deliverable 1 is [notisblokk](/notisblokk).

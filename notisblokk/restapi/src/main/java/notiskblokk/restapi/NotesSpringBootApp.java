@@ -6,6 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NotesSpringBootApp {
 
+  /**
+   * Initializes the Spring Boot app.
+   *
+   * @param args
+   */
   public static void main(String[] args) {
     SpringApplication.run(NotesSpringBootApp.class, args);
   }

@@ -1,14 +1,13 @@
 package notisblokk.json;
 
-import com.google.gson.Gson;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.List;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import notisblokk.core.Note;
+import com.google.gson.Gson;
+import java.io.FileNotFoundException;
+import notisblokk.core.Notes;
 
 public class NoteSerializer {
 
@@ -22,17 +21,13 @@ public class NoteSerializer {
   }
 
   /**
-   * Takes in a list of notes and serializes them to a notisblokk.json-formatted string
-   * and saves them locally.
+   * Takes in a list of notes and serializes them to a notisblokk.json-formatted string and saves
+   * them locally.
    *
    * @param noteList list of all notes
    * @return true if the action was completed
    */
-  public boolean serializeNotes(List<Note> noteList, String path) throws IOException {
-    /*
-    TODO: Should probably make it possible to append notes to the notisblokk.json file
-          instead of rewriting the whole file every time
-    */
+  public boolean serializeNotesToLocal(List<Note> noteList, String path) throws IOException {
     String json = gsonSerializer.toJson(noteList);
 
     File file = new File(path);
@@ -47,6 +42,26 @@ public class NoteSerializer {
       System.err.println("FileNotFound");
       return false;
     }
+  }
+
+  /**
+   * Returns a list of notes as a string.
+   *
+   * @param noteList
+   * @return
+   */
+  public String serializeNotesToString(List<Note> noteList) {
+    return gsonSerializer.toJson(noteList);
+  }
+
+  /**
+   * Returns the parameter note as a string.
+   *
+   * @param note
+   * @return
+   */
+  public String serializeNoteToString(Note note) {
+    return gsonSerializer.toJson(note);
   }
 
 }

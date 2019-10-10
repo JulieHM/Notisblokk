@@ -75,6 +75,12 @@ public class NoteController {
     return ResponseEntity.notFound().build();
   }
 
+  /**
+   * Deletes the note at the given index if found.
+   *
+   * @param index
+   * @return
+   */
   @DeleteMapping(value = "/{index}")
   public ResponseEntity<Note> deleteNote(@PathVariable int index) {
     if (service.removeNote(index)) {

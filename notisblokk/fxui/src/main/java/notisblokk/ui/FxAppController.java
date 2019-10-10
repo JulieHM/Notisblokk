@@ -134,6 +134,7 @@ public class FxAppController {
     note.setTitle(titleField.getText());
   }
 
+
   @FXML
   private void onDeleteClick() {
     Note selectedNote = noteListView.getSelectionModel().getSelectedItem();

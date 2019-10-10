@@ -71,7 +71,7 @@ public class FxAppTest extends ApplicationTest {
     //when(notesDataClass.getNumNotes()).then(invocation -> noteList.size());
     //when(notesDataClass.iterator()).then(invocation -> noteList.iterator());
     //when(noteListView.getItems()).then(invocation -> noteList);
-    controller.setSavedNotes(savedNotes);
+    controller.setSavedNotes(notesDataClass);
   }
 
 
