@@ -1,6 +1,12 @@
 package notisblokk.ui;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.Collection;
+import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -22,28 +28,23 @@ public class FxAppController {
   @FXML
   private ListView<Note> noteListView;
 
-  private Notes savedNotes = new Notes();
-  private static final String SAVE_PATH = System.getProperty("user.home")
-      + "/.projectNotes/notes.json"; // TODO: move path away from FxAppController class
-
+  private NotesDataClass notesDataClass = new NotesDataClass();
   /**
    * Initializes the graphical user interface. Loads previous notes and displays the most recent.
    */
   @FXML
   public void initialize() {
     /* Load and display notes in ListView */
-    loadNotesFromJson();
-    savedNotes.sortNotesByLastEdited();
-    noteListView.getItems().addAll(savedNotes.getNotes());
+    // savedNotes.sortNotesByLastEdited();
+    noteListView.getItems().addAll(notesDataClass.getNotes()); // DataClass.getallNotes()
     noteListView.setCellFactory(listView -> new NoteCell()); // custom cell display
 
     /* Select and display the most recently edited note */
-    if (savedNotes.getNumNotes() > 0) {
+    if (savedNotes.getNumNotes() > 0) { // TODO: getNotes -> add to list -> get length of list
       noteListView.getSelectionModel().select(0); // sorted list means index 0 is last edited
       displayNote(noteListView.getSelectionModel().getSelectedItem());
     }
   }
-
 
   public void setSavedNotes(final Notes savedNotes) {
     this.savedNotes = savedNotes;
@@ -101,8 +102,7 @@ public class FxAppController {
   private void onSaveClick() {
     updateNoteInfo(noteListView.getSelectionModel().getSelectedItem()); // update selected note
     noteListView.refresh(); // update ListView in case of title change
-    saveNotesToJson();
-    // TODO: Move the item to top of the list?
+    saveNotesToJson(); // TODO: Save note to server
   }
 
   /**
@@ -124,30 +124,6 @@ public class FxAppController {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getText());
     note.setTitle(titleField.getText());
-  }
-
-  /**
-   * Saves [all] notes to json.
-   */
-  private void saveNotesToJson() {
-    NoteSerializer noteSerializer = new NoteSerializer();
-    try {
-      noteSerializer.serializeNotes(savedNotes.getNotes(), SAVE_PATH);
-    } catch (IOException e) {
-      System.err.println("Unable to save notes to json.");
-    }
-  }
-
-  /**
-   * Loads [all] notes from json.
-   */
-  private void loadNotesFromJson() {
-    NoteDeserializer noteDeserializer = new NoteDeserializer();
-    try {
-      savedNotes.addNotes(noteDeserializer.deserializeNotes(SAVE_PATH));
-    } catch (IOException e) {
-      System.err.println("Unable to deserialize notes from json.");
-    }
   }
 
   @FXML
