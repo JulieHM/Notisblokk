@@ -8,4 +8,4 @@ consist of the following members:
 - Julie Holte Motland
 - Benedicte Myrvoll
 
-The project folder for deliverable 1 is [notisblokk](/notisblokk).
+The project folder for deliverable 1-3 can be found here: [notisblokk](/notisblokk).
