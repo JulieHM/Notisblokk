@@ -21,6 +21,8 @@ need to be completed. This is also where we keep most of our user stories.
 Week 1: The goal for this week was having a Minimum Viable Product (MVP) ready. One example of an
 user story we worked on is `I want to be able to save the note I wrote to continue later`.
 
+Week 4: In deliverable 2, we decided to work on one more user story: `I want to be able to delete notes if I don't need them anymore`.
+
 # Quickstart: Build and run
 
 The project is built and run with Gradle following these steps:
