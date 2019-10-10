@@ -45,6 +45,7 @@ public class FxAppTest extends ApplicationTest {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FxApp.fxml"));
     Parent root = fxmlLoader.load();
     this.controller = fxmlLoader.getController();
+
     Scene scene = new Scene(root);
 
     setupNotes();
@@ -56,7 +57,7 @@ public class FxAppTest extends ApplicationTest {
     stage.setResizable(false);
   }
 
-  public void setupNotes() {   //vil hente savedNotes
+  private void setupNotes() {   //vil hente savedNotes
     Note testNote = new Note("Test123", "Test123", LocalDateTime.now(), LocalDateTime.now());
     Note testNote2 = new Note("Test", "Test", LocalDateTime.now(), LocalDateTime.now());
     noteList = new ArrayList<>(List.of(testNote, testNote2));
@@ -96,7 +97,7 @@ public class FxAppTest extends ApplicationTest {
   @Test
   public void testMessageField() {  //tester å legge til note
     final TextArea messageField = lookup("#messageField").query();
-    Assert.assertEquals(messageField.getText(), noteList.get(0).getMessage());
+    Assert.assertEquals(noteList.get(0).getMessage(), messageField.getText());
 
   }
 
@@ -106,6 +107,6 @@ public class FxAppTest extends ApplicationTest {
   @Test
   public void testTitleField() {
     final TextField titleField = lookup("#titleField").query();
-    Assert.assertEquals(titleField.getText(), noteList.get(0).getTitle());
+    Assert.assertEquals(noteList.get(0).getTitle(), titleField.getText());
   }
 }
