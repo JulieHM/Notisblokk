@@ -63,5 +63,4 @@ public class NoteDeserializer {
   public Note deserializeNoteFromString(String noteFromString){
     return gsonDeserializer.fromJson(noteFromString, Note.class);
   }
-
 }
