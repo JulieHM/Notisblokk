@@ -1,9 +1,9 @@
 package notisblokk.ui;
 
+import notisblokk.core.Note;
 import notisblokk.core.Notes;
 
 public class NotesDataClass {
-
   /**
    *   public Collection<Note> getAllNotes() {
    *     final URI requestUri = URI.create("http://localhost:8080/notes");
@@ -29,9 +29,39 @@ public class NotesDataClass {
       return notes;
   }
 
+  /**
+   * http://localhost:8080/notes/{index}
+   * GET
+   */
+  public Note getNote(int index) {
+    // TODO implement the method
+    Note note = new Note(); // from restserver
+    return note;
+  }
 
+  /**
+   * http://localhost:8080/notes/{index}
+   * @param index
+   * @param note
+   * POST
+   */
+  public void updateNote(int index, Note note) {
+    // TODO implement the method
+  }
 
+  /**
+   * http://localhost:8080/notes
+   * POST
+   */
+  public void addNote(Note note) {
+    // TODO implement the method
+  }
 
-
-
+  /**
+   * http://localhost:8080/notes/{index}
+   * DELETE
+   */
+  public void removeNote(int index) {
+    // TODO implement the method
+  }
 }

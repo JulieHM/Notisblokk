@@ -42,7 +42,7 @@ public class FxAppTest extends ApplicationTest {
 
   private FxAppController controller;
   private Note note = mock(Note.class);
-  private Notes savedNotes = Mockito.mock(Notes.class);
+  private NotesDataClass notesDataClass = Mockito.mock(NotesDataClass.class);
   private List<Note> noteList;
 
   @Override
@@ -67,9 +67,9 @@ public class FxAppTest extends ApplicationTest {
     Note testNote2 = new Note("Test","Test", LocalDateTime.now(), LocalDateTime.now());
     noteList = new ArrayList<Note>(List.of(testNote, testNote2));
 
-    when(savedNotes.getNote(anyInt())).then(invocation -> noteList.get(invocation.getArgument(0)));
-    when(savedNotes.getNumNotes()).then(invocation -> noteList.size());
-    when(savedNotes.iterator()).then(invocation -> noteList.iterator());
+    when(notesDataClass.getNote(anyInt())).then(invocation -> noteList.get(invocation.getArgument(0)));
+    //when(notesDataClass.getNumNotes()).then(invocation -> noteList.size());
+    //when(notesDataClass.iterator()).then(invocation -> noteList.iterator());
     //when(noteListView.getItems()).then(invocation -> noteList);
     controller.setSavedNotes(savedNotes);
   }

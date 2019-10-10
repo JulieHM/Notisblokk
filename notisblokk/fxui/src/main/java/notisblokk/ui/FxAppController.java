@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -36,9 +37,10 @@ public class FxAppController {
   public void initialize() {
     /* Load and display notes in ListView */
     // savedNotes.sortNotesByLastEdited();
-    noteListView.getItems().addAll(notesDataClass.getNotes()); // DataClass.getallNotes()
+    noteListView.getItems().addAll(notesDataClass.getNotes().getNotes()); // DataClass.getallNotes()
     noteListView.setCellFactory(listView -> new NoteCell()); // custom cell display
 
+    Notes savedNotes = notesDataClass.getNotes();
     /* Select and display the most recently edited note */
     if (savedNotes.getNumNotes() > 0) { // TODO: getNotes -> add to list -> get length of list
       noteListView.getSelectionModel().select(0); // sorted list means index 0 is last edited
@@ -46,23 +48,27 @@ public class FxAppController {
     }
   }
 
-  public void setSavedNotes(final Notes savedNotes) {
-    this.savedNotes = savedNotes;
+  /**
+   * USED IN TESTS
+   */
+  public void setSavedNotes(final NotesDataClass notesDataClass) {
+    this.notesDataClass = notesDataClass;
     noteListView.getItems().clear();
     updateLocationViewList(0);
   }
 
+  /**
+   * USED IN TESTS
+   * @param selectedIndex
+   */
   private void updateLocationViewList(int selectedIndex) {
-    final Note[] noteArray = new Note[savedNotes.getNumNotes()];
-    for (int i = 0; i < noteArray.length; i++) {
-      noteArray[i] = savedNotes.getNote(i);
-    }
+    final List<Note> noteArray = notesDataClass.getNotes().getNotes();
     final int oldSelectionIndex = noteListView.getSelectionModel().getSelectedIndex();
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
-    if (selectedIndex < 0 || selectedIndex >= noteArray.length) {
+    if (selectedIndex < 0 || selectedIndex >= noteArray.size()) {
       selectedIndex = oldSelectionIndex;
     }
-    if (selectedIndex >= 0 && selectedIndex < savedNotes.getNumNotes()) {
+    if (selectedIndex >= 0 && selectedIndex < noteArray.size()) {
       noteListView.getSelectionModel().select(selectedIndex);
     }
     displayNote(noteListView.getSelectionModel().getSelectedItem());
@@ -84,14 +90,14 @@ public class FxAppController {
   public void onNewNoteClick() {
     /* Create new note and add to lists */
     Note note = new Note("New note", "");
-    savedNotes.addNote(note);
     noteListView.getItems().add(note);
 
     /* Select and display the new note */
-    int index = savedNotes.getNumNotes() - 1; // new note will always be the last index
+    int index = noteListView.getItems().size() - 1; // new note will always be the last index
     noteListView.getSelectionModel().select(index);
     noteListView.scrollTo(index); // scrolls to the node in the ListView in case it is not visible
     displayNote(note);
+    notesDataClass.addNote(note);
   }
 
   /**
@@ -100,9 +106,11 @@ public class FxAppController {
    */
   @FXML
   private void onSaveClick() {
-    updateNoteInfo(noteListView.getSelectionModel().getSelectedItem()); // update selected note
+    int index = noteListView.getSelectionModel().getSelectedIndex();
+    Note note = notesDataClass.getNote(index); // TODO use notesDataClass.getNote(index)
+    updateNoteInfo(note); // update selected note
     noteListView.refresh(); // update ListView in case of title change
-    saveNotesToJson(); // TODO: Save note to server
+    notesDataClass.updateNote(index, note);
   }
 
   /**
@@ -120,7 +128,7 @@ public class FxAppController {
    *
    * @param note The note to be updated.
    */
-  void updateNoteInfo(Note note) {
+  private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getText());
     note.setTitle(titleField.getText());
@@ -129,7 +137,8 @@ public class FxAppController {
   @FXML
   private void onDeleteClick() {
     Note selectedNote = noteListView.getSelectionModel().getSelectedItem();
-    savedNotes.removeNote(selectedNote);
+    int index = noteListView.getSelectionModel().getSelectedIndex();
+    notesDataClass.removeNote(index);
     noteListView.getItems().remove(selectedNote);
     displayNote(noteListView.getSelectionModel().getSelectedItem());
   }
