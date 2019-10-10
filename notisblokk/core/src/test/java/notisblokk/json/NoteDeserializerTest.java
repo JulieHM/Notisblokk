@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,12 +14,12 @@ public class NoteDeserializerTest {
 
 
   @Before
-  public void init(){
+  public void init() {
 
   }
 
   @Test
-  public void testDeserializeNotesFromString(){
+  public void testDeserializeNotesFromString() {
     String notesJson = "{\"notes\":["
         + "{\"title\":\"New note 1\",\"message\":\"New note 1\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}},"
         + "{\"title\":\"New note 2\",\"message\":\"New note 2\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}},"

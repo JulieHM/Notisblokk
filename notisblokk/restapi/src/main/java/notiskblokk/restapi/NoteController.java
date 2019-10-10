@@ -30,9 +30,6 @@ public class NoteController {
 
   /**
    * Appends a note to the list of notes.
-   *
-   * @param note
-   * @return
    */
   @PostMapping(consumes = "application/json", produces = "application/json")
   public ResponseEntity<Note> addNote(@RequestBody Note note) {
@@ -45,9 +42,6 @@ public class NoteController {
 
   /**
    * Fetches the note at the given index
-   *
-   * @param index
-   * @return
    */
   @GetMapping(produces = "application/json")
   @RequestMapping("/{index}")
@@ -61,10 +55,6 @@ public class NoteController {
 
   /**
    * Replaces the param note with the current note at the given index
-   *
-   * @param index
-   * @param note
-   * @return
    */
   @PostMapping(value = "/{index}", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Note> setNote(@PathVariable int index, @RequestBody Note note) {
@@ -77,9 +67,6 @@ public class NoteController {
 
   /**
    * Deletes the note at the given index if found.
-   *
-   * @param index
-   * @return
    */
   @DeleteMapping(value = "/{index}")
   public ResponseEntity<Note> deleteNote(@PathVariable int index) {
