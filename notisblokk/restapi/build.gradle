@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
         mavenCentral()
@@ -16,7 +15,7 @@ apply plugin: 'io.spring.dependency-management'
 
 bootJar {
     baseName = 'gs-spring-boot'
-    version =  '0.1.0'
+    version = '0.1.0'
 }
 
 repositories {
@@ -27,6 +26,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+    implementation project(':core')
+    implementation 'com.google.code.gson:gson:2.8.2'
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile("junit:junit")
 }
