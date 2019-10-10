@@ -28,7 +28,7 @@ public class NoteService {
   private static void loadNotesFromJson() {
     NoteDeserializer noteDeserializer = new NoteDeserializer();
     try {
-      notes.addNotes(noteDeserializer.deserializeNotes(SAVE_PATH));
+      notes.addNotes(noteDeserializer.deserializeLocalNotes(SAVE_PATH));
     } catch (IOException e) {
       System.err.println("Unable to deserialize notes from json.");
     }
@@ -40,7 +40,7 @@ public class NoteService {
   private void saveNotesToJson() {
     NoteSerializer noteSerializer = new NoteSerializer();
     try {
-      noteSerializer.serializeNotes(notes.getNotes(), SAVE_PATH);
+      noteSerializer.serializeNotesToLocal(notes.getNotes(), SAVE_PATH);
     } catch (IOException e) {
       System.err.println("Unable to save notes to json.");
     }
