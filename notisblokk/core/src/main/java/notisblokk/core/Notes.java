@@ -44,9 +44,9 @@ public class Notes implements Iterable<Note> {
    * Adds a single new note to the List of Notes.
    * @param note The Note to add to the List.
    */
-  public void addNote(Note note) {
+  public boolean addNote(Note note) {
     // NOTE: possibly return the index it is placed in?
-    notes.add(note);
+    return notes.add(note);
   }
 
   /**
@@ -112,6 +112,11 @@ public class Notes implements Iterable<Note> {
    */
   public void sortNotesByLastEdited() {
     notes.sort(Collections.reverseOrder());
+  }
+
+  public Note replaceNote(int index, Note note) {
+    notes.set(index, note);
+    return note;
   }
 
   @Override

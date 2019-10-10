@@ -48,7 +48,7 @@ public class NoteService {
       saveNotesToJson();
       return true;
     }
-    throw new RestInvalidNoteFormatException(note);
+    return false;
   }
 
   public Note getNote(int index) {
