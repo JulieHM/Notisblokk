@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import notisblokk.core.Note;
+import notisblokk.core.Notes;
 
 public class NoteDeserializer {
 
@@ -42,25 +43,16 @@ public class NoteDeserializer {
 
   /**
    * Takes a string in json format, and deserializes into notes.
-   *
-   * @param notesFromString
-   * @return
    */
   public List<Note> deserializeNotesFromString(String notesFromString) {
-    Note[] noteArray = gsonDeserializer.fromJson(notesFromString, Note[].class);
-    List<Note> noteList = new ArrayList<>();
-    Collections.addAll(noteList, noteArray);
-    return noteList;
+    Notes notes = gsonDeserializer.fromJson(notesFromString, Notes.class);
+    return notes.getNotes();
   }
 
   /**
    * Takes a string in json format, deserializes it and returns it as a note.
-   *
-   * @param noteFromString
-   * @return
    */
-  public Note deserializeNoteFromString(String noteFromString){
+  public Note deserializeNoteFromString(String noteFromString) {
     return gsonDeserializer.fromJson(noteFromString, Note.class);
   }
-
 }

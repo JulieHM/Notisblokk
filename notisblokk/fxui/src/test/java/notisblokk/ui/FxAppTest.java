@@ -1,5 +1,8 @@
 package notisblokk.ui;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,17 +15,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.testfx.framework.junit.ApplicationTest;
-
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 
 public class FxAppTest extends ApplicationTest {
 
@@ -39,10 +36,8 @@ public class FxAppTest extends ApplicationTest {
     }
   }
 
-
   private FxAppController controller;
-  private Note note = mock(Note.class);
-  private Notes savedNotes = Mockito.mock(Notes.class);
+  private NotesDataAccess notesDataAccess = Mockito.mock(NotesDataAccess.class);
   private List<Note> noteList;
 
   @Override
@@ -50,6 +45,7 @@ public class FxAppTest extends ApplicationTest {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FxApp.fxml"));
     Parent root = fxmlLoader.load();
     this.controller = fxmlLoader.getController();
+
     Scene scene = new Scene(root);
 
     setupNotes();
@@ -61,54 +57,56 @@ public class FxAppTest extends ApplicationTest {
     stage.setResizable(false);
   }
 
+  private void setupNotes() {   //vil hente savedNotes
+    Note testNote = new Note("Test123", "Test123", LocalDateTime.now(), LocalDateTime.now());
+    Note testNote2 = new Note("Test", "Test", LocalDateTime.now(), LocalDateTime.now());
+    noteList = new ArrayList<>(List.of(testNote, testNote2));
 
-  public void setupNotes(){   //vil hente savedNotes
-    Note testNote = new Note("Test123","Test123", LocalDateTime.now(), LocalDateTime.now());
-    Note testNote2 = new Note("Test","Test", LocalDateTime.now(), LocalDateTime.now());
-    noteList = new ArrayList<Note>(List.of(testNote, testNote2));
-
-    when(savedNotes.getNote(anyInt())).then(invocation -> noteList.get(invocation.getArgument(0)));
-    when(savedNotes.getNumNotes()).then(invocation -> noteList.size());
-    when(savedNotes.iterator()).then(invocation -> noteList.iterator());
-    //when(noteListView.getItems()).then(invocation -> noteList);
-    controller.setSavedNotes(savedNotes);
+    when(notesDataAccess.getNote(anyInt()))
+        .then(invocation -> noteList.get(invocation.getArgument(0)));
+    when(notesDataAccess.getNotes()).then(invocation -> noteList);
+    controller.setNotesDataAccess(notesDataAccess);
   }
-
 
   @Test
   public void testController() {
     Assert.assertNotNull(this.controller);
   }
 
-  /** Tests that noteListView contains the same elements as noteList */
+  /**
+   * Tests that noteListView contains the same elements as noteList
+   */
   @Test
-  public void testListView(){
+  public void testListView() {
     final ListView<Note> noteListView = lookup("#noteListView").query();
-    Assert.assertEquals(noteList, noteListView.getItems()); //ser om savednotes inneholder de samme objektene som noteListView
+    Assert.assertEquals(noteList, noteListView.getItems());
   }
 
-  /** Test for checking if the top element in listView is selected */
+  /**
+   * Test for checking if the top element in listView is selected
+   */
   @Test
-  public void testSelected(){
+  public void testSelected() {
     final ListView<Note> noteListView = lookup("#noteListView").query();
-    Assert.assertEquals(0,noteListView.getSelectionModel().getSelectedIndex());
+    Assert.assertEquals(0, noteListView.getSelectionModel().getSelectedIndex());
   }
 
-
-  /** Test for checking if the messageField contains the same message as the Note object*/
+  /**
+   * Test for checking if the messageField contains the same message as the Note object
+   */
   @Test
   public void testMessageField() {  //tester å legge til note
     final TextArea messageField = lookup("#messageField").query();
-    Assert.assertEquals(messageField.getText(), noteList.get(0).getMessage());
+    Assert.assertEquals(noteList.get(0).getMessage(), messageField.getText());
 
   }
 
-  /** Test for checking if the titleField contains the same title as the Note object */
+  /**
+   * Test for checking if the titleField contains the same title as the Note object
+   */
   @Test
-  public void testTitleField(){
+  public void testTitleField() {
     final TextField titleField = lookup("#titleField").query();
-    Assert.assertEquals(titleField.getText(), noteList.get(0).getTitle());
+    Assert.assertEquals(noteList.get(0).getTitle(), titleField.getText());
   }
-
-
 }

@@ -1,13 +1,12 @@
 package notisblokk.json;
 
+import com.google.gson.Gson;
 import java.io.File;
-import java.util.List;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import notisblokk.core.Note;
-import com.google.gson.Gson;
-import java.io.FileNotFoundException;
-import notisblokk.core.Notes;
 
 public class NoteSerializer {
 
@@ -46,9 +45,6 @@ public class NoteSerializer {
 
   /**
    * Returns a list of notes as a string.
-   *
-   * @param noteList
-   * @return
    */
   public String serializeNotesToString(List<Note> noteList) {
     return gsonSerializer.toJson(noteList);
@@ -56,9 +52,6 @@ public class NoteSerializer {
 
   /**
    * Returns the parameter note as a string.
-   *
-   * @param note
-   * @return
    */
   public String serializeNoteToString(Note note) {
     return gsonSerializer.toJson(note);

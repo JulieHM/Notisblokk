@@ -1,16 +1,17 @@
 package notisblokk.ui;
 
-import java.io.IOException;
+import java.util.Collection;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
-import notisblokk.json.NoteDeserializer;
-import notisblokk.json.NoteSerializer;
 
+/**
+ * FxAppController is communicating with the server through REST API. All data displayed in the GUI
+ * is controlled by the API.
+ */
 public class FxAppController {
 
   @FXML
@@ -22,97 +23,70 @@ public class FxAppController {
   @FXML
   private ListView<Note> noteListView;
 
-  private Notes savedNotes = new Notes();
-  private static final String SAVE_PATH = System.getProperty("user.home")
-      + "/.projectNotes/notes.json"; // TODO: move path away from FxAppController class
+  private NotesDataAccess notesDataAccess = new NotesDataAccess();
 
   /**
-   * Initializes the graphical user interface. Loads previous notes and displays the most recent.
+   * Initializes the graphical user interface. Set up custom cell factory and updates the List View
+   * to display the initial notes loaded from the REST API.
    */
   @FXML
   public void initialize() {
-    /* Load and display notes in ListView */
-    loadNotesFromJson();
-    savedNotes.sortNotesByLastEdited();
-    noteListView.getItems().addAll(savedNotes.getNotes());
-    noteListView.setCellFactory(listView -> new NoteCell()); // custom cell display
-
-    /* Select and display the most recently edited note */
-    if (savedNotes.getNumNotes() > 0) {
-      noteListView.getSelectionModel().select(0); // sorted list means index 0 is last edited
-      displayNote(noteListView.getSelectionModel().getSelectedItem());
-    }
-  }
-
-
-  public void setSavedNotes(final Notes savedNotes) {
-    this.savedNotes = savedNotes;
-    noteListView.getItems().clear();
-    updateLocationViewList(0);
-  }
-
-  private void updateLocationViewList(int selectedIndex) {
-    final Note[] noteArray = new Note[savedNotes.getNumNotes()];
-    for (int i = 0; i < noteArray.length; i++) {
-      noteArray[i] = savedNotes.getNote(i);
-    }
-    final int oldSelectionIndex = noteListView.getSelectionModel().getSelectedIndex();
-    noteListView.setItems(FXCollections.observableArrayList(noteArray));
-    if (selectedIndex < 0 || selectedIndex >= noteArray.length) {
-      selectedIndex = oldSelectionIndex;
-    }
-    if (selectedIndex >= 0 && selectedIndex < savedNotes.getNumNotes()) {
-      noteListView.getSelectionModel().select(selectedIndex);
-    }
-    displayNote(noteListView.getSelectionModel().getSelectedItem());
+    noteListView.setCellFactory(listView -> new NoteCell());
+    updateNoteListView(0);
   }
 
   /**
-   * Event Handler for the ListView. Displays the contents of the selected note.
+   * Event Handler for the ListView.
    */
   @FXML
   public void onSelectNoteClick() {
-    displayNote(noteListView.getSelectionModel().getSelectedItem()); // display selected note
+    displaySelectedNote();
   }
 
   /**
-   * Event Handler for the New Note button. Creates a new empty note and displays it, ready to be
-   * edited.
+   * Event Handler for the New Note button.
    */
   @FXML
   public void onNewNoteClick() {
-    /* Create new note and add to lists */
     Note note = new Note("New note", "");
-    savedNotes.addNote(note);
-    noteListView.getItems().add(note);
-
-    /* Select and display the new note */
-    int index = savedNotes.getNumNotes() - 1; // new note will always be the last index
-    noteListView.getSelectionModel().select(index);
-    noteListView.scrollTo(index); // scrolls to the node in the ListView in case it is not visible
-    displayNote(note);
+    notesDataAccess.addNote(note);
+    int index = noteListView.getItems().size(); // current size will be the new index
+    updateNoteListView(index);
   }
 
   /**
-   * Event Handler for the Save button. Updates the currently edited note and saves [all] notes to
-   * json.
+   * Event Handler for the Save button.
    */
   @FXML
   private void onSaveClick() {
-    updateNoteInfo(noteListView.getSelectionModel().getSelectedItem()); // update selected note
-    noteListView.refresh(); // update ListView in case of title change
-    saveNotesToJson();
-    // TODO: Move the item to top of the list?
+    int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
+    Note selectedNote = notesDataAccess.getNote(selectedIndex); // possibly redundant, use local?
+    updateNoteInfo(selectedNote);
+    notesDataAccess.updateNote(selectedIndex, selectedNote);
+    updateNoteListView(selectedIndex);
   }
 
   /**
-   * Displays the given note's content in the edit view.
-   *
-   * @param note The note to be displayed.
+   * Event Handler for the Delete button.
    */
-  private void displayNote(Note note) {
-    titleField.setText(note.getTitle());
-    messageField.setText(note.getMessage());
+  @FXML
+  private void onDeleteClick() {
+    int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
+    notesDataAccess.removeNote(selectedIndex);
+    updateNoteListView(selectedIndex);
+  }
+
+  /**
+   * Displays the content of the note selected in the List View
+   */
+  private void displaySelectedNote() {
+    int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
+    Note selectedNote = notesDataAccess.getNote(selectedIndex);
+    if (selectedNote != null) {
+      titleField.setText(selectedNote.getTitle());
+      messageField.setText(selectedNote.getMessage());
+      noteListView.scrollTo(selectedIndex); // scroll up/down in list view if needed
+    }
   }
 
   /**
@@ -120,41 +94,37 @@ public class FxAppController {
    *
    * @param note The note to be updated.
    */
-  void updateNoteInfo(Note note) {
+  private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getText());
     note.setTitle(titleField.getText());
   }
 
   /**
-   * Saves [all] notes to json.
+   * Updates the content of the List View through the REST API. Selects and displays the note by the
+   * given selectedIndex.
+   *
+   * @param selectedIndex The new index to select in the list view
    */
-  private void saveNotesToJson() {
-    NoteSerializer noteSerializer = new NoteSerializer();
-    try {
-      noteSerializer.serializeNotesToLocal(savedNotes.getNotes(), SAVE_PATH);
-    } catch (IOException e) {
-      System.err.println("Unable to save notes to json.");
+  private void updateNoteListView(int selectedIndex) {
+    final Collection<Note> noteArray = notesDataAccess.getNotes();
+    final int oldSelectionIndex = noteListView.getSelectionModel().getSelectedIndex();
+    noteListView.setItems(FXCollections.observableArrayList(noteArray));
+    if (selectedIndex < 0 || selectedIndex >= noteArray.size()) {
+      selectedIndex = oldSelectionIndex;
     }
+    if (selectedIndex >= 0 && selectedIndex < noteArray.size()) {
+      noteListView.getSelectionModel().select(selectedIndex);
+    }
+    displaySelectedNote();
   }
 
   /**
-   * Loads [all] notes from json.
+   * USED TO ALLOW TESTING
    */
-  private void loadNotesFromJson() {
-    NoteDeserializer noteDeserializer = new NoteDeserializer();
-    try {
-      savedNotes.addNotes(noteDeserializer.deserializeLocalNotes(SAVE_PATH));
-    } catch (IOException e) {
-      System.err.println("Unable to deserialize notes from json.");
-    }
-  }
-
-  @FXML
-  private void onDeleteClick() {
-    Note selectedNote = noteListView.getSelectionModel().getSelectedItem();
-    savedNotes.removeNote(selectedNote);
-    noteListView.getItems().remove(selectedNote);
-    displayNote(noteListView.getSelectionModel().getSelectedItem());
+  public void setNotesDataAccess(final NotesDataAccess notesDataAccess) {
+    this.notesDataAccess = notesDataAccess;
+    noteListView.getItems().clear();
+    updateNoteListView(0);
   }
 }

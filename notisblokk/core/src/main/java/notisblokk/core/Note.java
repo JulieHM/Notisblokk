@@ -103,4 +103,18 @@ public class Note implements Comparable<Note> {
   public int compareTo(Note note) {
     return this.getLastEditedDate().compareTo(note.getLastEditedDate());
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    final Note other = (Note) obj;
+    return (title.equals(other.title) && message.equals(other.message)
+        && lastEditedDate.equals(other.lastEditedDate) && createdDate.equals(other.createdDate));
+  }
+
 }

@@ -1,6 +1,7 @@
 package notisblokk.json;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import notisblokk.core.Note;
 import org.junit.Assert;
@@ -9,9 +10,8 @@ import org.junit.Test;
 
 public class NoteDeserializerTest {
 
-  NoteDeserializer noteDeserializer = new NoteDeserializer();
-  private static final String SAVE_PATH = System.getProperty("user.home")
-      + "/.projectNotes/notes.json";
+  private NoteDeserializer noteDeserializer = new NoteDeserializer();
+
 
   @Before
   public void init() {
@@ -20,48 +20,26 @@ public class NoteDeserializerTest {
 
   @Test
   public void testDeserializeNotesFromString() {
-    String notesAsString =
-        "[{\"title\":\"TEST TEST\",\"message\":\"TEST TESTTEST TESTTEST"
-            + " TESTTEST TEST\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":9,\"day\":19},\"time\""
-            + ":{\"hour\":11,\"minute\":14,\"second\":53,\"nano\":666338700}},\"createdDate\":{\"date\":"
-            + "{\"year\":2019,\"month\":9,\"day\":19},\"time\":{\"hour\":11,\"minute\":14,\"second\":49,\""
-            + "nano\":764668100}}},{\"title\":\"SomeTitle\",\"message\":\"SomeMessage\",\"lastEditedDate\""
-            + ":{\"date\":{\"year\":2019,\"month\":9,\"day\":19},\"time\":{\"hour\":11,\"minute\":14,\"second"
-            + "\":53,\"nano\":666338700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":9,\"day\":19},"
-            + "\"time\":{\"hour\":11,\"minute\":14,\"second\":49,\"nano\":764668100}}},{\"title\":\"Third title"
-            + "\",\"message\":\"Third message Third message Third message \",\"lastEditedDate\":{\"date\":"
-            + "{\"year\":2019,\"month\":9,\"day\":19},\"time\":{\"hour\":11,\"minute\":14,\"second\":53,"
-            + "\"nano\":666338700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":9,\"day\":19},\"time\""
-            + ":{\"hour\":11,\"minute\":14,\"second\":49,\"nano\":764668100}}}]";
-    List<Note> noteList = noteDeserializer.deserializeNotesFromString(notesAsString);
-    LocalDateTime lastEdit = LocalDateTime.of(2019, 9, 19, 11, 14, 53, 666338700);
-    LocalDateTime created = LocalDateTime.of(2019, 9, 19, 11, 14, 49, 764668100);
-    String[] titles = {"TEST TEST", "SomeTitle", "Third title"};
-    String[] messages = {"TEST TESTTEST TESTTEST TESTTEST TEST", "SomeMessage",
-        "Third message Third message Third message "};
-
-    for (int i = 0; i < noteList.size(); i++) {
-      Assert.assertEquals(titles[i], noteList.get(i).getTitle());
-      Assert.assertEquals(messages[i], noteList.get(i).getMessage());
-      Assert.assertEquals(lastEdit, noteList.get(i).getLastEditedDate());
-      Assert.assertEquals(created, noteList.get(i).getCreatedDate());
-    }
+    String notesJson = "{\"notes\":["
+        + "{\"title\":\"New note 1\",\"message\":\"New note 1\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}},"
+        + "{\"title\":\"New note 2\",\"message\":\"New note 2\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}},"
+        + "{\"title\":\"New note 3\",\"message\":\"New note 3\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}}"
+        + "]}";
+    List<Note> notesFromJson = noteDeserializer.deserializeNotesFromString(notesJson);
+    List<Note> notes = new ArrayList<>();
+    LocalDateTime time = LocalDateTime.of(2019, 10, 3, 10, 51, 14, 663673000);
+    notes.add(new Note("New note 1", "New note 1", time, time));
+    notes.add(new Note("New note 2", "New note 2", time, time));
+    notes.add(new Note("New note 3", "New note 3", time, time));
+    Assert.assertEquals(notes, notesFromJson);
   }
 
   @Test
   public void testDeserializeNoteFromString() {
-    String noteAsString =
-        "{\"title\":\"TEST TITLE\",\"message\":\"TEST MESSAGE\",\"lastEditedDate\""
-            + ":{\"date\":{\"year\":2019,\"month\":9,\"day\":19},\"time\":{\"hour\":11,\"minute\":14,\""
-            + "second\":53,\"nano\":666338700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":9,\""
-            + "day\":19},\"time\":{\"hour\":11,\"minute\":14,\"second\":49,\"nano\":764668100}}}";
-    Note note = noteDeserializer.deserializeNoteFromString(noteAsString);
-    Assert.assertEquals("TEST TITLE", note.getTitle());
-    Assert.assertEquals("TEST MESSAGE", note.getMessage());
-    Assert.assertEquals(LocalDateTime.of(2019, 9, 19, 11, 14, 53, 666338700),
-        note.getLastEditedDate());
-    Assert
-        .assertEquals(LocalDateTime.of(2019, 9, 19, 11, 14, 49, 764668100), note.getCreatedDate());
+    String noteString = "{\"title\":\"New note 1\",\"message\":\"New note 1\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}}";
+    LocalDateTime time = LocalDateTime.of(2019, 10, 3, 10, 51, 14, 663673000);
+    Note note = new Note("New note 1", "New note 1", time, time);
+    Note noteDeserialized = noteDeserializer.deserializeNoteFromString(noteString);
+    Assert.assertEquals(note, noteDeserialized);
   }
-
 }
