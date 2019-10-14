@@ -3,11 +3,10 @@ This application was made as the first part of a group project.
 We decided to create a diary-type application, in which the user can scribble notes,
 save them, and open them at a later time.
 
-![Image of the graphical user interface of the application.](docs/Notisblokk.png)
+GUI in Deliverable 1          |  GUI in Deliverable 2: Updated to include a delete button
+:-------------------------:|:-------------------------:
+![Image of the graphical user interface of the application.](docs/Notisblokk.png)  |  ![Image of the graphical user interface of the application with deletebutton.](docs/Notisblokk_D2.png)
 
-In delivery 2 we have updated the application with a deletebutton.
-
-![Image of the graphical user interface of the application with deletebutton.](docs/Notisblokk_D2.png)
 
 # Overview 
 The file structure of this project is module based, where different types of logic are put into
@@ -15,8 +14,7 @@ separate Gradle sub-projects.
 
 - ***core***/src/main/java - Handles the all the pure logic of the application
 - ***fxui***/src/main/java - All GUI parts
-- ***restapi***/src/main/java - Rest API
-- ***restserver***/src/main/java - Communicates between core and fxui
+- ***restapi***/src/main/java - Spring boot server running a REST API
 
 ### User Story
 We are actively using Issues and Milestones in GitLab to track our progress and tasks that
@@ -35,7 +33,20 @@ For delivery 2, we decided to divide ourselves into two groups. Thomas and Karl 
 
 The project is built and run with Gradle following these steps:
 
-1. Clone this project
-2. Import it to your favourite IDE as a Gradle project
-3. Build with `./gradlew clean build`
-4. Run with `./gradlew run`
+1. Clone the project
+```bash
+$ git clone https://gitlab.stud.idi.ntnu.no/it1901/gr1915/gr1915.git
+```
+2. Import the directory `/notisblokk` as a Gradle Project in your IDE
+3. Build the project
+```bash
+$ ./gradlew clean build
+```
+4. Start the backend Spring Boot server
+```bash
+$ ./gradew bootRun
+```
+5. Start the frontend FX application (*depends on Spring Boot*)
+```bash
+$ ./gradlew run
+```
