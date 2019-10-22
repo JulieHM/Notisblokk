@@ -1,6 +1,6 @@
 # Notisblokk
 This application was made as the first part of a group project. 
-We decided to create a diary-type application, in which the user can scribble notes,
+We decided to create a diary-type application, in which the user can scribble category,
 save them, and open them at a later time.
 
 GUI in Deliverable 1          |  GUI in Deliverable 2: Updated to include a delete button
@@ -23,7 +23,7 @@ need to be completed. This is also where we keep most of our user stories.
 Week 1: The goal for this week was having a Minimum Viable Product (MVP) ready. One example of an
 user story we worked on is `I want to be able to save the note I wrote to continue later`.
 
-Week 4: In deliverable 2, we decided to work on one more user story: `I want to be able to delete notes if I don't need them anymore`.
+Week 4: In deliverable 2, we decided to work on one more user story: `I want to be able to delete category if I don't need them anymore`.
 
 ### Deliverable 2 workflow
 

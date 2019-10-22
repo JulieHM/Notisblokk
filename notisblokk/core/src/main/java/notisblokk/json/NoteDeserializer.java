@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
 
 public class NoteDeserializer {
 
@@ -45,8 +45,8 @@ public class NoteDeserializer {
    * Takes a string in json format, and deserializes into notes.
    */
   public List<Note> deserializeNotesFromString(String notesFromString) {
-    Notes notes = gsonDeserializer.fromJson(notesFromString, Notes.class);
-    return notes.getNotes();
+    Category category = gsonDeserializer.fromJson(notesFromString, Category.class);
+    return category.getNotes();
   }
 
   /**

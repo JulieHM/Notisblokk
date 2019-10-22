@@ -1,8 +1,8 @@
 package notisblokk.restapi;
 
 import java.io.IOException;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
 import notiskblokk.restapi.NoteService;
 import org.junit.After;
 import org.junit.Assert;
@@ -13,7 +13,7 @@ import org.junit.Test;
 public class NoteServiceTest {
 
   private static NoteService noteService = new NoteService();
-  private static Notes backupNotes = new Notes();
+  private static Category backupCategory = new Category();
 
   @BeforeClass
   public static void beforeInit() {
@@ -26,8 +26,8 @@ public class NoteServiceTest {
 
   @Test
   public void testGetAllNotes() {
-    Notes notes = noteService.getAllNotes();
-    Assert.assertEquals(notes, noteService.getAllNotes());
+    Category category = noteService.getAllNotes();
+    Assert.assertEquals(category, noteService.getAllNotes());
   }
 
   @Test

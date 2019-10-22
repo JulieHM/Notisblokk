@@ -1,8 +1,8 @@
 package notiskblokk.restapi;
 
 import java.io.IOException;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
 import notisblokk.json.NoteDeserializer;
 import notisblokk.json.NoteSerializer;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ public class NoteService {
   private static final String SAVE_PATH = System.getProperty("user.home")
       + "/it1901/notisblokk/notes.json";
 
-  private static Notes notes = new Notes();
+  private static Category category = new Category();
 
   static {
     loadNotesFromJson();
@@ -28,7 +28,7 @@ public class NoteService {
   private static void loadNotesFromJson() {
     NoteDeserializer noteDeserializer = new NoteDeserializer();
     try {
-      notes.addNotes(noteDeserializer.deserializeLocalNotes(SAVE_PATH));
+      category.addNotes(noteDeserializer.deserializeLocalNotes(SAVE_PATH));
     } catch (IOException e) {
       System.err.println("Unable to deserialize notes from json.");
     }
@@ -40,7 +40,7 @@ public class NoteService {
   private void saveNotesToJson() {
     NoteSerializer noteSerializer = new NoteSerializer();
     try {
-      noteSerializer.serializeNotesToLocal(notes.getNotes(), SAVE_PATH);
+      noteSerializer.serializeNotesToLocal(category.getNotes(), SAVE_PATH);
     } catch (IOException e) {
       System.err.println("Unable to save notes to json.");
     }
@@ -49,15 +49,15 @@ public class NoteService {
   /**
    * Returns all notes
    */
-  public Notes getAllNotes() {
-    return notes;
+  public Category getAllNotes() {
+    return category;
   }
 
   /**
    * Adds a note to the iterable Notes and saves them. Returns true if successful, false if not.
    */
   public boolean addNote(Note note) {
-    if (notes.addNote(note)) {
+    if (category.addNote(note)) {
       saveNotesToJson();
       return true;
     }
@@ -69,7 +69,7 @@ public class NoteService {
    */
   public Note getNote(int index) {
     try {
-      return notes.getNote(index);
+      return category.getNote(index);
     } catch (IndexOutOfBoundsException e) {
       throw new RestNoteNotFoundException(index);
     }
@@ -79,7 +79,7 @@ public class NoteService {
    * Replaces the note at index "index" with the note passed in.
    */
   public Note replaceNote(int index, Note note) {
-    notes.replaceNote(index, note);
+    category.replaceNote(index, note);
     saveNotesToJson();
     return note;
   }
@@ -90,7 +90,7 @@ public class NoteService {
    */
   public boolean removeNote(int index) {
     try {
-      notes.removeNote(index);
+      category.removeNote(index);
       saveNotesToJson();
       return true;
     } catch (IndexOutOfBoundsException e) {

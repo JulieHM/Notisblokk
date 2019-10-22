@@ -1,7 +1,7 @@
 package notiskblokk.restapi;
 
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
+import notisblokk.core.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +24,7 @@ public class NoteController {
   }
 
   @GetMapping(produces = "application/json")
-  public Notes getNotes() {
+  public Category getNotes() {
     return service.getAllNotes();
   }
 
