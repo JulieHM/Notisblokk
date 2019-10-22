@@ -7,12 +7,20 @@ public class Notebook {
 
   List<Category> categories = new ArrayList<>();
 
+  public Notebook(){
+    // hehe
+  }
+
   /**
    * Default constructor
    * @param categories
    */
   public Notebook(List<Category> categories) {
     this.categories = categories;
+  }
+
+  public void addCategory(Category category){
+    categories.add(category);
   }
 
   /**

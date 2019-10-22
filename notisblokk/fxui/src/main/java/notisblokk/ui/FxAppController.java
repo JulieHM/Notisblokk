@@ -1,12 +1,20 @@
 package notisblokk.ui;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.MouseEvent;
 import java.util.Collection;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
+import notisblokk.core.Notebook;
 
 /**
  * FxAppController is communicating with the server through REST API. All data displayed in the GUI
@@ -23,6 +31,13 @@ public class FxAppController {
   @FXML
   private ListView<Note> noteListView;
 
+  @FXML
+  private TabPane categoryTabPane;
+
+  private TabSetText tabSetText = new TabSetText();
+
+  private Notebook notebook = new Notebook();
+
   private NotesDataAccess notesDataAccess = new NotesDataAccess();
 
   /**
@@ -34,6 +49,20 @@ public class FxAppController {
     noteListView.setCellFactory(listView -> new NoteCell());
     updateNoteListView(0);
   }
+
+
+  /**
+   * Add a new tab
+   */
+  @FXML
+  private void onNewCategoryClick() {
+    Tab categoryTab = tabSetText.createEditableTab("New category");
+    //categoryTab.setText("New Category");
+    categoryTabPane.getTabs().addAll(categoryTab);
+    categoryTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
+    categoryTabPane.getSelectionModel().select(categoryTab);
+  }
+
 
   /**
    * Event Handler for the ListView.
@@ -53,6 +82,7 @@ public class FxAppController {
     int index = noteListView.getItems().size(); // current size will be the new index
     updateNoteListView(index);
   }
+
 
   /**
    * Event Handler for the Save button.

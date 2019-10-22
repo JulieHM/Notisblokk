@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="notisblokk.ui.FxAppController">
+<AnchorPane prefHeight="447.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="notisblokk.ui.FxAppController">
    <children>
-      <Button fx:id="saveNote" layoutX="320.0" layoutY="327.0" mnemonicParsing="false" onAction="#onSaveClick" prefHeight="38.0" prefWidth="80.0" text="Save " />
-      <TextField fx:id="titleField" layoutX="200.0" layoutY="50.0" prefHeight="38.0" prefWidth="200.0" promptText="title" />
-      <TextArea fx:id="messageField" layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" promptText="note" wrapText="true" />
-      <Button fx:id="newNote" layoutX="40.0" layoutY="56.0" mnemonicParsing="false" onAction="#onNewNoteClick" prefHeight="27.0" prefWidth="100.0" text="New Note" />
-      <Label layoutX="199.0" layoutY="14.0" text="Notepad">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Label>
-      <ListView fx:id="noteListView" layoutX="40.0" layoutY="100.0" onMouseClicked="#onSelectNoteClick" prefHeight="200.0" prefWidth="100.0" />
-      <Button fx:id="saveNote1" layoutX="200.0" layoutY="327.0" mnemonicParsing="false" onAction="#onDeleteClick" prefHeight="38.0" prefWidth="80.0" style="-fx-background-color: #a6300f;" text="Delete" textFill="WHITE" />
+      <Button fx:id="saveNote" layoutX="320.0" layoutY="374.0" mnemonicParsing="false" onAction="#onSaveClick" prefHeight="38.0" prefWidth="80.0" text="Save " />
+      <TextField fx:id="titleField" layoutX="200.0" layoutY="100.0" prefHeight="38.0" prefWidth="200.0" promptText="title" />
+      <TextArea fx:id="messageField" layoutX="200.0" layoutY="153.0" prefHeight="200.0" prefWidth="200.0" promptText="note" wrapText="true" />
+      <Button fx:id="newNote" layoutX="40.0" layoutY="106.0" mnemonicParsing="false" onAction="#onNewNoteClick" prefHeight="27.0" prefWidth="100.0" text="New Note" />
+      <ListView fx:id="noteListView" layoutX="40.0" layoutY="153.0" onMouseClicked="#onSelectNoteClick" prefHeight="200.0" prefWidth="100.0" />
+      <Button fx:id="saveNote1" layoutX="200.0" layoutY="374.0" mnemonicParsing="false" onAction="#onDeleteClick" prefHeight="38.0" prefWidth="80.0" style="-fx-background-color: #a6300f;" text="Delete" textFill="WHITE" />
+      <Button fx:id="newCategory" layoutX="38.0" layoutY="66.0" mnemonicParsing="false" onAction="#onNewCategoryClick" text="New category" />
+      <TabPane fx:id="categoryTabPane" prefHeight="38.0" prefWidth="451.0" tabClosingPolicy="UNAVAILABLE" />
    </children>
 </AnchorPane>
