@@ -41,6 +41,19 @@ public class NoteDeserializer {
     return new ArrayList<>();
   }
 
+  public List<Category> deserializeLocalCategories(String path) throws IOException{
+    if (Files.exists(Paths.get(path))) {
+      String jsonFromFile = Files.readString(Paths.get(path));
+      // Could probably improve the way this is done
+      Category[] categoryArray = gsonDeserializer.fromJson(jsonFromFile, Category[].class);
+      List<Category> categoryList = new ArrayList<>();
+      Collections.addAll(categoryList, categoryArray);
+      return categoryList;
+    }
+
+    return new ArrayList<>();
+  }
+
   /**
    * Takes a string in json format, and deserializes into notes.
    */

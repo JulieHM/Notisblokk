@@ -23,6 +23,7 @@ public class NoteControllerTest {
     Assert.assertEquals(noteService.getAllNotes(), noteController.getNoteService().getAllNotes());
   }
 
+  /*
   @Test
   public void testAddNote() {
     Note note = new Note("New title", "New message");
@@ -45,5 +46,5 @@ public class NoteControllerTest {
     int wrongIndex = noteController.getNoteService().getAllNotes().getNumNotes() + 5;
     noteController.getNote(wrongIndex);
   }
-
+   */
 }
