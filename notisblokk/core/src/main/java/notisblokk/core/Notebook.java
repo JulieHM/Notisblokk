@@ -5,7 +5,8 @@ import java.util.List;
 
 public class Notebook {
 
-  List<Category> categories = new ArrayList<>();
+  private List<Category> categories;
+  private Category activeCategory;
 
   public Notebook(){
     // hehe
@@ -13,6 +14,7 @@ public class Notebook {
 
   /**
    * Default constructor
+   *
    * @param categories
    */
   public Notebook(List<Category> categories) {
@@ -25,17 +27,34 @@ public class Notebook {
 
   /**
    * Adds a new category to the notebook
+   *
    * @param name of the category
    */
-  public void addCategory(String name){
+  public void addCategory(String name) {
     categories.add(new Category(name));
   }
 
   /**
-   * Get all categories of the Notebook
+   * Gets all the categories in the Notebook
+   * @return all categories
    */
-  public List<Category> getCategories(){
+  public List<Category> getCategories() {
     return categories;
   }
 
+  /**
+   * Sets the active category
+   * @param activeCategory active category
+   */
+  public void setActiveCategory(Category activeCategory) {
+    this.activeCategory = activeCategory;
+  }
+
+  /**
+   * Gets the active category (active tab)
+   * @return the active tab
+   */
+  public Category getActiveCategory() {
+    return activeCategory;
+  }
 }
