@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 public class Notebook {
 
   private List<Category> categories = new ArrayList<>();
-  // private Category activeCategory;
+  private Category activeCategory;
 
   public Notebook() {
   }
@@ -55,7 +55,7 @@ public class Notebook {
    * @param activeCategory active category
    */
   public void setActiveCategory(Category activeCategory) {
-    //this.activeCategory = activeCategory;
+    this.activeCategory = activeCategory;
   }
 
   /**
@@ -64,11 +64,10 @@ public class Notebook {
    * @return the active tab
    */
   public Category getActiveCategory() {
-    //if (activeCategory == null) {
-    //  return categories.get(0);
-    //}
-    //return activeCategory;
-    return null;
+    if (activeCategory == null) {
+      return categories.get(0);
+    }
+    return activeCategory;
   }
 
   public Category getCategory(int index){
