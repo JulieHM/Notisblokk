@@ -45,9 +45,9 @@ public class NoteSerializer {
     }
   }
 
-  public boolean serializeNotebookToLocal(List<Category> categories, String path)
+  public boolean serializeNotebookToLocal(Notebook notebook, String path)
       throws IOException {
-    String json = gsonSerializer.toJson(categories);
+    String json = gsonSerializer.toJson(notebook);
 
     File file = new File(path);
     if (!file.exists()) {

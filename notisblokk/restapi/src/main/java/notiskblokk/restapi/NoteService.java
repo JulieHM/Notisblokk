@@ -29,13 +29,11 @@ public class NoteService {
    */
   private static void loadNotesFromJson() {
     NoteDeserializer noteDeserializer = new NoteDeserializer();
-    /*
     try {
-      notebook.getActiveCategory().addNotes(noteDeserializer.deserializeLocalNotes(SAVE_PATH));
+      notebook = noteDeserializer.deserializeLocalNotebook(SAVE_PATH);
     } catch (IOException e) {
       System.err.println("Unable to deserialize notes from json.");
     }
-     */
   }
 
   /**
@@ -43,13 +41,11 @@ public class NoteService {
    */
   private void saveNotesToJson() {
     NoteSerializer noteSerializer = new NoteSerializer();
-    /*
     try {
       noteSerializer.serializeNotesToLocal(notebook.getActiveCategory().getNotes(), SAVE_PATH);
     } catch (IOException e) {
       System.err.println("Unable to save notes to json.");
     }
-     */
   }
 
   /**
@@ -58,7 +54,7 @@ public class NoteService {
   private void saveNotebookToJson() {
     NoteSerializer noteSerializer = new NoteSerializer();
     try {
-      noteSerializer.serializeNotebookToLocal(notebook.getCategories(), SAVE_PATH);
+      noteSerializer.serializeNotebookToLocal(notebook, SAVE_PATH);
     } catch (IOException e) {
       System.err.println("Unable to save notes to json.");
     }
@@ -80,9 +76,10 @@ public class NoteService {
 
   /**
    * Gets the number of categories in the notebook
+   *
    * @return
    */
-  public int getNumCategories(){
+  public int getNumCategories() {
     return notebook.getCategories().size();
   }
 
@@ -91,7 +88,7 @@ public class NoteService {
    */
   public boolean addNote(Note note) {
     if (notebook.getActiveCategory().addNote(note)) {
-      saveNotesToJson();
+      saveNotebookToJson();
       return true;
     }
     return false;
@@ -104,11 +101,13 @@ public class NoteService {
    * @return
    */
   public boolean addCategory(Category category) {
-    if (notebook.addCategory(category)) {
-      saveNotesToJson();
+    try {
+      notebook.addCategory(category);
+      saveNotebookToJson();
       return true;
+    } catch (Exception e) {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -123,13 +122,14 @@ public class NoteService {
   }
 
   /**
-   * Gets the category at the fi
+   * Gets the category at the given index
+   *
    * @param index
    * @return
    */
   public Category getCategory(int index) {
     try {
-      return notebook.getActiveCategory();
+      return notebook.getCategory(index);
     } catch (IndexOutOfBoundsException e) {
       throw new RestNoteNotFoundException(index);
     }
@@ -140,7 +140,7 @@ public class NoteService {
    */
   public Note replaceNote(int index, Note note) {
     notebook.getActiveCategory().replaceNote(index, note);
-    saveNotesToJson();
+    saveNotebookToJson();
     return note;
   }
 
@@ -152,7 +152,7 @@ public class NoteService {
    */
   public Category renameCategory(String name) {
     notebook.getActiveCategory().setName(name);
-    saveNotesToJson();
+    saveNotebookToJson();
     return notebook.getActiveCategory();
   }
 
@@ -163,7 +163,7 @@ public class NoteService {
   public boolean removeNote(int index) {
     try {
       notebook.getActiveCategory().removeNote(index);
-      saveNotesToJson();
+      saveNotebookToJson();
       return true;
     } catch (IndexOutOfBoundsException e) {
       return false;
@@ -172,13 +172,14 @@ public class NoteService {
 
   /**
    * Deletes a notebook.getActiveCategory() =)
+   *
    * @param index
    * @return
    */
   public boolean removeCategory(int index) {
     try {
       notebook.removeCategory(index);
-      saveNotesToJson();
+      saveNotebookToJson();
       return true;
     } catch (IndexOutOfBoundsException e) {
       return false;

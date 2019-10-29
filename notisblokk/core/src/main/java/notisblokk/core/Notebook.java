@@ -1,13 +1,15 @@
 package notisblokk.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Notebook {
 
   private List<Category> categories = new ArrayList<>();
-  private Category activeCategory;
+  // private Category activeCategory;
 
   public Notebook() {
   }
@@ -21,8 +23,12 @@ public class Notebook {
     this.categories = categories;
   }
 
-  public boolean addCategory(Category category) {
-    return categories.add(category);
+  public void addCategory(Category category) {
+    this.categories.add(category);
+  }
+
+  public void addCategory(List<Category> categories){
+    this.categories.addAll(categories);
   }
 
   /**
@@ -49,7 +55,7 @@ public class Notebook {
    * @param activeCategory active category
    */
   public void setActiveCategory(Category activeCategory) {
-    this.activeCategory = activeCategory;
+    //this.activeCategory = activeCategory;
   }
 
   /**
@@ -58,7 +64,15 @@ public class Notebook {
    * @return the active tab
    */
   public Category getActiveCategory() {
-    return activeCategory;
+    //if (activeCategory == null) {
+    //  return categories.get(0);
+    //}
+    //return activeCategory;
+    return null;
+  }
+
+  public Category getCategory(int index){
+    return categories.get(index);
   }
 
   public boolean removeCategory(Category category) {

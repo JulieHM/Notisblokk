@@ -25,8 +25,8 @@ public class NoteController {
   }
 
   @GetMapping(produces = "application/json")
-  public List<Category> getCategories() {
-    return service.getAllCategories();
+  public ResponseEntity<List<Category>> getCategories() {
+    return ResponseEntity.ok(service.getAllCategories());
   }
 
   /**
