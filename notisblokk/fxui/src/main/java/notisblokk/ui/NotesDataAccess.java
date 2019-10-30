@@ -10,6 +10,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.util.Collection;
 import java.util.Collections;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
 import notisblokk.json.NoteDeserializer;
 import notisblokk.json.NoteSerializer;
@@ -29,10 +30,30 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/notes GET
+   * http://localhost:8080/notes/category/
+   */
+  public Collection<Category> getCategories() {
+    System.out.println("GET http://localhost:8080/notes/category");
+    final URI requestUri = buildRequestUri(""); // baseUrl only
+    final HttpRequest request = HttpRequest.newBuilder(requestUri)
+        .header("Accept", "application/json")
+        .GET()
+        .build();
+    try {
+      final HttpResponse<String> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofString());
+      return noteDeserializer.deserializeCategoriesFromString(response.body());
+    } catch (IOException | InterruptedException e) {
+      return Collections.emptyList();
+    }
+  }
+
+  /**
+   * http://localhost:8080/notes/category/{catIndex}/notes GET
    */
   public Collection<Note> getNotes() {
-    System.out.println("GET http://localhost:8080/notes");
+    System.out.println("GET http://localhost:8080/notes/category/{catIndex}/notes");
     final URI requestUri = buildRequestUri(""); // baseUrl only
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")

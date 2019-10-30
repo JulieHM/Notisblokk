@@ -34,10 +34,9 @@ public class NoteController {
    */
   @PostMapping(value = "/category/{categoryIndex}/notes", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Note> addNote(@PathVariable int categoryIndex, @RequestBody Note note) {
-    Category category = service.getCategory(categoryIndex);
-    if (category.addNote(note)) {
-      int index = category.getNumNotes() - 1;
-      return ResponseEntity.ok(service.getNote(index));
+    if (service.addNote(categoryIndex, note)) {
+      int index = service.getCategory(categoryIndex).getNumNotes() - 1;
+      return ResponseEntity.ok(service.getNote(categoryIndex, index));
     }
     return ResponseEntity.badRequest().build();
   }
@@ -45,7 +44,7 @@ public class NoteController {
   /**
    * Appends a category at the end of the list of categories
    *
-   * @param category
+   * @param category to add
    * @return
    */
   @PostMapping(value = "/category", consumes = "application/json", produces = "application/json")
@@ -55,6 +54,16 @@ public class NoteController {
       return ResponseEntity.ok(service.getCategory(index));
     }
     return ResponseEntity.badRequest().build();
+  }
+
+  @GetMapping(produces = "application/json")
+  @RequestMapping("/category/{categoryIndex}/notes")
+  public ResponseEntity<List<Note>> getNotes(@PathVariable int categoryIndex) {
+    try {
+      return ResponseEntity.ok(service.getCategory(categoryIndex).getNotes());
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   /**
@@ -91,24 +100,27 @@ public class NoteController {
   /**
    * Replaces the param note with the current note at the given index
    */
-  /*
-  @PostMapping(value = "/{index}", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<Note> setNote(@PathVariable int index, @RequestBody Note note) {
-    Note noteAtIndex = service.getNote(index);
-    if (noteAtIndex != null) {
-      return ResponseEntity.ok(service.replaceNote(index, note));
+  @PostMapping(value = "/category/{catIndex}/notes/{index}", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<Note> setNote(@PathVariable int catIndex, @PathVariable int index,
+      @RequestBody Note note) {
+    if (service.replaceNote(catIndex, index, note)) {
+      return ResponseEntity.ok(service.getNote(catIndex, index));
     }
     return ResponseEntity.notFound().build();
   }
-   */
 
+  /**
+   * Renames the category at the given index
+   *
+   * @param index of the category
+   * @param name  to be replaced with
+   * @return
+   */
   @PostMapping(value = "/category/{index}", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Category> renameCategory(@PathVariable int index,
       @RequestBody String name) {
-    Category categoryAtIndex = service.getCategory(index);
-    if (categoryAtIndex != null) {
-      categoryAtIndex.setName(name);
-      return ResponseEntity.ok(categoryAtIndex);
+    if (service.renameCategory(index, name)) {
+      return ResponseEntity.ok(service.getCategory(index));
     }
     return ResponseEntity.notFound().build();
   }
@@ -116,16 +128,22 @@ public class NoteController {
   /**
    * Deletes the note at the given index if found.
    */
-  /*
-  @DeleteMapping(value = "/{index}")
-  public ResponseEntity<Note> deleteNote(@PathVariable int index) {
-    if (service.removeNote(index)) {
-      ResponseEntity.ok(service.getNote(index));
+  @DeleteMapping(value = "/category/{catIndex}/notes/{index}")
+  public ResponseEntity<Note> deleteNote(@PathVariable int catIndex, @PathVariable int index) {
+    try {
+      service.getCategory(catIndex).removeNote(index);
+      return ResponseEntity.ok(service.getNote(catIndex, index));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
     }
-    return ResponseEntity.badRequest().build();
   }
-   */
 
+  /**
+   * Deletes the category at the given index
+   *
+   * @param index
+   * @return
+   */
   @DeleteMapping(value = "/category/{index}")
   public ResponseEntity<Category> deleteCategory(@PathVariable int index) {
     if (service.removeCategory(index)) {

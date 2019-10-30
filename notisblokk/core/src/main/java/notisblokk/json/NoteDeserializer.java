@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import notisblokk.core.Category;
@@ -69,8 +70,16 @@ public class NoteDeserializer {
    * Takes a string in json format, and deserializes into notes.
    */
   public List<Note> deserializeNotesFromString(String notesFromString) {
-    Category category = gsonDeserializer.fromJson(notesFromString, Category.class);
-    return category.getNotes();
+    Note[] notes = gsonDeserializer.fromJson(notesFromString, Note[].class);
+    return Arrays.asList(notes);
+  }
+
+  /**
+   * Takes a string in json format and deserializes into categories
+   */
+  public List<Category> deserializeCategoriesFromString(String categoriesFromString) {
+    Category[] categories = gsonDeserializer.fromJson(categoriesFromString, Category[].class);
+    return Arrays.asList(categories);
   }
 
   /**

@@ -63,8 +63,8 @@ public class NoteService {
   /**
    * Returns all notes
    */
-  public List<Note> getAllNotes() {
-    return notebook.getActiveCategory().getNotes();
+  public List<Note> getAllNotes(int categoryIndex) {
+    return notebook.getCategory(categoryIndex).getNotes();
   }
 
   /**
@@ -86,8 +86,8 @@ public class NoteService {
   /**
    * Adds a note to the iterable Notes and saves them. Returns true if successful, false if not.
    */
-  public boolean addNote(Note note) {
-    if (notebook.getActiveCategory().addNote(note)) {
+  public boolean addNote(int categoryIndex, Note note) {
+    if (notebook.getCategory(categoryIndex).addNote(note)) {
       saveNotebookToJson();
       return true;
     }
@@ -113,9 +113,9 @@ public class NoteService {
   /**
    * Returns the note at the given index. Throws RestNoteNotFoundException if not found.
    */
-  public Note getNote(int index) {
+  public Note getNote(int categoryIndex, int index) {
     try {
-      return notebook.getActiveCategory().getNote(index);
+      return notebook.getCategory(categoryIndex).getNote(index);
     } catch (IndexOutOfBoundsException e) {
       throw new RestNoteNotFoundException(index);
     }
@@ -138,10 +138,14 @@ public class NoteService {
   /**
    * Replaces the note at index "index" with the note passed in.
    */
-  public Note replaceNote(int index, Note note) {
-    notebook.getActiveCategory().replaceNote(index, note);
-    saveNotebookToJson();
-    return note;
+  public boolean replaceNote(int categoryIndex, int index, Note note) {
+    try {
+      notebook.getCategory(categoryIndex).replaceNote(index, note);
+      saveNotebookToJson();
+      return true;
+    } catch (IndexOutOfBoundsException e) {
+      return false;
+    }
   }
 
   /**
@@ -150,19 +154,23 @@ public class NoteService {
    * @param name
    * @return
    */
-  public Category renameCategory(String name) {
-    notebook.getActiveCategory().setName(name);
-    saveNotebookToJson();
-    return notebook.getActiveCategory();
+  public boolean renameCategory(int categoryIndex, String name) {
+    try {
+      notebook.getCategory(categoryIndex).setName(name);
+      saveNotebookToJson();
+      return true;
+    } catch (IndexOutOfBoundsException e) {
+      return false;
+    }
   }
 
   /**
    * Removes the note at a given index and save the new iterable Notes to local. Returns true if
    * successful, false if the index is out of bounds.
    */
-  public boolean removeNote(int index) {
+  public boolean removeNote(int categoryIndex, int index) {
     try {
-      notebook.getActiveCategory().removeNote(index);
+      notebook.getCategory(categoryIndex).removeNote(index);
       saveNotebookToJson();
       return true;
     } catch (IndexOutOfBoundsException e) {

@@ -1,11 +1,9 @@
 package notisblokk.ui;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.MouseEvent;
 import java.util.Collection;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -46,6 +44,7 @@ public class FxAppController {
    */
   @FXML
   public void initialize() {
+    updateCategoryTabView();
     noteListView.setCellFactory(listView -> new NoteCell());
     updateNoteListView(0);
   }
@@ -128,6 +127,34 @@ public class FxAppController {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getText());
     note.setTitle(titleField.getText());
+  }
+
+  private EventHandler<Event> TabChanged() {
+    int selectedIndex = categoryTabPane.getSelectionModel().getSelectedIndex();
+    System.out.println("clicked");
+    return null;
+  }
+
+  private void updateCategoryTabView() {
+    final Collection<Category> categoryCollection = notesDataAccess.getCategories();
+
+    for (Category cat : categoryCollection) {
+      Tab categoryTab = tabSetText.createEditableTab(cat.getName());
+      categoryTab.setOnSelectionChanged(TabChanged());
+      categoryTabPane.getTabs().add(categoryTab);
+    }
+    //final int oldSelectionIndex = categoryTabPane.getSelectionModel().getSelectedIndex();
+    /*
+    noteListView.setItems(FXCollections.observableArrayList(noteArray));
+    if (selectedIndex < 0 || selectedIndex >= noteArray.size()) {
+      selectedIndex = oldSelectionIndex;
+    }
+    if (selectedIndex >= 0 && selectedIndex < noteArray.size()) {
+      noteListView.getSelectionModel().select(selectedIndex);
+    }
+    displaySelectedNote();
+
+     */
   }
 
   /**
