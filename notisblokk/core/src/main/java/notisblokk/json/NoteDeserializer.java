@@ -86,6 +86,7 @@ public class NoteDeserializer {
    * Takes a string in json format, deserializes it and returns it as a note.
    */
   public Note deserializeNoteFromString(String noteFromString) {
+    System.out.println(noteFromString);
     return gsonDeserializer.fromJson(noteFromString, Note.class);
   }
 }

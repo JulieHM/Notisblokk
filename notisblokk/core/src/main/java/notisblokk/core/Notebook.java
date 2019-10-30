@@ -74,6 +74,10 @@ public class Notebook {
     return categories.get(index);
   }
 
+  public int getGetCategoryIndex(Category category){
+    return categories.indexOf(category);
+  }
+
   public boolean removeCategory(Category category) {
     try {
       categories.remove(category);

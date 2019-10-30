@@ -33,7 +33,7 @@ public class NotesDataAccess {
    * http://localhost:8080/notes/category/
    */
   public Collection<Category> getCategories() {
-    System.out.println("GET http://localhost:8080/notes/category");
+    System.out.println("GET http://localhost:8080/notes");
     final URI requestUri = buildRequestUri(""); // baseUrl only
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -52,9 +52,9 @@ public class NotesDataAccess {
   /**
    * http://localhost:8080/notes/category/{catIndex}/notes GET
    */
-  public Collection<Note> getNotes() {
-    System.out.println("GET http://localhost:8080/notes/category/{catIndex}/notes");
-    final URI requestUri = buildRequestUri(""); // baseUrl only
+  public Collection<Note> getNotes(int categoryIndex) {
+    System.out.println("GET http://localhost:8080/notes/category/" + categoryIndex + "/notes");
+    final URI requestUri = buildRequestUri("/category/" + categoryIndex + "/notes");
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
         .GET()
@@ -72,9 +72,9 @@ public class NotesDataAccess {
   /**
    * http://localhost:8080/notes/{index} GET
    */
-  public Note getNote(int index) {
-    System.out.println("GET http://localhost:8080/notes/" + index);
-    final URI requestUri = buildRequestUri("/" + index);
+  public Note getNote(int catIndex, int index) {
+    System.out.println("GET http://localhost:8080/notes/category/" + catIndex + "/notes/" + index);
+    final URI requestUri = buildRequestUri("/category/" + catIndex + "/notes/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
         .GET()
@@ -94,18 +94,18 @@ public class NotesDataAccess {
    *
    * @param note POST
    */
-  public void updateNote(int index, Note note) {
+  public void updateNote(int categoryIndex, int index, Note note) {
     System.out.println("POST http://localhost:8080/notes/" + index + "\n\t-> " + note.toString());
-    final URI requestUri = buildRequestUri("/" + index); // baseUrl only
+    final URI requestUri = buildRequestUri("/category/" + categoryIndex + "/notes/" + index);
     postNoteRequest(requestUri, note);
   }
 
   /**
    * http://localhost:8080/notes POST
    */
-  public void addNote(Note note) {
+  public void addNote(int categoryIndex, Note note) {
     System.out.println("POST http://localhost:8080/notes\n\t-> " + note.toString());
-    final URI requestUri = buildRequestUri(""); // baseUrl only
+    final URI requestUri = buildRequestUri("/category/" + categoryIndex + "/notes");
     postNoteRequest(requestUri, note);
   }
 
