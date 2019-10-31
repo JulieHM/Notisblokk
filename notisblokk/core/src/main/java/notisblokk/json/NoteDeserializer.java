@@ -71,7 +71,12 @@ public class NoteDeserializer {
    */
   public List<Note> deserializeNotesFromString(String notesFromString) {
     Note[] notes = gsonDeserializer.fromJson(notesFromString, Note[].class);
-    return Arrays.asList(notes);
+    if (notes != null) {
+      return Arrays.asList(notes);
+    }
+
+    Note[] notes1 = new Note[]{new Note("Empty note", "")};
+    return Arrays.asList(notes1);
   }
 
   /**

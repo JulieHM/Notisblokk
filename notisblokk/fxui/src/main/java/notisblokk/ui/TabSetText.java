@@ -3,6 +3,7 @@ package notisblokk.ui;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -35,6 +36,7 @@ public class TabSetText {
           textField.selectAll();
           textField.requestFocus();
         }
+        controller.setActiveCategory(category);
       }
     });
 
@@ -62,6 +64,15 @@ public class TabSetText {
         }
       }
     });
+
+    tab.setOnCloseRequest(new EventHandler<Event>() {
+      @Override
+      public void handle(Event arg0) {
+        controller.getNotebook().removeCategory(category);
+        controller.deleteCategory(category);
+      }
+    });
+
     return tab;
   }
 

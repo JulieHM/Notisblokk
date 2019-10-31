@@ -2,8 +2,6 @@ package notisblokk.ui;
 
 import java.util.Collection;
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -62,11 +60,13 @@ public class FxAppController {
     Note emptyNote = new Note("Empty note", "");
     Category newCategory = new Category("New category");
     newCategory.addNote(emptyNote);
+    notebook.addCategory(newCategory);
     notesDataAccess.addCategory(newCategory);
     Tab categoryTab = tabSetText.createEditableTab("New category", newCategory);
     categoryTabPane.getTabs().addAll(categoryTab);
     categoryTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
     categoryTabPane.getSelectionModel().select(categoryTab);
+    activeCategory = newCategory;
     updateNoteListView(notesDataAccess.getCategories().size() - 1);
   }
 
@@ -115,6 +115,18 @@ public class FxAppController {
     updateNoteListView(selectedIndex);
   }
 
+  public void deleteCategory(Category category) {
+    notesDataAccess.deleteCategory(notebook.getGetCategoryIndex(category));
+    int count = notesDataAccess.getCategories().size();
+    updateNoteListView(count - 1);
+  }
+
+  /**
+   * Renames the given category with the new name
+   *
+   * @param category category to be renamed
+   * @param newName  new name
+   */
   public void renameCategory(Category category, String newName) {
     int index = notebook.getGetCategoryIndex(category);
     notebook.getCategory(index).setName(newName);
@@ -141,6 +153,7 @@ public class FxAppController {
         (observableValue, tab, t1) -> {
           activeCategory = ((TabWithCategory) t1).getCategory();
           System.out.println(activeCategory.getName());
+          System.out.println(activeCategory.getNotes());
           updateNoteListView(0);
         });
   }
@@ -193,5 +206,13 @@ public class FxAppController {
     this.notesDataAccess = notesDataAccess;
     noteListView.getItems().clear();
     updateNoteListView(0);
+  }
+
+  public void setActiveCategory(Category category){
+    this.activeCategory = activeCategory;
+  }
+
+  public Notebook getNotebook(){
+    return this.notebook;
   }
 }

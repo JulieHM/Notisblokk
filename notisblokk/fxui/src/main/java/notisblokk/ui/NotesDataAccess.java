@@ -113,6 +113,7 @@ public class NotesDataAccess {
 
   /**
    * Add category
+   *
    * @param category
    */
   public void addCategory(Category category) {
@@ -121,13 +122,13 @@ public class NotesDataAccess {
     updateCategory(category, requestUri);
   }
 
-  public void renameCategory(Category category, int index){
-    System.out.println("POST http://localhost:8080/notes/category/"+index);
-    final URI requestUri = buildRequestUri("/category/"+index);
+  public void renameCategory(Category category, int index) {
+    System.out.println("POST http://localhost:8080/notes/category/" + index);
+    final URI requestUri = buildRequestUri("/category/" + index);
     updateCategory(category, requestUri);
   }
 
-  public void updateCategory(Category category, URI requestUri){
+  public void updateCategory(Category category, URI requestUri) {
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
         .header("Content-Type", "application/json")
@@ -164,7 +165,8 @@ public class NotesDataAccess {
    * http://localhost:8080/notes/{index} DELETE
    */
   public void removeNote(int categoryIndex, int index) {
-    System.out.println("DELETE http://localhost:8080/notes/" + index);
+    System.out.println(
+        "DELETE http://localhost:8080/notes/category/" + categoryIndex + "/notes/" + index);
     final URI requestUri = buildRequestUri("/category/" + categoryIndex + "/notes/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -179,4 +181,22 @@ public class NotesDataAccess {
       throw new RuntimeException(e);
     }
   }
+
+  public void deleteCategory(int index) {
+    System.out.println("DELETE http://localhost:8080/notes/" + index);
+    final URI requestUri = buildRequestUri("/category/" + index);
+    final HttpRequest request = HttpRequest.newBuilder(requestUri)
+        .header("Accept", "application/json")
+        .DELETE()
+        .build();
+    try {
+      final HttpResponse<String> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofString());
+      System.out.println("\t-> Response: " + response.body());
+    } catch (IOException | InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 }
