@@ -2,10 +2,15 @@ package notisblokk.ui;
 
 import java.util.Collection;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
+import javafx.scene.web.HTMLEditor;
 import notisblokk.core.Note;
 
 /**
@@ -18,10 +23,19 @@ public class FxAppController {
   private TextField titleField;
 
   @FXML
-  private TextArea messageField;
+  private HTMLEditor messageField;
 
   @FXML
   private ListView<Note> noteListView;
+
+  @FXML
+  private Button saveNoteButton;
+
+  @FXML
+  private Button deleteNoteButton;
+
+  @FXML
+  private Button toolBarSaveButton;
 
   private NotesDataAccess notesDataAccess = new NotesDataAccess();
 
@@ -31,8 +45,17 @@ public class FxAppController {
    */
   @FXML
   public void initialize() {
+    setupHtmlEditor();
     noteListView.setCellFactory(listView -> new NoteCell());
     updateNoteListView(0);
+  }
+
+  private void setupHtmlEditor() {
+    Node node = messageField.lookup(".top-toolbar");
+    if (node instanceof ToolBar) {
+      ToolBar bar = (ToolBar) node;
+      bar.getItems().addAll(saveNoteButton, deleteNoteButton);
+    }
   }
 
   /**
@@ -84,7 +107,7 @@ public class FxAppController {
     Note selectedNote = notesDataAccess.getNote(selectedIndex);
     if (selectedNote != null) {
       titleField.setText(selectedNote.getTitle());
-      messageField.setText(selectedNote.getMessage());
+      messageField.setHtmlText(selectedNote.getMessage());
       noteListView.scrollTo(selectedIndex); // scroll up/down in list view if needed
     }
   }
@@ -96,7 +119,7 @@ public class FxAppController {
    */
   private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
-    note.setMessage(messageField.getText());
+    note.setMessage(messageField.getHtmlText());
     note.setTitle(titleField.getText());
   }
 
