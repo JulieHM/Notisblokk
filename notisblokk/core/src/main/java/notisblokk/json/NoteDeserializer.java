@@ -87,6 +87,10 @@ public class NoteDeserializer {
     return Arrays.asList(categories);
   }
 
+  public Category deserializeCategoryFromString(String categoryFromString){
+    return gsonDeserializer.fromJson(categoryFromString, Category.class);
+  }
+
   /**
    * Takes a string in json format, deserializes it and returns it as a note.
    */

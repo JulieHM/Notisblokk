@@ -50,6 +50,26 @@ public class NotesDataAccess {
   }
 
   /**
+   * http://localhost:8080/notes/category/
+   */
+  public Category getCategory(int categoryIndex) {
+    System.out.println("GET http://localhost:8080/notes/category/" + categoryIndex);
+    final URI requestUri = buildRequestUri("/category/" + categoryIndex);
+    final HttpRequest request = HttpRequest.newBuilder(requestUri)
+        .header("Accept", "application/json")
+        .GET()
+        .build();
+    try {
+      final HttpResponse<String> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofString());
+      return noteDeserializer.deserializeCategoryFromString(response.body());
+    } catch (IOException | InterruptedException e) {
+      return null;
+    }
+  }
+
+  /**
    * http://localhost:8080/notes/category/{catIndex}/notes GET
    */
   public Collection<Note> getNotes(int categoryIndex) {
@@ -183,7 +203,7 @@ public class NotesDataAccess {
   }
 
   public void deleteCategory(int index) {
-    System.out.println("DELETE http://localhost:8080/notes/" + index);
+    System.out.println("DELETE http://localhost:8080/notes/category" + index);
     final URI requestUri = buildRequestUri("/category/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
