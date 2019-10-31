@@ -1,14 +1,13 @@
 package notisblokk.ui;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.web.HTMLEditor;
 import notisblokk.core.Note;
@@ -19,8 +18,6 @@ import notisblokk.core.Note;
  */
 public class FxAppController {
 
-  @FXML
-  private TextField titleField;
 
   @FXML
   private HTMLEditor messageField;
@@ -33,9 +30,6 @@ public class FxAppController {
 
   @FXML
   private Button deleteNoteButton;
-
-  @FXML
-  private Button toolBarSaveButton;
 
   private NotesDataAccess notesDataAccess = new NotesDataAccess();
 
@@ -57,6 +51,33 @@ public class FxAppController {
       bar.getItems().addAll(saveNoteButton, deleteNoteButton);
     }
   }
+
+  public static String getText(String htmlText) {
+
+    String result = "";
+
+    Pattern pattern = Pattern.compile("<[^>]*>");
+    Matcher matcher = pattern.matcher(htmlText);
+    final StringBuffer text = new StringBuffer(htmlText.length());
+
+    while (matcher.find()) {
+      matcher.appendReplacement(
+          text,
+          " ");
+    }
+
+    matcher.appendTail(text);
+
+    result = text.toString().trim();
+
+    return result;
+  }
+
+  public String extractTitle(String message) {
+    String [] title = getText(message).split(" ");
+    return title[0];
+  }
+
 
   /**
    * Event Handler for the ListView.
@@ -106,7 +127,6 @@ public class FxAppController {
     int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
     Note selectedNote = notesDataAccess.getNote(selectedIndex);
     if (selectedNote != null) {
-      titleField.setText(selectedNote.getTitle());
       messageField.setHtmlText(selectedNote.getMessage());
       noteListView.scrollTo(selectedIndex); // scroll up/down in list view if needed
     }
@@ -120,7 +140,7 @@ public class FxAppController {
   private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getHtmlText());
-    note.setTitle(titleField.getText());
+    note.setTitle(extractTitle(messageField.getHtmlText()));
   }
 
   /**
