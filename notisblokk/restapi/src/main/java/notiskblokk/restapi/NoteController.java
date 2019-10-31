@@ -56,6 +56,17 @@ public class NoteController {
     return ResponseEntity.badRequest().build();
   }
 
+  @PostMapping(value = "/category/{categoryIndex}", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<Category> renameCategory(@RequestBody Category category,
+      @PathVariable int categoryIndex) {
+    if (service.renameCategory(categoryIndex, category)) {
+      int index = service.getNumCategories() - 1;
+      return ResponseEntity.ok(service.getCategory(index));
+    }
+    return ResponseEntity.badRequest().build();
+  }
+
+
   @GetMapping(produces = "application/json")
   @RequestMapping("/category/{categoryIndex}/notes")
   public ResponseEntity<List<Note>> getNotes(@PathVariable int categoryIndex) {
@@ -116,6 +127,7 @@ public class NoteController {
    * @param name  to be replaced with
    * @return
    */
+  /*
   @PostMapping(value = "/category/{index}", consumes = "application/json", produces = "application/json")
   public ResponseEntity<Category> renameCategory(@PathVariable int index,
       @RequestBody String name) {
@@ -124,6 +136,7 @@ public class NoteController {
     }
     return ResponseEntity.notFound().build();
   }
+   */
 
   /**
    * Deletes the note at the given index if found.

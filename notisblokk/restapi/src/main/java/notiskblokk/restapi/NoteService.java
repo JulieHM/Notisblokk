@@ -37,18 +37,6 @@ public class NoteService {
   }
 
   /**
-   * Saves all the notes to the local notes.json-file.
-   */
-  private void saveNotesToJson() {
-    NoteSerializer noteSerializer = new NoteSerializer();
-    try {
-      noteSerializer.serializeNotesToLocal(notebook.getActiveCategory().getNotes(), SAVE_PATH);
-    } catch (IOException e) {
-      System.err.println("Unable to save notes to json.");
-    }
-  }
-
-  /**
    * Saves the notebook to the local notes.json-file.
    */
   private void saveNotebookToJson() {
@@ -151,12 +139,12 @@ public class NoteService {
   /**
    * Renames the active notebook.getActiveCategory()
    *
-   * @param name
+   * @param category new category
    * @return
    */
-  public boolean renameCategory(int categoryIndex, String name) {
+  public boolean renameCategory(int categoryIndex, Category category) {
     try {
-      notebook.getCategory(categoryIndex).setName(name);
+      notebook.getCategory(categoryIndex).setName(category.getName());
       saveNotebookToJson();
       return true;
     } catch (IndexOutOfBoundsException e) {

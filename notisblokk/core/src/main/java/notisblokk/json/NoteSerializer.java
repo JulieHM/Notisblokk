@@ -70,6 +70,10 @@ public class NoteSerializer {
     return gsonSerializer.toJson(noteList);
   }
 
+  public String serializeCategoryToString(Category category){
+    return gsonSerializer.toJson(category);
+  }
+
   /**
    * Returns the parameter note as a string.
    */

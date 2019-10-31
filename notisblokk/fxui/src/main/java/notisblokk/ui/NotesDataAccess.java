@@ -104,9 +104,42 @@ public class NotesDataAccess {
    * http://localhost:8080/notes POST
    */
   public void addNote(int categoryIndex, Note note) {
-    System.out.println("POST http://localhost:8080/notes\n\t-> " + note.toString());
+    System.out.println(
+        "POST http://localhost:8080/notes/category/" + categoryIndex + "/notes\n\t-> " + note
+            .toString());
     final URI requestUri = buildRequestUri("/category/" + categoryIndex + "/notes");
     postNoteRequest(requestUri, note);
+  }
+
+  /**
+   * Add category
+   * @param category
+   */
+  public void addCategory(Category category) {
+    System.out.println("POST http://localhost:8080/notes/category");
+    final URI requestUri = buildRequestUri("/category");
+    updateCategory(category, requestUri);
+  }
+
+  public void renameCategory(Category category, int index){
+    System.out.println("POST http://localhost:8080/notes/category/"+index);
+    final URI requestUri = buildRequestUri("/category/"+index);
+    updateCategory(category, requestUri);
+  }
+
+  public void updateCategory(Category category, URI requestUri){
+    final HttpRequest request = HttpRequest.newBuilder(requestUri)
+        .header("Accept", "application/json")
+        .header("Content-Type", "application/json")
+        .POST(BodyPublishers.ofString(noteSerializer.serializeCategoryToString(category)))
+        .build();
+    try {
+      final HttpResponse<InputStream> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofInputStream());
+    } catch (IOException | InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -130,9 +163,9 @@ public class NotesDataAccess {
   /**
    * http://localhost:8080/notes/{index} DELETE
    */
-  public void removeNote(int index) {
+  public void removeNote(int categoryIndex, int index) {
     System.out.println("DELETE http://localhost:8080/notes/" + index);
-    final URI requestUri = buildRequestUri("/" + index);
+    final URI requestUri = buildRequestUri("/category/" + categoryIndex + "/notes/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
         .DELETE()

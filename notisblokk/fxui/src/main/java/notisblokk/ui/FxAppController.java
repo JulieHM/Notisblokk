@@ -59,12 +59,15 @@ public class FxAppController {
    */
   @FXML
   private void onNewCategoryClick() {
+    Note emptyNote = new Note("Empty note", "");
     Category newCategory = new Category("New category");
-    notebook.addCategory(newCategory);
+    newCategory.addNote(emptyNote);
+    notesDataAccess.addCategory(newCategory);
     Tab categoryTab = tabSetText.createEditableTab("New category", newCategory);
     categoryTabPane.getTabs().addAll(categoryTab);
     categoryTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
     categoryTabPane.getSelectionModel().select(categoryTab);
+    updateNoteListView(notesDataAccess.getCategories().size() - 1);
   }
 
 
@@ -95,7 +98,7 @@ public class FxAppController {
   private void onSaveClick() {
     int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
     Note selectedNote = notesDataAccess.getNote(notebook.getGetCategoryIndex(activeCategory),
-        selectedIndex); // possibly redundant, use local?
+        selectedIndex);
     updateNoteInfo(selectedNote);
     notesDataAccess
         .updateNote(notebook.getGetCategoryIndex(activeCategory), selectedIndex, selectedNote);
@@ -108,8 +111,14 @@ public class FxAppController {
   @FXML
   private void onDeleteClick() {
     int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
-    notesDataAccess.removeNote(selectedIndex);
+    notesDataAccess.removeNote(notebook.getGetCategoryIndex(activeCategory), selectedIndex);
     updateNoteListView(selectedIndex);
+  }
+
+  public void renameCategory(Category category, String newName) {
+    int index = notebook.getGetCategoryIndex(category);
+    notebook.getCategory(index).setName(newName);
+    notesDataAccess.renameCategory(category, index);
   }
 
   /**

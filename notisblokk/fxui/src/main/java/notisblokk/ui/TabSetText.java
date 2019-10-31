@@ -41,9 +41,14 @@ public class TabSetText {
     textField.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        /*
+        if (textField.getText() == "Delete"){
+          ((TabWithCategory) textField.this.getParent()).getChildren().remove(textField.this);
+        }
+         */
         label.setText(textField.getText());
         tab.setGraphic(label);
-        category.setName(textField.getText());
+        controller.renameCategory(category, textField.getText());
       }
     });
 
