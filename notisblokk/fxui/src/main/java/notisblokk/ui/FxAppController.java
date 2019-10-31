@@ -5,7 +5,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -13,6 +17,8 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import notisblokk.core.Category;
+import javafx.scene.control.ToolBar;
+import javafx.scene.web.HTMLEditor;
 import notisblokk.core.Note;
 import notisblokk.core.Notebook;
 
@@ -26,10 +32,19 @@ public class FxAppController {
   private TextField titleField;
 
   @FXML
-  private TextArea messageField;
+  private HTMLEditor messageField;
 
   @FXML
   private ListView<Note> noteListView;
+
+  @FXML
+  private Button saveNoteButton;
+
+  @FXML
+  private Button deleteNoteButton;
+
+  @FXML
+  private Button toolBarSaveButton;
 
   @FXML
   private TabPane categoryTabPane;
@@ -50,12 +65,20 @@ public class FxAppController {
    */
   @FXML
   public void initialize() {
+    setupHtmlEditor();
     categoryTabPane.setTabClosingPolicy(TabClosingPolicy.SELECTED_TAB);
     initTabView();
     updateCategoryTabView(false);
     noteListView.setCellFactory(listView -> new NoteCell());
   }
 
+  private void setupHtmlEditor() {
+    Node node = messageField.lookup(".top-toolbar");
+    if (node instanceof ToolBar) {
+      ToolBar bar = (ToolBar) node;
+      bar.getItems().addAll(saveNoteButton, deleteNoteButton);
+    }
+  }
 
   /**
    * Add a new tab
@@ -150,7 +173,7 @@ public class FxAppController {
         .getNote(activeCategoryIndex, selectedIndex);
     if (selectedNote != null) {
       titleField.setText(selectedNote.getTitle());
-      messageField.setText(selectedNote.getMessage());
+      messageField.setHtmlText(selectedNote.getMessage());
       noteListView.scrollTo(selectedIndex); // scroll up/down in list view if needed
     }
   }
@@ -177,7 +200,7 @@ public class FxAppController {
    */
   private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
-    note.setMessage(messageField.getText());
+    note.setMessage(messageField.getHtmlText());
     note.setTitle(titleField.getText());
   }
 
