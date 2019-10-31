@@ -114,7 +114,7 @@ public class FxAppController {
   @FXML
   public void onNewNoteClick() {
     if (activeCategory == null){
-      messageField.setText("A category is needed to create a note.");
+      messageField.setHtmlText("A category is needed to create a note.");
       return;
     }
     Note note = new Note("New note", "");
@@ -212,7 +212,7 @@ public class FxAppController {
       activeCategory = null;
       noteListView.setItems(null);
       titleField.setText("");
-      messageField.setText("");
+      messageField.setHtmlText("");
       return;
     }
 
@@ -243,7 +243,7 @@ public class FxAppController {
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
     if (noteArray.size() < 1) {
       titleField.setText("");
-      messageField.setText("");
+      messageField.setHtmlText("");
       return;
     }
     if (selectedIndex >= noteArray.size()) {
