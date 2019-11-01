@@ -18,11 +18,17 @@ public class CategoryTest {
     category = new Category();
   }
 
+  /**
+   * Tests the empty constructor.
+   */
   @Test
   public void testEmptyConstructor() {
     Assert.assertEquals(0, category.getNumNotes());
   }
 
+  /**
+   * Tests the addNote function.
+   */
   @Test
   public void testAddNote() {
     category.addNote(new Note("title", "msg"));
@@ -31,6 +37,9 @@ public class CategoryTest {
     Assert.assertEquals(2, category.getNumNotes());
   }
 
+  /**
+   * Tests the addNotes function.
+   */
   @Test
   public void testAddNotesByCollection() {
     List<Note> noteList = new ArrayList<>();
@@ -40,11 +49,17 @@ public class CategoryTest {
     Assert.assertEquals(2, category.getNumNotes());
   }
 
+  /**
+   * Tests if an exception is thrown if given the wrong index.
+   */
   @Test(expected = IndexOutOfBoundsException.class)
   public void testGetNoteWithInvalidIndex() {
     category.getNote(5);
   }
 
+  /**
+   * Tests the fetching of a specific note.
+   */
   @Test
   public void testGetNote() {
     Note note1 = new Note("first title", "first msg");
@@ -54,6 +69,9 @@ public class CategoryTest {
     Assert.assertEquals(note2, category.getNote(1));
   }
 
+  /**
+   * Tests the fetching of all notes.
+   */
   @Test
   public void testGetNotes() {
     Note note1 = new Note("first title", "first msg");
@@ -63,6 +81,9 @@ public class CategoryTest {
     Assert.assertEquals(3, category.getNumNotes());
   }
 
+  /**
+   * Tests removing a note by passing in the object.
+   */
   @Test
   public void testRemoveNoteByObject() {
     Note note1 = new Note("first title", "first msg");
@@ -74,6 +95,9 @@ public class CategoryTest {
     Assert.assertEquals(note3, category.getNote(1));
   }
 
+  /**
+   * Tests removing a note by index in the array.
+   */
   @Test
   public void testRemoveNoteByIndex() {
     Note note1 = new Note("first title", "first msg");
@@ -85,6 +109,9 @@ public class CategoryTest {
     Assert.assertEquals(note3, category.getNote(1));
   }
 
+  /**
+   * Tests the replaceNote function
+   */
   @Test
   public void testReplaceNote() {
     Note noteToBeReplaced = new Note("Replacement note", "Replacement note");

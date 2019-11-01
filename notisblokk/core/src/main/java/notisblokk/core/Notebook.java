@@ -1,15 +1,11 @@
 package notisblokk.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class Notebook {
 
   private List<Category> categories = new ArrayList<>();
-  private Category activeCategory;
 
   public Notebook() {
   }
@@ -17,27 +13,19 @@ public class Notebook {
   /**
    * Default constructor
    *
-   * @param categories
+   * @param categories to initialize notebook with
    */
   public Notebook(List<Category> categories) {
     this.categories = categories;
   }
 
+  /**
+   * Add a category to the notebook
+   *
+   * @param category
+   */
   public void addCategory(Category category) {
     this.categories.add(category);
-  }
-
-  public void addCategory(List<Category> categories){
-    this.categories.addAll(categories);
-  }
-
-  /**
-   * Adds a new category to the notebook
-   *
-   * @param name of the category
-   */
-  public void addCategory(String name) {
-    categories.add(new Category(name));
   }
 
   /**
@@ -50,49 +38,21 @@ public class Notebook {
   }
 
   /**
-   * Sets the active category
+   * Gets a specific category from the notebook
    *
-   * @param activeCategory active category
+   * @param index of the category in the list
+   * @return the category at the index
    */
-  public void setActiveCategory(Category activeCategory) {
-    this.activeCategory = activeCategory;
-  }
-
-  /**
-   * Gets the active category (active tab)
-   *
-   * @return the active tab
-   */
-  public Category getActiveCategory() {
-    if (activeCategory == null) {
-      return categories.get(0);
-    }
-    return activeCategory;
-  }
-
-  public Category getCategory(int index){
+  public Category getCategory(int index) {
     return categories.get(index);
   }
 
-  public int getGetCategoryIndex(Category category){
-    return categories.indexOf(category);
-  }
-
-  public boolean removeCategory(Category category) {
-    try {
-      categories.remove(category);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
-    }
-  }
-
-  public boolean removeCategory(int index) {
-    try {
-      categories.remove(index);
-      return true;
-    } catch (IndexOutOfBoundsException e) {
-      return false;
-    }
+  /**
+   * Removes the category at the index of the list
+   *
+   * @param index of the category
+   */
+  public void removeCategory(int index) {
+    categories.remove(index);
   }
 }
