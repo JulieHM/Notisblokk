@@ -9,15 +9,15 @@ before_script:
 
 cache:
   paths:
-    - .gradle/wrapper
-    - .gradle/caches
+    - ./notisblokk/gradle/wrapper
+    - ./notisblokk/gradle/caches
 
 build:
   stage: build
   script:
-    - ./gradlew -Pci=gitlab build
+    - ./notisblokk/gradlew -Pci=gitlab build
 
 test:
   stage: test
   script:
-    - ./gradlew check
+    - ./notisblokk/gradlew check
