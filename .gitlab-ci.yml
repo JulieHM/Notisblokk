@@ -16,8 +16,8 @@ build:
   stage: build
   script:
     - ./gradlew -Pci=gitlab build
- 
- test:
+
+test:
   stage: test
   script:
     - ./gradlew check
