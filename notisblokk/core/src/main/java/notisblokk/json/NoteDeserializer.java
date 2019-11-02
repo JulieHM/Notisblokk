@@ -37,7 +37,7 @@ public class NoteDeserializer {
       try {
         notebook = gsonDeserializer.fromJson(jsonFromFile, Notebook.class);
         return notebook;
-      } catch (IllegalStateException e) {
+      } catch (Exception e) {
         Note[] noteList = gsonDeserializer.fromJson(jsonFromFile, Note[].class);
         List<Category> catList = new ArrayList<>();
         catList.add(new Category("New category", Arrays.asList(noteList)));
