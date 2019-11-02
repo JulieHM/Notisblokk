@@ -45,7 +45,7 @@ public class NoteDeserializer {
         return notebook;
       }
     }
-    return null;
+    return new Notebook();
   }
 
   /**
