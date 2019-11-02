@@ -90,7 +90,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/notes/{index} GET
+   * http://localhost:8080/notes/category/{catIndex}/notes/{index} GET
    */
   public Note getNote(int catIndex, int index) {
     System.out.println("GET http://localhost:8080/notes/category/" + catIndex + "/notes/" + index);

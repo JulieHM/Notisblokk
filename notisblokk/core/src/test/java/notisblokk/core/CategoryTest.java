@@ -110,7 +110,7 @@ public class CategoryTest {
   }
 
   /**
-   * Tests the replaceNote function
+   * Tests the replaceNote function.
    */
   @Test
   public void testReplaceNote() {

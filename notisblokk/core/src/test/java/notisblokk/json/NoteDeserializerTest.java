@@ -30,7 +30,7 @@ public class NoteDeserializerTest {
         + "\"nano\":663673000}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":10,\"day\":3},"
         + "\"time\":{\"hour\":10,\"minute\":51,\"second\":14,\"nano\":663673000}}}"
         + "]";
-    List<Note> notesFromJson = noteDeserializer.deserializeNotesFromString(notesJson);
+    final List<Note> notesFromJson = noteDeserializer.deserializeNotesFromString(notesJson);
     List<Note> notes = new ArrayList<>();
     LocalDateTime time = LocalDateTime.of(2019, 10, 3, 10, 51, 14, 663673000);
     notes.add(new Note("New note 1", "New note 1", time, time));
@@ -40,7 +40,7 @@ public class NoteDeserializerTest {
   }
 
   /**
-   * Tests deserialization of a single note into a note object
+   * Tests deserialization of a single note into a note object.
    */
   @Test
   public void testDeserializeNoteFromString() {

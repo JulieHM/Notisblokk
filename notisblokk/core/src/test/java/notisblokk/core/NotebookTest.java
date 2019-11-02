@@ -11,7 +11,7 @@ public class NotebookTest {
   private Notebook notebook;
 
   /**
-   * Inits notebook before the tests
+   * Inits notebook before the tests.
    */
   @Before
   public void init() {
@@ -19,7 +19,7 @@ public class NotebookTest {
   }
 
   /**
-   * Tests the constructor and getCategory function
+   * Tests the constructor and getCategory function.
    */
   @Test
   public void testConstructor() {
@@ -35,7 +35,7 @@ public class NotebookTest {
   }
 
   /**
-   * Tests both addCategory and getCategory
+   * Tests both addCategory and getCategory.
    */
   @Test
   public void testAddAndGetCategory() {
@@ -45,7 +45,7 @@ public class NotebookTest {
   }
 
   /**
-   * Tests the fetching of all categories
+   * Tests the fetching of all categories.
    */
   @Test
   public void testGetCategories() {
