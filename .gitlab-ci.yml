@@ -1,4 +1,15 @@
 image: gradle:jdk12
 
-job:
-  script: echo 'Welcome to IT1901'
+before_script:
+  - cd ./notisblokk/
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+build:
+  stage: build
+  script:
+    - ./gradlew -Pci=gitlab build

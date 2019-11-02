@@ -16,6 +16,13 @@ repositories {
     jcenter()
 }
 
+test {
+	// don't run UI test on server (that cannot run javafx)
+	if (project.hasProperty('ci') && "$ci" == 'gitlab') {
+		exclude 'notisblokk/ui/*'
+	}
+}
+
 dependencies {
     implementation project(':core')
 
