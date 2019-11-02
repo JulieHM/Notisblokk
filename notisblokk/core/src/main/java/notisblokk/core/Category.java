@@ -24,6 +24,11 @@ public class Category implements Iterable<Note> {
     this.name = name;
   }
 
+  public Category(String name, List<Note> notes) {
+    this.name = name;
+    this.notes = notes;
+  }
+
   /**
    * Creates a new Notes object with a List of the given Note(s).
    * @param note The Note or array of Notes to add to the List of Notes.

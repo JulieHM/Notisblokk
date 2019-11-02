@@ -24,44 +24,26 @@ public class NoteDeserializer {
   }
 
   /**
-   * Takes a local path to a file of notisblokk.json-formatted Note objects. Builds the Note objects
-   * found in the file and returns them as a List of Note.
-   *
-   * @param path The path to the notisblokk.json-formatted file.
-   * @return A List of Note objects.
+   * Deserializes a local notebook. If a list of notes is found instead, a category with those
+   * notes will be created, added to a notebook which is then returned.
+   * @param path of the local notes
+   * @return a notebook with the locally stored categories and notes
+   * @throws IOException if path error or similar
    */
-  public List<Note> deserializeLocalNotes(String path) throws IOException {
-    if (Files.exists(Paths.get(path))) {
-      String jsonFromFile = Files.readString(Paths.get(path));
-      // Could probably improve the way this is done
-      Note[] noteArray = gsonDeserializer.fromJson(jsonFromFile, Note[].class);
-      List<Note> noteList = new ArrayList<>();
-      Collections.addAll(noteList, noteArray);
-      return noteList;
-    }
-
-    return new ArrayList<>();
-  }
-
-  public List<Category> deserializeLocalCategories(String path) throws IOException {
-    if (Files.exists(Paths.get(path))) {
-      String jsonFromFile = Files.readString(Paths.get(path));
-      // Could probably improve the way this is done
-      Category[] categoryArray = gsonDeserializer.fromJson(jsonFromFile, Category[].class);
-      List<Category> categoryList = new ArrayList<>();
-      Collections.addAll(categoryList, categoryArray);
-      for (var category : categoryList) {
-        System.out.println(category.getName());
-      }
-      return categoryList;
-    }
-    return null;
-  }
-
   public Notebook deserializeLocalNotebook(String path) throws IOException {
     if (Files.exists(Paths.get(path))) {
       String jsonFromFile = Files.readString(Paths.get(path));
-      return gsonDeserializer.fromJson(jsonFromFile, Notebook.class);
+      Notebook notebook;
+      try {
+        notebook = gsonDeserializer.fromJson(jsonFromFile, Notebook.class);
+        return notebook;
+      } catch (IllegalStateException e) {
+        Note[] noteList = gsonDeserializer.fromJson(jsonFromFile, Note[].class);
+        List<Category> catList = new ArrayList<>();
+        catList.add(new Category("New category", Arrays.asList(noteList)));
+        notebook = new Notebook(catList);
+        return notebook;
+      }
     }
     return null;
   }
@@ -87,7 +69,7 @@ public class NoteDeserializer {
     return Arrays.asList(categories);
   }
 
-  public Category deserializeCategoryFromString(String categoryFromString){
+  public Category deserializeCategoryFromString(String categoryFromString) {
     return gsonDeserializer.fromJson(categoryFromString, Category.class);
   }
 

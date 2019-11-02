@@ -2,11 +2,8 @@ package notisblokk.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,13 +11,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import notisblokk.core.Category;
 import javafx.scene.control.ToolBar;
 import javafx.scene.web.HTMLEditor;
 import notisblokk.core.Note;
-import notisblokk.core.Notebook;
 
 /**
  * FxAppController is communicating with the server through REST API. All data displayed in the GUI
@@ -86,14 +81,7 @@ public class FxAppController {
     Category newCategory = new Category("New category");
     newCategory.addNote(emptyNote);
     notesDataAccess.addCategory(newCategory);
-    //Tab categoryTab = tabSetText.createEditableTab("New category", newCategory);
-    //categoryTabPane.getTabs().addAll(categoryTab);
     updateCategoryTabView(true);
-    /*
-    activeCategoryIndex = categories.size();
-    categoryTabPane.getSelectionModel().select(categoryTab);
-    activeCategory = notesDataAccess.getCategory(categories.size());
-     */
   }
 
 
@@ -264,7 +252,23 @@ public class FxAppController {
    */
   public void setNotesDataAccess(final NotesDataAccess notesDataAccess) {
     this.notesDataAccess = notesDataAccess;
-    noteListView.getItems().clear();
-    updateNoteListView(0);
+    if (noteListView.getItems() == null) {
+      noteListView.setItems(FXCollections.observableArrayList());
+    } else {
+      noteListView.getItems().clear();
+    }
+    updateNoteListViewTest(0);
+  }
+
+  /**
+   * Used as the testing function for updateNoteListView.
+   *
+   * @param selectedIndex The new index to select in the list view
+   */
+  private void updateNoteListViewTest(int selectedIndex) {
+    final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
+    noteListView.setItems(FXCollections.observableArrayList(noteArray));
+    noteListView.getSelectionModel().select(selectedIndex);
+    displaySelectedNote();
   }
 }
