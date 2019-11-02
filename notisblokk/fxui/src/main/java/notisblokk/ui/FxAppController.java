@@ -44,9 +44,6 @@ public class FxAppController {
   private Button deleteNoteButton;
 
   @FXML
-  private Button toolBarSaveButton;
-
-  @FXML
   private TabPane categoryTabPane;
 
   private TabSetText tabSetText = new TabSetText(this);
@@ -113,7 +110,7 @@ public class FxAppController {
    */
   @FXML
   public void onNewNoteClick() {
-    if (activeCategory == null){
+    if (activeCategory == null) {
       messageField.setHtmlText("A category is needed to create a note.");
       return;
     }
@@ -204,11 +201,16 @@ public class FxAppController {
     note.setTitle(titleField.getText());
   }
 
+  /**
+   * Updates the tab pane with new category-tabs.
+   *
+   * @param newCategory
+   */
   private void updateCategoryTabView(boolean newCategory) {
     categoryTabPane.getTabs().clear();
     categories = ((List<Category>) notesDataAccess.getCategories());
 
-    if (categories.size() < 1){
+    if (categories.size() < 1) {
       activeCategory = null;
       noteListView.setItems(null);
       titleField.setText("");
@@ -223,9 +225,9 @@ public class FxAppController {
     if (newCategory) {
       categoryTabPane.getSelectionModel().select(categories.size() - 1);
       activeCategory = categories.get(categories.size() - 1);
-      return;
+    } else {
+      activeCategory = categories.get(0);
     }
-    activeCategory = categories.get(0);
   }
 
   /**
@@ -235,11 +237,11 @@ public class FxAppController {
    * @param selectedIndex The new index to select in the list view
    */
   private void updateNoteListView(int selectedIndex) {
-    if (categories.size() < 1){
+    if (categories.size() < 1) {
       return;
     }
     final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
-    System.out.println(noteArray);
+    System.out.println("---------" + noteArray);
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
     if (noteArray.size() < 1) {
       titleField.setText("");
@@ -253,6 +255,10 @@ public class FxAppController {
     displaySelectedNote();
   }
 
+  public void setActiveCategory(Category category) {
+    this.activeCategory = category;
+  }
+
   /**
    * USED TO ALLOW TESTING
    */
@@ -260,9 +266,5 @@ public class FxAppController {
     this.notesDataAccess = notesDataAccess;
     noteListView.getItems().clear();
     updateNoteListView(0);
-  }
-
-  public void setActiveCategory(Category category) {
-    this.activeCategory = activeCategory;
   }
 }
