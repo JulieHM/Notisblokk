@@ -229,7 +229,6 @@ public class FxAppController {
       return;
     }
     final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
-    System.out.println("---------" + noteArray);
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
     if (noteArray.size() < 1) {
       titleField.setText("");
