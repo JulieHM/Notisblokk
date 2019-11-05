@@ -33,7 +33,6 @@ public class NotesDataAccess {
    * http://localhost:8080/categories GET
    */
   Collection<Category> getCategories() {
-    System.out.println("GET http://localhost:8080/categories");
     final URI requestUri = buildRequestUri(""); // baseUrl only
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -53,7 +52,6 @@ public class NotesDataAccess {
    * http://localhost:8080/categories/{categoryIndex} GET
    */
   Category getCategory(int categoryIndex) {
-    System.out.println("GET http://localhost:8080/categories" + categoryIndex);
     final URI requestUri = buildRequestUri("/" + categoryIndex);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -73,7 +71,6 @@ public class NotesDataAccess {
    * http://localhost:8080/categories/{catIndex}/notes GET
    */
   public Collection<Note> getNotes(int categoryIndex) {
-    System.out.println("GET http://localhost:8080/categories/" + categoryIndex + "/notes");
     final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes");
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -93,7 +90,6 @@ public class NotesDataAccess {
    * http://localhost:8080/categories/{catIndex}/notes/{index} GET
    */
   public Note getNote(int catIndex, int index) {
-    System.out.println("GET http://localhost:8080/categories/" + catIndex + "/notes/" + index);
     final URI requestUri = buildRequestUri("/" + catIndex + "/notes/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -114,9 +110,6 @@ public class NotesDataAccess {
    * @param note POST
    */
   void updateNote(int categoryIndex, int index, Note note) {
-    System.out.println(
-        "POST http://localhost:8080/categories/" + categoryIndex + "/notes/" + index + "\n\t-> "
-            + note.toString());
     final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes/" + index);
     postNoteRequest(requestUri, note);
   }
@@ -125,9 +118,6 @@ public class NotesDataAccess {
    * http://localhost:8080/categories/{categoryIndex}/notes POST
    */
   void addNote(int categoryIndex, Note note) {
-    System.out.println(
-        "POST http://localhost:8080/categories" + categoryIndex + "/notes\n\t-> " + note
-            .toString());
     final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes");
     postNoteRequest(requestUri, note);
   }
@@ -138,7 +128,6 @@ public class NotesDataAccess {
    * @param category to be added
    */
   void addCategory(Category category) {
-    System.out.println("POST http://localhost:8080/categories");
     final URI requestUri = buildRequestUri("");
     updateCategory(category, requestUri);
   }
@@ -149,7 +138,6 @@ public class NotesDataAccess {
    * @param category to replace with
    */
   void renameCategory(Category category, int index) {
-    System.out.println("POST http://localhost:8080/categories/" + index);
     final URI requestUri = buildRequestUri("/" + index);
     updateCategory(category, requestUri);
   }
@@ -196,8 +184,6 @@ public class NotesDataAccess {
    * http://localhost:8080/{index} DELETE
    */
   void removeNote(int categoryIndex, int index) {
-    System.out.println(
-        "DELETE http://localhost:8080/categories/" + categoryIndex + "/notes/" + index);
     final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -207,14 +193,12 @@ public class NotesDataAccess {
       final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(request, HttpResponse.BodyHandlers.ofString());
-      System.out.println("\t-> Response: " + response.body());
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
   }
 
   void deleteCategory(int index) {
-    System.out.println("DELETE http://localhost:8080/categories/" + index);
     final URI requestUri = buildRequestUri("/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -224,7 +208,6 @@ public class NotesDataAccess {
       final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(request, HttpResponse.BodyHandlers.ofString());
-      System.out.println("\t-> Response: " + response.body());
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
