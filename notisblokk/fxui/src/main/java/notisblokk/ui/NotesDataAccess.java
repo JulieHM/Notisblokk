@@ -215,7 +215,7 @@ public class NotesDataAccess {
 
   void deleteCategory(int index) {
     System.out.println("DELETE http://localhost:8080/categories/" + index);
-    final URI requestUri = buildRequestUri("" + index);
+    final URI requestUri = buildRequestUri("/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
         .DELETE()
