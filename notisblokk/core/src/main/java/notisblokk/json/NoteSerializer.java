@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
+import notisblokk.core.Notebook;
 
 public class NoteSerializer {
 
@@ -43,11 +45,33 @@ public class NoteSerializer {
     }
   }
 
+  public boolean serializeNotebookToLocal(Notebook notebook, String path)
+      throws IOException {
+    String json = gsonSerializer.toJson(notebook);
+
+    File file = new File(path);
+    if (!file.exists()) {
+      file.getParentFile().mkdirs();
+    }
+
+    try (FileWriter writer = new FileWriter(new File(path))) {
+      writer.write(json);
+      return true;
+    } catch (FileNotFoundException e) {
+      System.err.println("FileNotFound");
+      return false;
+    }
+  }
+
   /**
    * Returns a list of notes as a string.
    */
   public String serializeNotesToString(List<Note> noteList) {
     return gsonSerializer.toJson(noteList);
+  }
+
+  public String serializeCategoryToString(Category category){
+    return gsonSerializer.toJson(category);
   }
 
   /**

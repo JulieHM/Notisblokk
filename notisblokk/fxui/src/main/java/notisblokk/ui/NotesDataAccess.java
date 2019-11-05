@@ -10,6 +10,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.util.Collection;
 import java.util.Collections;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
 import notisblokk.json.NoteDeserializer;
 import notisblokk.json.NoteSerializer;
@@ -18,10 +19,10 @@ public class NotesDataAccess {
 
   private final NoteDeserializer noteDeserializer = new NoteDeserializer();
   private final NoteSerializer noteSerializer = new NoteSerializer();
-  private final String baseUrl = "http://localhost:8080/notes"; // TODO: make it a cmd argument?
 
   private URI buildRequestUri(String path) {
     try {
+      String baseUrl = "http://localhost:8080/categories";
       return new URI(baseUrl + path);
     } catch (URISyntaxException e) {
       throw new IllegalArgumentException(e);
@@ -29,11 +30,48 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/notes GET
+   * http://localhost:8080/categories GET
    */
-  public Collection<Note> getNotes() {
-    System.out.println("GET http://localhost:8080/notes");
+  Collection<Category> getCategories() {
     final URI requestUri = buildRequestUri(""); // baseUrl only
+    final HttpRequest request = HttpRequest.newBuilder(requestUri)
+        .header("Accept", "application/json")
+        .GET()
+        .build();
+    try {
+      final HttpResponse<String> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofString());
+      return noteDeserializer.deserializeCategoriesFromString(response.body());
+    } catch (IOException | InterruptedException e) {
+      return Collections.emptyList();
+    }
+  }
+
+  /**
+   * http://localhost:8080/categories/{categoryIndex} GET
+   */
+  Category getCategory(int categoryIndex) {
+    final URI requestUri = buildRequestUri("/" + categoryIndex);
+    final HttpRequest request = HttpRequest.newBuilder(requestUri)
+        .header("Accept", "application/json")
+        .GET()
+        .build();
+    try {
+      final HttpResponse<String> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofString());
+      return noteDeserializer.deserializeCategoryFromString(response.body());
+    } catch (IOException | InterruptedException e) {
+      return null;
+    }
+  }
+
+  /**
+   * http://localhost:8080/categories/{catIndex}/notes GET
+   */
+  public Collection<Note> getNotes(int categoryIndex) {
+    final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes");
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
         .GET()
@@ -49,11 +87,10 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/notes/{index} GET
+   * http://localhost:8080/categories/{catIndex}/notes/{index} GET
    */
-  public Note getNote(int index) {
-    System.out.println("GET http://localhost:8080/notes/" + index);
-    final URI requestUri = buildRequestUri("/" + index);
+  public Note getNote(int catIndex, int index) {
+    final URI requestUri = buildRequestUri("/" + catIndex + "/notes/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
         .GET()
@@ -69,23 +106,60 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/notes/{index}
-   *
+   * http://localhost:8080/categories/{categoryIndex}/notes/{notes} POST
    * @param note POST
    */
-  public void updateNote(int index, Note note) {
-    System.out.println("POST http://localhost:8080/notes/" + index + "\n\t-> " + note.toString());
-    final URI requestUri = buildRequestUri("/" + index); // baseUrl only
+  void updateNote(int categoryIndex, int index, Note note) {
+    final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes/" + index);
     postNoteRequest(requestUri, note);
   }
 
   /**
-   * http://localhost:8080/notes POST
+   * http://localhost:8080/categories/{categoryIndex}/notes POST
    */
-  public void addNote(Note note) {
-    System.out.println("POST http://localhost:8080/notes\n\t-> " + note.toString());
-    final URI requestUri = buildRequestUri(""); // baseUrl only
+  void addNote(int categoryIndex, Note note) {
+    final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes");
     postNoteRequest(requestUri, note);
+  }
+
+  /**
+   * Helper method for category POST
+   *
+   * @param category to be added
+   */
+  void addCategory(Category category) {
+    final URI requestUri = buildRequestUri("");
+    updateCategory(category, requestUri);
+  }
+
+  /**
+   * Helper method for category POST
+   *
+   * @param category to replace with
+   */
+  void renameCategory(Category category, int index) {
+    final URI requestUri = buildRequestUri("/" + index);
+    updateCategory(category, requestUri);
+  }
+
+  /**
+   *
+   * @param category
+   * @param requestUri
+   */
+  private void updateCategory(Category category, URI requestUri) {
+    final HttpRequest request = HttpRequest.newBuilder(requestUri)
+        .header("Accept", "application/json")
+        .header("Content-Type", "application/json")
+        .POST(BodyPublishers.ofString(noteSerializer.serializeCategoryToString(category)))
+        .build();
+    try {
+      final HttpResponse<InputStream> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofInputStream());
+    } catch (IOException | InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -107,10 +181,24 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/notes/{index} DELETE
+   * http://localhost:8080/{index} DELETE
    */
-  public void removeNote(int index) {
-    System.out.println("DELETE http://localhost:8080/notes/" + index);
+  void removeNote(int categoryIndex, int index) {
+    final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes/" + index);
+    final HttpRequest request = HttpRequest.newBuilder(requestUri)
+        .header("Accept", "application/json")
+        .DELETE()
+        .build();
+    try {
+      final HttpResponse<String> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofString());
+    } catch (IOException | InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  void deleteCategory(int index) {
     final URI requestUri = buildRequestUri("/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -120,9 +208,9 @@ public class NotesDataAccess {
       final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(request, HttpResponse.BodyHandlers.ofString());
-      System.out.println("\t-> Response: " + response.body());
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
   }
+
 }

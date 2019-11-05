@@ -7,23 +7,33 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class Notes implements Iterable<Note> {
+public class Category implements Iterable<Note> {
 
   private List<Note> notes = new ArrayList<>();
+  private String name;
 
   /**
    * The default constructor for creating a Notes object. This
    * will have an empty List of Note's.
    */
-  public Notes() {
+  public Category() {
     // Possible to create an empty object of Notes
+  }
+
+  public Category(String name) {
+    this.name = name;
+  }
+
+  public Category(String name, List<Note> notes) {
+    this.name = name;
+    this.notes = notes;
   }
 
   /**
    * Creates a new Notes object with a List of the given Note(s).
    * @param note The Note or array of Notes to add to the List of Notes.
    */
-  public Notes(Note... note) {
+  public Category(Note... note) {
     addNotes(note);
   }
 
@@ -31,7 +41,7 @@ public class Notes implements Iterable<Note> {
    * Creates a new Note object with a List of the given Note(s).
    * @param notes The collection of Note's to add to the List of Notes.
    */
-  public Notes(Collection<Note> notes) {
+  public Category(Collection<Note> notes) {
     addNotes(notes);
   }
 
@@ -117,6 +127,22 @@ public class Notes implements Iterable<Note> {
   public Note replaceNote(int index, Note note) {
     notes.set(index, note);
     return note;
+  }
+
+  /**
+   * Gets the name of the category
+   * @return name of category
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Sets the name of the category
+   * @param name for category
+   */
+  public void setName(String name) {
+    this.name = name;
   }
 
   @Override

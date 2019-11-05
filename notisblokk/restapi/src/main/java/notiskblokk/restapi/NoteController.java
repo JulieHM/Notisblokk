@@ -1,7 +1,8 @@
 package notiskblokk.restapi;
 
+import java.util.List;
 import notisblokk.core.Note;
-import notisblokk.core.Notes;
+import notisblokk.core.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/notes")
+@RequestMapping("/categories")
 public class NoteController {
 
   @Autowired
@@ -24,29 +25,107 @@ public class NoteController {
   }
 
   @GetMapping(produces = "application/json")
-  public Notes getNotes() {
-    return service.getAllNotes();
+  public ResponseEntity<List<Category>> getCategories() {
+    return ResponseEntity.ok(service.getAllCategories());
   }
 
   /**
-   * Appends a note to the list of notes.
+   * Gets the category at the given index.
+   * @param index of the category.
+   * @return a response entity with status.
+   */
+  @GetMapping(produces = "application/json")
+  @RequestMapping("/{index}")
+  public ResponseEntity<Category> getCategory(@PathVariable int index) {
+    Category categoryFound = service.getCategory(index);
+    if (categoryFound != null) {
+      return ResponseEntity.ok(categoryFound);
+    }
+    return ResponseEntity.notFound().build();
+  }
+
+  /**
+   * Appends a category at the end of the list of categories.
+   * @param category to add.
+   * @return a response entity with status.
    */
   @PostMapping(consumes = "application/json", produces = "application/json")
-  public ResponseEntity<Note> addNote(@RequestBody Note note) {
-    if (service.addNote(note)) {
-      int index = service.getAllNotes().getNumNotes() - 1;
-      return ResponseEntity.ok(service.getNote(index));
+  public ResponseEntity<Category> addCategory(@RequestBody Category category) {
+    if (service.addCategory(category)) {
+      int index = service.getNumCategories() - 1;
+      return ResponseEntity.ok(service.getCategory(index));
     }
     return ResponseEntity.badRequest().build();
   }
 
   /**
-   * Fetches the note at the given index
+   * Deletes the category at the given index.
+   * @param index of the category.
+   * @return a response entity with status.
+   */
+  @DeleteMapping(value = "/{index}")
+  public ResponseEntity<Category> deleteCategory(@PathVariable int index) {
+    if (service.removeCategory(index)) {
+      ResponseEntity.ok(service.getAllCategories());
+    }
+    return ResponseEntity.badRequest().build();
+  }
+
+  /**
+   * Appends a note to a category.
+   */
+  @PostMapping(value = "/{categoryIndex}/notes", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<Note> addNote(@PathVariable int categoryIndex, @RequestBody Note note) {
+    if (service.addNote(categoryIndex, note)) {
+      int index = service.getCategory(categoryIndex).getNumNotes() - 1;
+      return ResponseEntity.ok(service.getNote(categoryIndex, index));
+    }
+    return ResponseEntity.badRequest().build();
+  }
+
+  /**
+   * Fetches the notes from a category.
+   * @param categoryIndex in the notebook.
+   * @return a response entity with status.
    */
   @GetMapping(produces = "application/json")
-  @RequestMapping("/{index}")
-  public ResponseEntity<Note> getNote(@PathVariable int index) {
-    Note noteFound = service.getNote(index);
+  @RequestMapping("/{categoryIndex}/notes")
+  public ResponseEntity<List<Note>> getNotes(@PathVariable int categoryIndex) {
+    try {
+      return ResponseEntity.ok(service.getCategory(categoryIndex).getNotes());
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
+  }
+
+  /**
+   * Replaces the category with a new category. Is called renameCategory,
+   * as that's the only purpose it serves as of now.
+   * @param category with the new name.
+   * @param categoryIndex of the category to be replaced.
+   * @return a response entity with status.
+   */
+  @PostMapping(value = "/{categoryIndex}", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<Category> renameCategory(@RequestBody Category category,
+      @PathVariable int categoryIndex) {
+    if (service.renameCategory(categoryIndex, category)) {
+      int index = service.getNumCategories() - 1;
+      return ResponseEntity.ok(service.getCategory(index));
+    }
+    return ResponseEntity.badRequest().build();
+  }
+
+  /**
+   * Gets a note from a category.
+   * @param categoryIndex index of the category.
+   * @param noteIndex index of the note.
+   * @return a response entity with status.
+   */
+  @GetMapping(produces = "application/json")
+  @RequestMapping("/{categoryIndex}/notes/{noteIndex}")
+  public ResponseEntity<Note> getNote(@PathVariable int categoryIndex,
+      @PathVariable int noteIndex) {
+    Note noteFound = service.getCategory(categoryIndex).getNote(noteIndex);
     if (noteFound != null) {
       return ResponseEntity.ok(noteFound);
     }
@@ -54,26 +133,32 @@ public class NoteController {
   }
 
   /**
-   * Replaces the param note with the current note at the given index
+   * Replaces a note with new note.
+   * @param catIndex index of category in which the note is.
+   * @param index of the note to be replaced.
+   * @param note to replace with.
+   * @return a response entity with status.
    */
-  @PostMapping(value = "/{index}", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<Note> setNote(@PathVariable int index, @RequestBody Note note) {
-    Note noteAtIndex = service.getNote(index);
-    if (noteAtIndex != null) {
-      return ResponseEntity.ok(service.replaceNote(index, note));
+  @PostMapping(value = "/{catIndex}/notes/{index}", consumes = "application/json", produces = "application/json")
+  public ResponseEntity<Note> setNote(@PathVariable int catIndex, @PathVariable int index,
+      @RequestBody Note note) {
+    if (service.replaceNote(catIndex, index, note)) {
+      return ResponseEntity.ok(service.getNote(catIndex, index));
     }
     return ResponseEntity.notFound().build();
   }
 
+
   /**
    * Deletes the note at the given index if found.
    */
-  @DeleteMapping(value = "/{index}")
-  public ResponseEntity<Note> deleteNote(@PathVariable int index) {
-    if (service.removeNote(index)) {
-      ResponseEntity.ok(service.getNote(index));
+  @DeleteMapping(value = "/{catIndex}/notes/{index}")
+  public ResponseEntity<Note> deleteNote(@PathVariable int catIndex, @PathVariable int index) {
+    try {
+      service.getCategory(catIndex).removeNote(index);
+      return ResponseEntity.ok(service.getNote(catIndex, index));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
     }
-    return ResponseEntity.badRequest().build();
   }
-
 }
