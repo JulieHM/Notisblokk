@@ -23,8 +23,8 @@ import notisblokk.core.Note;
  */
 public class FxAppController {
 
-  @FXML
-  private TextField titleField;
+  //@FXML
+  //private TextField titleField;
 
   @FXML
   private HTMLEditor messageField;
@@ -157,7 +157,7 @@ public class FxAppController {
     Note selectedNote = notesDataAccess
         .getNote(activeCategoryIndex, selectedIndex);
     if (selectedNote != null) {
-      titleField.setText(selectedNote.getTitle());
+      //titleField.setText(selectedNote.getTitle());
       messageField.setHtmlText(selectedNote.getMessage());
       noteListView.scrollTo(selectedIndex); // scroll up/down in list view if needed
     }
@@ -186,7 +186,7 @@ public class FxAppController {
   private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getHtmlText());
-    note.setTitle(titleField.getText());
+    //note.setTitle(titleField.getText());
   }
 
   /**
@@ -201,7 +201,7 @@ public class FxAppController {
     if (categories.size() < 1) {
       activeCategory = null;
       noteListView.setItems(null);
-      titleField.setText("");
+      //titleField.setText("");
       messageField.setHtmlText("");
       return;
     }
@@ -231,7 +231,7 @@ public class FxAppController {
     final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
     if (noteArray.size() < 1) {
-      titleField.setText("");
+      //titleField.setText("");
       messageField.setHtmlText("");
       return;
     }
