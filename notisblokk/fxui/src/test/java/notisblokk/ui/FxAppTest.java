@@ -61,9 +61,9 @@ public class FxAppTest extends ApplicationTest {
     Note testNote2 = new Note("Test", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>", LocalDateTime.now(), LocalDateTime.now());
     noteList = new ArrayList<>(List.of(testNote, testNote2));
 
-    when(notesDataAccess.getNote(anyInt()))
+    when(notesDataAccess.getNote(anyInt(), anyInt()))
         .then(invocation -> noteList.get(invocation.getArgument(0)));
-    when(notesDataAccess.getNotes()).then(invocation -> noteList);
+    when(notesDataAccess.getNotes(anyInt())).then(invocation -> noteList);
     controller.setNotesDataAccess(notesDataAccess);
   }
 
