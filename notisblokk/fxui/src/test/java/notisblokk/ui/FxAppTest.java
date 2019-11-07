@@ -100,12 +100,4 @@ public class FxAppTest extends ApplicationTest {
     Assert.assertEquals(noteList.get(0).getMessage(), messageField.getHtmlText());
   }
 
-  /**
-   * Test for checking if the titleField contains the same title as the Note object
-   */
-  @Test
-  public void testTitleField() {
-    final TextField titleField = lookup("#titleField").query();
-    Assert.assertEquals(noteList.get(0).getTitle(), titleField.getText());
-  }
 }
