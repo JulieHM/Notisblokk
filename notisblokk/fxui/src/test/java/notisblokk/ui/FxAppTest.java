@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -79,6 +80,27 @@ public class FxAppTest extends ApplicationTest {
   public void testListView() {
     final ListView<Note> noteListView = lookup("#noteListView").query();
     Assert.assertEquals(noteList, noteListView.getItems());
+  }
+
+  /**
+   * Test for checking that the title is being set correctly
+   */
+  @Test
+  public void testTitle(){
+    final ListView<Note> noteListView = lookup("#noteListView").query();
+    final HTMLEditor messageField = lookup("#messageField").query();
+
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            messageField.setHtmlText("title testtest test");
+          }
+        }
+    );
+    Note note = noteListView.getSelectionModel().getSelectedItem();
+    controller.updateNoteInfo(note);
+    Assert.assertEquals("title", note.getTitle());
   }
 
   /**

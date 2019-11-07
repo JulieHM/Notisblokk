@@ -71,9 +71,9 @@ public class FxAppController {
     }
   }
 
-  public static String getText(String htmlText) {
+  private static String getText(String htmlText) {
 
-    String result = "";
+    String result;
 
     Pattern pattern = Pattern.compile("<[^>]*>");
     Matcher matcher = pattern.matcher(htmlText);
@@ -92,7 +92,7 @@ public class FxAppController {
     return result;
   }
 
-  public String extractTitle(String message) {
+  private String extractTitle(String message) {
     String [] title = getText(message).split(" ");
     return title[0];
   }
@@ -208,7 +208,7 @@ public class FxAppController {
    *
    * @param note The note to be updated.
    */
-  private void updateNoteInfo(Note note) {
+  public void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getHtmlText());
     note.setTitle(extractTitle(messageField.getHtmlText()));
@@ -248,7 +248,7 @@ public class FxAppController {
    *
    * @param selectedIndex The new index to select in the list view
    */
-  private void updateNoteListView(int selectedIndex) {
+  public void updateNoteListView(int selectedIndex) {
     if (categories.size() < 1) {
       return;
     }
