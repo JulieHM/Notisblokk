@@ -1,11 +1,11 @@
 # REST API
 
-This folder contains all the logic for the REST API, which includes POST, GET, PUT and DELETE 
+This folder contains all the logic for the REST API, which includes POST, GET and DELETE 
 mappings (all logic required by the UI), custom error messaging, exception handlers.
 
 **NoteController**: A @RestController that stores methods used by the API to add and receive Notes.
 
-**NoteService**: A @Repository which stores the UI methods, which talks to the UI and Controller.
+**NoteService**: A @Repository class that stores the UI methods and talks to the UI and Controller.
 
 **NotesSpringBootApp**: Initializes the REST API.
 
