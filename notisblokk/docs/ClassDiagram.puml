@@ -1,0 +1,39 @@
+@startuml
+
+skinparam monochrome true
+
+class FxApp
+class FxAppController
+class NotesDataAccess
+class "ListView<Note>" as ListView
+class Category
+class TabSetText
+class TabWithCategory
+class "List<Note>" as notes
+interface Iterable
+class LocalDateTime
+class Note
+class Tab
+
+FxApp --> FxAppController
+
+FxAppController --> ListView: noteListView
+FxAppController --> NotesDataAccess: notesDataAccess
+FxAppController --> Category: activeCategory
+FxAppController --> TabSetText: tabSetText
+
+Tab --|> TabWithCategory
+
+TabWithCategory -> FxAppController: controller
+
+TabSetText --> TabWithCategory: tab
+
+Category --> notes: notes
+Category ..|> Iterable
+
+ListView --> Note
+notes --> Note
+
+Note --> LocalDateTime: lastEditedDate\nlastCreatedDate
+
+@enduml
