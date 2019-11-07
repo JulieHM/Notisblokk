@@ -1,0 +1,18 @@
+@startuml
+
+skinparam monochrome true
+
+User -> FxAppController: Press add new note button\n-> onNewNoteClick
+FxAppController -> NotesDataAccess: addNote
+NotesDataAccess -> NoteController: HTTP POST "categories/0/notes"\n-> addNote
+NoteController -> NoteService: addNote
+NoteService -> NoteService: Add note to notebook
+NoteService -> NoteSerializer: serializeNotebookToLocal
+
+NoteSerializer --> NoteService: True
+NoteService --> NoteController: True
+NoteController --> NotesDataAccess: A note
+FxAppController -> FxAppController: updateNoteListView
+FxAppController --> User: The new note appears
+
+@enduml
