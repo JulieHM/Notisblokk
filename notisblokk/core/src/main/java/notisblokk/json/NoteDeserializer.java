@@ -24,8 +24,9 @@ public class NoteDeserializer {
   }
 
   /**
-   * Deserializes a local notebook. If a list of notes is found instead, a category with those
-   * notes will be created, added to a notebook which is then returned.
+   * Deserializes a local notebook. If a list of notes is found instead, a category with those notes
+   * will be created, added to a notebook which is then returned.
+   *
    * @param path of the local notes
    * @return a notebook with the locally stored categories and notes
    * @throws IOException if path error or similar
@@ -55,10 +56,10 @@ public class NoteDeserializer {
     Note[] notes = gsonDeserializer.fromJson(notesFromString, Note[].class);
     if (notes != null) {
       return Arrays.asList(notes);
+    } else {
+      Note[] notes1 = new Note[]{new Note("Empty note", "")};
+      return Arrays.asList(notes1);
     }
-
-    Note[] notes1 = new Note[]{new Note("Empty note", "")};
-    return Arrays.asList(notes1);
   }
 
   /**
@@ -77,7 +78,6 @@ public class NoteDeserializer {
    * Takes a string in json format, deserializes it and returns it as a note.
    */
   public Note deserializeNoteFromString(String noteFromString) {
-    System.out.println(noteFromString);
     return gsonDeserializer.fromJson(noteFromString, Note.class);
   }
 }

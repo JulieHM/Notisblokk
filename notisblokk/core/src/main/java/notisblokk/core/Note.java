@@ -2,7 +2,7 @@ package notisblokk.core;
 
 import java.time.LocalDateTime;
 
-public class Note implements Comparable<Note> {
+public class Note {
 
   private String title;
   private String message;
@@ -11,9 +11,10 @@ public class Note implements Comparable<Note> {
 
   /**
    * Creates a new Note object with the given parameters.
-   * @param title The title of the Note.
-   * @param message The message of the Note.
-   * @param createdDate the creation date of the Note.
+   *
+   * @param title          The title of the Note.
+   * @param message        The message of the Note.
+   * @param createdDate    the creation date of the Note.
    * @param lastEditedDate the last edited date of the Note.
    */
   public Note(String title, String message, LocalDateTime createdDate,
@@ -25,9 +26,10 @@ public class Note implements Comparable<Note> {
   }
 
   /**
-   * Creates a new Note object with the given parameters. This is mainly used for
-   * new note objects as the creation and last edited date will be auto generated.
-   * @param title The title of the Note.
+   * Creates a new Note object with the given parameters. This is mainly used for new note objects
+   * as the creation and last edited date will be auto generated.
+   *
+   * @param title   The title of the Note.
    * @param message The message of the Note.
    */
   public Note(String title, String message) {
@@ -36,6 +38,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Gets the title of this Note.
+   *
    * @return this Note's title.
    */
   public String getTitle() {
@@ -44,6 +47,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Gets the message of this Note.
+   *
    * @return this Note's message.
    */
   public String getMessage() {
@@ -52,6 +56,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Gets the creation date of this Note.
+   *
    * @return this Note's creation date.
    */
   public LocalDateTime getCreatedDate() {
@@ -60,6 +65,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Changes the title of this Note.
+   *
    * @param title This Note's new title.
    */
   public void setTitle(String title) {
@@ -68,6 +74,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Changes the message of this Note.
+   *
    * @param message This note's new Message.
    */
   public void setMessage(String message) {
@@ -83,6 +90,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Gets the last edited date of this Note.
+   *
    * @return this Note's last edited date.
    */
   public LocalDateTime getLastEditedDate() {
@@ -100,11 +108,6 @@ public class Note implements Comparable<Note> {
   }
 
   @Override
-  public int compareTo(Note note) {
-    return this.getLastEditedDate().compareTo(note.getLastEditedDate());
-  }
-
-  @Override
   public boolean equals(final Object obj) {
     if (this == obj) {
       return true;
@@ -113,8 +116,7 @@ public class Note implements Comparable<Note> {
       return false;
     }
     final Note other = (Note) obj;
-    return (title.equals(other.title) && message.equals(other.message)
-        && lastEditedDate.equals(other.lastEditedDate) && createdDate.equals(other.createdDate));
+    return (title.equals(other.title) && message.equals(other.message) && createdDate
+        .equals(other.createdDate) && lastEditedDate.equals(other.lastEditedDate));
   }
-
 }
