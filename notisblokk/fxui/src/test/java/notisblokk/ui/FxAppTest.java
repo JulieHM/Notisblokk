@@ -1,5 +1,6 @@
 package notisblokk.ui;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -39,6 +41,7 @@ public class FxAppTest extends ApplicationTest {
   private FxAppController controller;
   private NotesDataAccess notesDataAccess = Mockito.mock(NotesDataAccess.class);
   private List<Note> noteList;
+  private List<Category> categoryList = new ArrayList<>();
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -62,10 +65,18 @@ public class FxAppTest extends ApplicationTest {
     Note testNote2 = new Note("Test", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>", LocalDateTime.now(), LocalDateTime.now());
     noteList = new ArrayList<>(List.of(testNote, testNote2));
 
+    Category category = new Category("Test category");
+    category.addNotes(noteList);
+    categoryList.add(category);
+
     when(notesDataAccess.getNote(anyInt(), anyInt()))
         .then(invocation -> noteList.get(invocation.getArgument(0)));
     when(notesDataAccess.getNotes(anyInt())).then(invocation -> noteList);
     controller.setNotesDataAccess(notesDataAccess);
+
+    when(notesDataAccess.getCategory(anyInt())).then(invocation -> category);
+    when(notesDataAccess.getCategories()).then(invocation -> categoryList);
+    when(notesDataAccess.addCategory(any())).then(invocation -> true);
   }
 
   @Test
@@ -103,6 +114,18 @@ public class FxAppTest extends ApplicationTest {
     Assert.assertEquals("title", note.getTitle());
   }
 
+  @Test
+  public void testTitle2() {
+    final ListView<Note> noteListView = lookup("#noteListView").query();
+
+    clickOn("#newNote");
+    clickOn("#messageField").write("title testtest test");
+    clickOn("#saveNoteButton");
+
+    Note selectedNote = noteListView.getSelectionModel().getSelectedItem();
+    Assert.assertEquals("title", selectedNote.getTitle());
+  }
+
   /**
    * Test for checking if the top element in listView is selected
    */
@@ -121,4 +144,10 @@ public class FxAppTest extends ApplicationTest {
     Assert.assertEquals(noteList.get(0).getMessage(), messageField.getHtmlText());
   }
 
+  @Test
+  public void testNewNoteButtonPress() {
+    clickOn("#newNote");
+    final ListView<Note> noteListView = lookup("#noteListView").query();
+    Assert.assertEquals(3, noteListView.getItems().size());
+  }
 }

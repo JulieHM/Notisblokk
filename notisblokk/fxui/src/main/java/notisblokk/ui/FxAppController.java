@@ -2,9 +2,9 @@ package notisblokk.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,9 +13,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import notisblokk.core.Category;
 import javafx.scene.control.ToolBar;
 import javafx.scene.web.HTMLEditor;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
 
 /**
@@ -93,7 +93,7 @@ public class FxAppController {
   }
 
   private String extractTitle(String message) {
-    String [] title = getText(message).split(" ");
+    String[] title = getText(message).split(" ");
     return title[0];
   }
 
@@ -124,10 +124,12 @@ public class FxAppController {
    */
   @FXML
   public void onNewNoteClick() {
+    System.out.println("ON NEW NOTE CLICK");
     if (activeCategory == null) {
       messageField.setHtmlText("A category is needed to create a note.");
       return;
     }
+    System.out.println("PAST RETURN");
     Note note = new Note("New note", "");
     notesDataAccess.addNote(activeCategoryIndex, note);
     int index = noteListView.getItems().size(); // current size will be the new index
@@ -169,7 +171,7 @@ public class FxAppController {
    * Renames the given category with the new name
    *
    * @param category category to be renamed
-   * @param newName  new name
+   * @param newName new name
    */
   public void renameCategory(Category category, String newName) {
     notesDataAccess.renameCategory(category, activeCategoryIndex);
@@ -189,18 +191,24 @@ public class FxAppController {
   }
 
   private void initTabView() {
+    System.out.println("INIT TAB BEFORE");
     categoryTabPane.getSelectionModel().selectedItemProperty().addListener(
         (observableValue, tab, t1) -> {
+          System.out.println("INSIDE BLOCK");
           Category tempCategory;
           try {
+            System.out.println("TRY INIT TAB");
             tempCategory = ((TabWithCategory) t1).getCategory();
           } catch (NullPointerException e) {
+            System.out.println("CATCH INIT TAB");
             return;
           }
+          System.out.println("AFTER TRY-CATCH INIT TAB VIEW");
           activeCategoryIndex = categories.indexOf(tempCategory);
           activeCategory = notesDataAccess.getCategory(activeCategoryIndex);
           updateNoteListView(0);
         });
+    System.out.println("INIT TAB AFTER");
   }
 
   /**
@@ -216,10 +224,9 @@ public class FxAppController {
 
   /**
    * Updates the tab pane with new category-tabs.
-   *
-   * @param newCategory
    */
   private void updateCategoryTabView(boolean newCategory) {
+    System.out.println("UPDATE CAT TAB VIEW");
     categoryTabPane.getTabs().clear();
     categories = ((List<Category>) notesDataAccess.getCategories());
 

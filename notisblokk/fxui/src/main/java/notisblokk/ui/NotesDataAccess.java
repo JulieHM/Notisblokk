@@ -127,9 +127,10 @@ public class NotesDataAccess {
    *
    * @param category to be added
    */
-  void addCategory(Category category) {
+  boolean addCategory(Category category) {
     final URI requestUri = buildRequestUri("");
     updateCategory(category, requestUri);
+    return true;
   }
 
   /**
