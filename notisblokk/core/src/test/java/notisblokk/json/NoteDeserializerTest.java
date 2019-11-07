@@ -50,6 +50,15 @@ public class NoteDeserializerTest {
     Assert.assertEquals(notes, notesFromJson);
   }
 
+  @Test
+  public void testDeserializeFaultyNotesFromString() {
+    Note fallBackNote = new Note("Empty note", "");
+    String notesAsString = "{This is a note[]}";
+    List<Note> notes = noteDeserializer.deserializeNotesFromString(notesAsString);
+    Assert.assertEquals(fallBackNote.getTitle(), notes.get(0).getTitle());
+    Assert.assertEquals(fallBackNote.getMessage(), notes.get(0).getMessage());
+  }
+
   /**
    * Tests deserialization of a single note into a note object.
    */
@@ -143,4 +152,129 @@ public class NoteDeserializerTest {
     notes.add(new Note("Note 2", "Note 2"));
     return notes;
   }
+
+  @Test
+  public void testDeserializeCategoryFromString() {
+    Category category = new Category("New category");
+
+    String categoryAsString = noteSerializer.serializeCategoryToString(category);
+
+    Category deserializedCategory = noteDeserializer
+        .deserializeCategoryFromString(categoryAsString);
+
+    Assert.assertEquals(category.getName(), deserializedCategory.getName());
+    Assert.assertEquals(0, deserializedCategory.getNumNotes());
+  }
+
+  @Test
+  public void testDeserializeCategoriesFromString() {
+    String categoriesAsString = "[\n"
+        + "  {\n"
+        + "    \"notes\": [\n"
+        + "      {\n"
+        + "        \"title\": \"Empty note\",\n"
+        + "        \"message\": \"\\u003chtml dir\\u003d\\\"ltr\\\"\\u003e\\u003chead\\u003e\\u003c/head\\u003e\\u003cbody contenteditable\\u003d\\\"true\\\"\\u003e\\u003cp\\u003eqeweq2 wer ewf\\u0026nbsp;\\u003c/p\\u003e\\u003c/body\\u003e\\u003c/html\\u003e\",\n"
+        + "        \"lastEditedDate\": {\n"
+        + "          \"date\": {\n"
+        + "            \"year\": 2019,\n"
+        + "            \"month\": 11,\n"
+        + "            \"day\": 6\n"
+        + "          },\n"
+        + "          \"time\": {\n"
+        + "            \"hour\": 16,\n"
+        + "            \"minute\": 39,\n"
+        + "            \"second\": 36,\n"
+        + "            \"nano\": 211704100\n"
+        + "          }\n"
+        + "        },\n"
+        + "        \"createdDate\": {\n"
+        + "          \"date\": {\n"
+        + "            \"year\": 2019,\n"
+        + "            \"month\": 11,\n"
+        + "            \"day\": 6\n"
+        + "          },\n"
+        + "          \"time\": {\n"
+        + "            \"hour\": 16,\n"
+        + "            \"minute\": 39,\n"
+        + "            \"second\": 18,\n"
+        + "            \"nano\": 161582700\n"
+        + "          }\n"
+        + "        }\n"
+        + "      },\n"
+        + "      {\n"
+        + "        \"title\": \"New note\",\n"
+        + "        \"message\": \"\\u003chtml dir\\u003d\\\"ltr\\\"\\u003e\\u003chead\\u003e\\u003c/head\\u003e\\u003cbody contenteditable\\u003d\\\"true\\\"\\u003e\\u003cp\\u003ewe werwe rw\\u003c/p\\u003e\\u003cp\\u003eer wero we\\u003c/p\\u003e\\u003cp\\u003erowero w\\u003c/p\\u003e\\u003c/body\\u003e\\u003c/html\\u003e\",\n"
+        + "        \"lastEditedDate\": {\n"
+        + "          \"date\": {\n"
+        + "            \"year\": 2019,\n"
+        + "            \"month\": 11,\n"
+        + "            \"day\": 6\n"
+        + "          },\n"
+        + "          \"time\": {\n"
+        + "            \"hour\": 16,\n"
+        + "            \"minute\": 39,\n"
+        + "            \"second\": 44,\n"
+        + "            \"nano\": 842301300\n"
+        + "          }\n"
+        + "        },\n"
+        + "        \"createdDate\": {\n"
+        + "          \"date\": {\n"
+        + "            \"year\": 2019,\n"
+        + "            \"month\": 11,\n"
+        + "            \"day\": 6\n"
+        + "          },\n"
+        + "          \"time\": {\n"
+        + "            \"hour\": 16,\n"
+        + "            \"minute\": 39,\n"
+        + "            \"second\": 37,\n"
+        + "            \"nano\": 673753800\n"
+        + "          }\n"
+        + "        }\n"
+        + "      }\n"
+        + "    ],\n"
+        + "    \"name\": \"qweqwe\"\n"
+        + "  },\n"
+        + "  {\n"
+        + "    \"notes\": [\n"
+        + "      {\n"
+        + "        \"title\": \"Empty note\",\n"
+        + "        \"message\": \"\",\n"
+        + "        \"lastEditedDate\": {\n"
+        + "          \"date\": {\n"
+        + "            \"year\": 2019,\n"
+        + "            \"month\": 11,\n"
+        + "            \"day\": 6\n"
+        + "          },\n"
+        + "          \"time\": {\n"
+        + "            \"hour\": 16,\n"
+        + "            \"minute\": 39,\n"
+        + "            \"second\": 45,\n"
+        + "            \"nano\": 586187700\n"
+        + "          }\n"
+        + "        },\n"
+        + "        \"createdDate\": {\n"
+        + "          \"date\": {\n"
+        + "            \"year\": 2019,\n"
+        + "            \"month\": 11,\n"
+        + "            \"day\": 6\n"
+        + "          },\n"
+        + "          \"time\": {\n"
+        + "            \"hour\": 16,\n"
+        + "            \"minute\": 39,\n"
+        + "            \"second\": 45,\n"
+        + "            \"nano\": 586187700\n"
+        + "          }\n"
+        + "        }\n"
+        + "      }\n"
+        + "    ],\n"
+        + "    \"name\": \"New category\"\n"
+        + "  }\n"
+        + "]\n";
+    List<Category> categoryList = noteDeserializer
+        .deserializeCategoriesFromString(categoriesAsString);
+    Assert.assertEquals(2, categoryList.size());
+    Assert.assertEquals("qweqwe", categoryList.get(0).getName());
+    Assert.assertEquals(2, categoryList.get(0).getNumNotes());
+  }
+
 }

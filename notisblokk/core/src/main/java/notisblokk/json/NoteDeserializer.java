@@ -53,10 +53,11 @@ public class NoteDeserializer {
    * Takes a string in json format, and deserializes into notes.
    */
   public List<Note> deserializeNotesFromString(String notesFromString) {
-    Note[] notes = gsonDeserializer.fromJson(notesFromString, Note[].class);
-    if (notes != null) {
+    Note[] notes;
+    try {
+      notes = gsonDeserializer.fromJson(notesFromString, Note[].class);
       return Arrays.asList(notes);
-    } else {
+    }catch(Exception e){
       Note[] notes1 = new Note[]{new Note("Empty note", "")};
       return Arrays.asList(notes1);
     }
