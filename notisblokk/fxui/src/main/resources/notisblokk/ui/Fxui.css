@@ -16,7 +16,7 @@
 
 #noteListView {
   -fx-pref-height: 368.0;
-  -fx-pref-width: 100.0;
+  -fx-pref-width: 164.0;
 }
 
 #categoryTabPane {
@@ -25,16 +25,16 @@
 }
 
 #messageField {
-  -fx-pref-height: 446.0;
-  -fx-pref-width: 592.0;
+  -fx-pref-height: 445.0;
+  -fx-pref-width: 649.0;
 }
 
 #newCategory {
-  -fx-pref-height: 25.0;
-  -fx-pref-width: 100.0;
+  -fx-pref-height: 27.0;
+  -fx-pref-width: 140.0;
 }
 
 #newNote {
   -fx-pref-height: 27.0;
-  -fx-pref-width: 100.0;
+  -fx-pref-width: 140.0;
 }

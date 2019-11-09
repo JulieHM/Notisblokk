@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 import notisblokk.core.Note;
@@ -58,8 +57,12 @@ public class FxAppTest extends ApplicationTest {
   }
 
   private void setupNotes() {   //vil hente savedNotes
-    Note testNote = new Note("Test123", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test123</body></html>", LocalDateTime.now(), LocalDateTime.now());
-    Note testNote2 = new Note("Test", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>", LocalDateTime.now(), LocalDateTime.now());
+    Note testNote = new Note("Test123",
+        "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test123</body></html>",
+        LocalDateTime.now(), LocalDateTime.now());
+    Note testNote2 = new Note("Test",
+        "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>",
+        LocalDateTime.now(), LocalDateTime.now());
     noteList = new ArrayList<>(List.of(testNote, testNote2));
 
     when(notesDataAccess.getNote(anyInt(), anyInt()))
@@ -99,5 +102,6 @@ public class FxAppTest extends ApplicationTest {
     final HTMLEditor messageField = lookup("#messageField").query();
     Assert.assertEquals(noteList.get(0).getMessage(), messageField.getHtmlText());
   }
-
 }
+
+
