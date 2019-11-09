@@ -49,23 +49,23 @@ public class NoteService {
   }
 
   /**
-   * Returns all notes
+   * Returns all notes.
    */
   public List<Note> getAllNotes(int categoryIndex) {
     return notebook.getCategory(categoryIndex).getNotes();
   }
 
   /**
-   * Returns all categories
+   * Returns all categories.
    */
   public List<Category> getAllCategories() {
     return notebook.getCategories();
   }
 
   /**
-   * Gets the number of categories in the notebook
+   * Gets the number of categories in the notebook.
    *
-   * @return
+   * @return number of categories in the notebook
    */
   public int getNumCategories() {
     return notebook.getCategories().size();
@@ -83,10 +83,10 @@ public class NoteService {
   }
 
   /**
-   * Adds a notebook.getActiveCategory() to the notebook
+   * Adds a notebook.getActiveCategory() to the notebook.
    *
-   * @param category
-   * @return
+   * @param category to be added
+   * @return true if action is done
    */
   public boolean addCategory(Category category) {
     try {
@@ -110,10 +110,10 @@ public class NoteService {
   }
 
   /**
-   * Gets the category at the given index
+   * Gets the category at the given index.
    *
-   * @param index
-   * @return
+   * @param index of the category
+   * @return true if action is done
    */
   public Category getCategory(int index) {
     try {
@@ -137,10 +137,10 @@ public class NoteService {
   }
 
   /**
-   * Renames the active notebook.getActiveCategory()
+   * Renames the active notebook.getActiveCategory().
    *
    * @param category new category
-   * @return
+   * @return true if the action is done
    */
   public boolean renameCategory(int categoryIndex, Category category) {
     try {
@@ -167,10 +167,10 @@ public class NoteService {
   }
 
   /**
-   * Deletes a notebook.getActiveCategory() =)
+   * Deletes a notebook.getActiveCategory() =).
    *
-   * @param index
-   * @return
+   * @param index of the category to be removed
+   * @return true if the action is done.
    */
   public boolean removeCategory(int index) {
     try {

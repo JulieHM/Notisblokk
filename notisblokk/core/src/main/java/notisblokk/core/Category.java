@@ -20,10 +20,17 @@ public class Category implements Iterable<Note> {
     // Possible to create an empty object of Notes
   }
 
+  /**
+   * The constructor for creating a Notes object with a name.
+   */
   public Category(String name) {
     this.name = name;
   }
 
+  /**
+   * The constructor for creating a Notes object with both a name,
+   * and list of notes.
+   */
   public Category(String name, List<Note> notes) {
     this.name = name;
     this.notes = notes;
@@ -124,22 +131,26 @@ public class Category implements Iterable<Note> {
     notes.sort(Collections.reverseOrder());
   }
 
+  /**
+   * Replaces current noteindex in notes to a new note.
+   * @return replaced note.
+   */
   public Note replaceNote(int index, Note note) {
     notes.set(index, note);
     return note;
   }
 
   /**
-   * Gets the name of the category
-   * @return name of category
+   * Gets the name of the category.
+   * @return name of category.
    */
   public String getName() {
     return name;
   }
 
   /**
-   * Sets the name of the category
-   * @param name for category
+   * Sets the name of the category.
+   * @param name for category.
    */
   public void setName(String name) {
     this.name = name;

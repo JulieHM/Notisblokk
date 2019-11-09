@@ -45,6 +45,13 @@ public class NoteSerializer {
     }
   }
 
+  /**
+   * Takes in a notebook and serializes it to a notisblokk.json-formatted string and saves
+   * it locally.
+   *
+   * @param notebook list of all categories
+   * @return true if the action was completed
+   */
   public boolean serializeNotebookToLocal(Notebook notebook, String path)
       throws IOException {
     String json = gsonSerializer.toJson(notebook);
@@ -70,7 +77,10 @@ public class NoteSerializer {
     return gsonSerializer.toJson(noteList);
   }
 
-  public String serializeCategoryToString(Category category){
+  /**
+   * Returns a category as a string.
+   */
+  public String serializeCategoryToString(Category category) {
     return gsonSerializer.toJson(category);
   }
 

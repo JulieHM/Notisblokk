@@ -7,29 +7,32 @@ public class Notebook {
 
   private List<Category> categories = new ArrayList<>();
 
+  /**
+   * Empty constructor.
+   */
   public Notebook() {
   }
 
   /**
-   * Default constructor
+   * Default constructor.
    *
-   * @param categories to initialize notebook with
+   * @param categories to initialize notebook with.
    */
   public Notebook(List<Category> categories) {
     this.categories = categories;
   }
 
   /**
-   * Add a category to the notebook
+   * Add a category to the notebook.
    *
-   * @param category
+   * @param category to be added
    */
   public void addCategory(Category category) {
     this.categories.add(category);
   }
 
   /**
-   * Gets all the categories in the Notebook
+   * Gets all the categories in the Notebook.
    *
    * @return all categories
    */
@@ -38,7 +41,7 @@ public class Notebook {
   }
 
   /**
-   * Gets a specific category from the notebook
+   * Gets a specific category from the notebook.
    *
    * @param index of the category in the list
    * @return the category at the index
@@ -48,7 +51,7 @@ public class Notebook {
   }
 
   /**
-   * Removes the category at the index of the list
+   * Removes the category at the index of the list.
    *
    * @param index of the category
    */
