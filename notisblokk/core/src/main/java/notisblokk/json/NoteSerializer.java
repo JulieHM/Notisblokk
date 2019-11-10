@@ -1,10 +1,15 @@
 package notisblokk.json;
 
 import com.google.gson.Gson;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import notisblokk.core.Category;
 import notisblokk.core.Note;
@@ -36,7 +41,8 @@ public class NoteSerializer {
       file.getParentFile().mkdirs();
     }
 
-    try (FileWriter writer = new FileWriter(new File(path))) {
+    try (Writer writer = new OutputStreamWriter(
+        new FileOutputStream(file), StandardCharsets.UTF_8)) {
       writer.write(json);
       return true;
     } catch (FileNotFoundException e) {
@@ -54,7 +60,8 @@ public class NoteSerializer {
       file.getParentFile().mkdirs();
     }
 
-    try (FileWriter writer = new FileWriter(new File(path))) {
+    try (Writer writer = new OutputStreamWriter(
+        new FileOutputStream(file), StandardCharsets.UTF_8)) {
       writer.write(json);
       return true;
     } catch (FileNotFoundException e) {
