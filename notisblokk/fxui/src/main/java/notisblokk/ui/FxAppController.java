@@ -11,11 +11,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.control.TextField;
 import notisblokk.core.Category;
 import javafx.scene.control.ToolBar;
 import javafx.scene.web.HTMLEditor;
 import notisblokk.core.Note;
+
 
 /**
  * FxAppController is communicating with the server through REST API. All data displayed in the GUI
