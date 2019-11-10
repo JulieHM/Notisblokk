@@ -16,6 +16,7 @@ import javafx.scene.web.HTMLEditor;
 import notisblokk.core.Category;
 import notisblokk.core.Note;
 
+
 /**
  * FxAppController is communicating with the server through REST API. All data displayed in the GUI
  * is controlled by the API.
