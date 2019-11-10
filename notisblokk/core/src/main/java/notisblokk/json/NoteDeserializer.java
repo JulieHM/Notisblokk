@@ -56,19 +56,21 @@ public class NoteDeserializer {
     if (notes != null) {
       return Arrays.asList(notes);
     }
-
     Note[] notes1 = new Note[]{new Note("Empty note", "")};
     return Arrays.asList(notes1);
   }
 
   /**
-   * Takes a string in json format and deserializes into categories
+   * Takes a string in json format and deserializes into categories.
    */
   public List<Category> deserializeCategoriesFromString(String categoriesFromString) {
     Category[] categories = gsonDeserializer.fromJson(categoriesFromString, Category[].class);
     return Arrays.asList(categories);
   }
 
+  /**
+   * Takes a string in json format, and deserializes into category.
+   */
   public Category deserializeCategoryFromString(String categoryFromString) {
     return gsonDeserializer.fromJson(categoryFromString, Category.class);
   }

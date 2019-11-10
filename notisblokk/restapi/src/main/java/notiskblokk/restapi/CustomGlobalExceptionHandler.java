@@ -14,9 +14,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
   /**
    * Custom error response created if RestNoteNotFoundException is thrown.
    *
-   * @param ex
-   * @param request
-   * @return
+   * @param ex exception that is thrown
+   * @param request webrequest
    */
   @ExceptionHandler(RestNoteNotFoundException.class)
   public ResponseEntity<CustomErrorResponse> customHandleNotFound(Exception ex,

@@ -22,6 +22,9 @@ import org.testfx.framework.junit.ApplicationTest;
 
 public class FxAppTest extends ApplicationTest {
 
+  /**
+   * Setup for how tests will show.
+   */
   @BeforeClass
   public static void headless() {
     if (Boolean.parseBoolean(System.getProperty("gitlab-ci", "false"))) {
@@ -58,7 +61,8 @@ public class FxAppTest extends ApplicationTest {
 
   private void setupNotes() {   //vil hente savedNotes
     Note testNote = new Note("Test123",
-        "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test123</body></html>",
+        "<html dir=\"ltr\"><head></head><body "
+            + "contenteditable=\"true\">Test123</body></html>",
         LocalDateTime.now(), LocalDateTime.now());
     Note testNote2 = new Note("Test",
         "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>",
@@ -77,7 +81,7 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Tests that noteListView contains the same elements as noteList
+   * Tests that noteListView contains the same elements as noteList.
    */
   @Test
   public void testListView() {
@@ -86,7 +90,7 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Test for checking if the top element in listView is selected
+   * Test for checking if the top element in listView is selected.
    */
   @Test
   public void testSelected() {
@@ -95,7 +99,7 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Test for checking if the messageField contains the same message as the Note object
+   * Test for checking if the messageField contains the same message as the Note object.
    */
   @Test
   public void testMessageField() {  //tester å legge til note
