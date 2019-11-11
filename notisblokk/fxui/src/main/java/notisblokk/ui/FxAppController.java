@@ -208,7 +208,7 @@ public class FxAppController {
    *
    * @param note The note to be updated.
    */
-  public void updateNoteInfo(Note note) {
+  private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getHtmlText());
     note.setTitle(extractTitle(messageField.getHtmlText()));
@@ -248,7 +248,7 @@ public class FxAppController {
    *
    * @param selectedIndex The new index to select in the list view
    */
-  public void updateNoteListView(int selectedIndex) {
+  private void updateNoteListView(int selectedIndex) {
     if (categories.size() < 1) {
       return;
     }
@@ -265,7 +265,7 @@ public class FxAppController {
     displaySelectedNote();
   }
 
-  public void setActiveCategory(Category category) {
+  void setActiveCategory(Category category) {
     this.activeCategory = category;
   }
 

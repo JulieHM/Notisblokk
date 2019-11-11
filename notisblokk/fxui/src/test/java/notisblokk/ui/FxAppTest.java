@@ -129,19 +129,13 @@ public class FxAppTest extends ApplicationTest {
   @Test
   public void testTitle(){
     final ListView<Note> noteListView = lookup("#noteListView").query();
-    final HTMLEditor messageField = lookup("#messageField").query();
 
-    Platform.runLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            messageField.setHtmlText("title testtest test");
-          }
-        }
-    );
-    Note note = noteListView.getSelectionModel().getSelectedItem();
-    controller.updateNoteInfo(note);
-    Assert.assertEquals("title", note.getTitle());
+    clickOn("#newNote");
+    clickOn("#messageField").write("title testtest test");
+    clickOn("#saveNoteButton");
+
+    Note selectedNote = noteListView.getSelectionModel().getSelectedItem();
+    Assert.assertEquals("title", selectedNote.getTitle());
   }
 
   /**
