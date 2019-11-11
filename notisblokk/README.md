@@ -20,6 +20,15 @@ separate Gradle sub-projects.
 - ***fxui***/src/main/java - All GUI parts
 - ***restapi***/src/main/java - Spring boot server running a REST API
 
+### Package diagram
+![Image displaying the sequence diagram of adding a new note](docs/PackageDiagram.png)
+
+### Sequence diagram of adding a new note
+![Image displaying the sequence diagram of adding a new note](docs/AddNewNoteSequenze.png)
+
+### Class diagram
+![Image displaying the sequence diagram of adding a new note](docs/ClassDiagram.png)
+
 ### User Story
 We are actively using Issues and Milestones in GitLab to track our progress and tasks that
 need to be completed. This is also where we keep most of our user stories.
