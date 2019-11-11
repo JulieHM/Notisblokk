@@ -3,9 +3,13 @@ This application was made as the first part of a group project.
 We decided to create a diary-type application, in which the user can scribble notes,
 save them, and open them at a later time.
 
-GUI in Deliverable 1          |  GUI in Deliverable 2: Updated to include a delete button
+GUI in Deliverable 1          |  GUI in Deliverable 2: Updated to include a delete button 
 :-------------------------:|:-------------------------:
-![Image of the graphical user interface of the application.](docs/Notisblokk.png)  |  ![Image of the graphical user interface of the application with deletebutton.](docs/Notisblokk_D2.png)
+![Image of the graphical user interface of the application.](docs/Notisblokk.png)  |  ![Image of the graphical user interface with new category feature and overall UI overhaul.](docs/Notisblokk_D2.png)
+
+GUI in Deliverable 3: Category and text editor implementation, as well as UI overhaul|
+:--------------------------:
+![Image of the graphical user interface with category and text editor implementation, as well as UI overhaul.](docs/Notisblokk_D3.png) |
 
 
 # Overview 
@@ -29,6 +33,12 @@ Week 4: In deliverable 2, we decided to work on one more user story: `I want to 
 
 For delivery 2, we decided to divide ourselves into two groups. Thomas and Karl Petter worked on the Rest API part, while Julie and Benedicte worked on the GUI. We worked mostly by pair programming. In the final week before delivery, we switched up the groups, so all groupmembers could learn both how the backend and the frontend in our app works. 
 
+### Deliverable 3 workflow
+
+We approached delivery in the same way as delivery 2, focusing on pair programming. This time, we
+split the groups into Thomas and Benedicte for the text editor and CI implementation on Gitlab, while
+Julie and Karl Petter worked on the implementation of categories.
+
 # Quickstart: Build and run
 
 The project is built and run with Gradle following these steps:
@@ -44,7 +54,7 @@ $ ./gradlew clean build
 ```
 4. Start the backend Spring Boot server
 ```bash
-$ ./gradew bootRun
+$ ./gradlew bootRun
 ```
 5. Start the frontend FX application (*depends on Spring Boot*)
 ```bash
