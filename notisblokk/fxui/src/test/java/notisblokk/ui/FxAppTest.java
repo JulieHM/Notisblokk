@@ -2,6 +2,8 @@ package notisblokk.ui;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -22,6 +24,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.testfx.framework.junit.ApplicationTest;
 
 public class FxAppTest extends ApplicationTest {
@@ -41,7 +45,6 @@ public class FxAppTest extends ApplicationTest {
 
   private FxAppController controller;
   private NotesDataAccess notesDataAccess = Mockito.mock(NotesDataAccess.class);
-  private List<Note> noteList;
   private List<Category> categoryList = new ArrayList<>();
 
   @Override
@@ -62,30 +65,29 @@ public class FxAppTest extends ApplicationTest {
   }
 
   private void setupNotes() {   //vil hente savedNotes
-    System.out.println("SETUP NOTES");
-    String categoriesApiResponse = "[{\"notes\":[{\"title\":\"Test123\",\"message\":\"\\u003chtml dir\\u003d\\\"ltr\\\"\\u003e\\u003chead\\u003e\\u003c/head\\u003e\\u003cbody contenteditable\\u003d\\\"true\\\"\\u003e\\u003cp\\u003eTest123\\u003c/p\\u003e\\u003c/body\\u003e\\u003c/html\\u003e\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":15,\"minute\":33,\"second\":43,\"nano\":953820700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":15,\"minute\":32,\"second\":49,\"nano\":975265100}}},{\"title\":\"Test\",\"message\":\"\\u003chtml dir\\u003d\\\"ltr\\\"\\u003e\\u003chead\\u003e\\u003c/head\\u003e\\u003cbody contenteditable\\u003d\\\"true\\\"\\u003e\\u003cp\\u003eTest\\u003c/p\\u003e\\u003c/body\\u003e\\u003c/html\\u003e\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":15,\"minute\":33,\"second\":57,\"nano\":262255700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":15,\"minute\":33,\"second\":44,\"nano\":835342900}}},{\"title\":\"New note\",\"message\":\"\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":16,\"minute\":29,\"second\":50,\"nano\":572904700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":16,\"minute\":29,\"second\":50,\"nano\":571906000}}}],\"name\":\"Test category\"}]";
-
     Note testNote = new Note("Test123", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test123</body></html>", LocalDateTime.now(), LocalDateTime.now());
     Note testNote2 = new Note("Test", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>", LocalDateTime.now(), LocalDateTime.now());
-    noteList = new ArrayList<>(List.of(testNote, testNote2));
 
     Category category = new Category("Test category");
-    category.addNotes(noteList);
+    category.addNotes(testNote, testNote2);
     categoryList.add(category);
 
-    NoteDeserializer noteDeserializer = new NoteDeserializer();
-    List<Category> catList = noteDeserializer.deserializeCategoriesFromString(categoriesApiResponse);
-
     when(notesDataAccess.getNote(anyInt(), anyInt()))
-        .then(invocation -> noteList.get(invocation.getArgument(0)));
-    when(notesDataAccess.getNotes(anyInt())).then(invocation -> noteList);
+        .then(invocation -> category.getNote(invocation.getArgument(1)));
+    when(notesDataAccess.getNotes(anyInt())).then(invocation -> category.getNotes());
 
-    when(notesDataAccess.getCategories()).then(invocation -> catList);
-    when(notesDataAccess.getCategory(anyInt())).then(invocation -> catList.get(0));
+    doAnswer(new Answer() {
+      public Object answer(InvocationOnMock invocation) {
+        category.addNote(new Note("", ""));
+        System.out.println("NUM NOTES: " + category.getNumNotes());
+        return true;
+      }}).when(notesDataAccess).addNote(anyInt(), any(Note.class));
+
+    when(notesDataAccess.getCategories()).then(invocation -> categoryList);
+    when(notesDataAccess.getCategory(anyInt())).then(invocation -> category);
     when(notesDataAccess.addCategory(any())).then(invocation -> true);
 
     controller.setNotesDataAccess(notesDataAccess);
-    controller.printDebug();
   }
 
   @Test
@@ -99,7 +101,7 @@ public class FxAppTest extends ApplicationTest {
   @Test
   public void testListView() {
     final ListView<Note> noteListView = lookup("#noteListView").query();
-    Assert.assertEquals(noteList, noteListView.getItems());
+    Assert.assertEquals(categoryList.get(0).getNotes(), noteListView.getItems());
   }
 
   /**
@@ -150,7 +152,7 @@ public class FxAppTest extends ApplicationTest {
   @Test
   public void testMessageField() {  //tester å legge til note
     final HTMLEditor messageField = lookup("#messageField").query();
-    Assert.assertEquals(noteList.get(0).getMessage(), messageField.getHtmlText());
+    Assert.assertEquals(categoryList.get(0).getNote(0).getMessage(), messageField.getHtmlText());
   }
 
   @Test

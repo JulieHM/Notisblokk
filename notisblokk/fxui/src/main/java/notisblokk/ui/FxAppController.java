@@ -124,6 +124,7 @@ public class FxAppController {
    */
   @FXML
   public void onNewNoteClick() {
+    System.out.println("NEW NOTE CLICK");
     if (activeCategory == null) {
       messageField.setHtmlText("A category is needed to create a note.");
       return;
@@ -131,15 +132,16 @@ public class FxAppController {
     Note note = new Note("New note", "");
     notesDataAccess.addNote(activeCategoryIndex, note);
     int index = noteListView.getItems().size(); // current size will be the new index
+    System.out.println("NEW INDEX: " + index);
     updateNoteListView(index);
   }
-
 
   /**
    * Event Handler for the Save button.
    */
   @FXML
   private void onSaveClick() {
+    System.out.println("ON SAVE CLICK");
     int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
     Note selectedNote = notesDataAccess.getNote(activeCategoryIndex,
         selectedIndex);
@@ -251,6 +253,7 @@ public class FxAppController {
       return;
     }
     final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
+    System.out.println("NOTE ARRAY SIZE: " + noteArray.size());
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
     if (noteArray.size() < 1) {
       messageField.setHtmlText("");
@@ -274,13 +277,5 @@ public class FxAppController {
     this.notesDataAccess = notesDataAccess;
     initTabView();
     updateCategoryTabView(false);
-  }
-
-  public void printDebug() {
-    System.out.println("__DEBUG__");
-    System.out.println("categories size:" + categories.size());
-    System.out.println("categories: " + categories.toString());
-    System.out.println("active category: " + activeCategory.toString());
-    System.out.println("active category index: " + activeCategoryIndex);
   }
 }
