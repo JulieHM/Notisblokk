@@ -58,4 +58,16 @@ public class NotebookTest {
     Assert.assertEquals(catList, notebook.getCategories());
   }
 
+  /**
+   * Tests the removal of categories inside a notebook.
+   */
+  @Test
+  public void testRemoveCategory(){
+    Category cat1 = new Category("cat 1");
+    notebook.addCategory(cat1);
+    Assert.assertEquals(cat1, notebook.getCategory(0));
+    notebook.removeCategory(0);
+    Assert.assertEquals(0, notebook.getCategories().size());
+  }
+
 }

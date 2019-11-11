@@ -44,7 +44,6 @@ public class NoteSerializer {
       writer.write(json);
       return true;
     } catch (FileNotFoundException e) {
-      System.err.println("FileNotFound");
       return false;
     }
   }
@@ -70,7 +69,6 @@ public class NoteSerializer {
       writer.write(json);
       return true;
     } catch (FileNotFoundException e) {
-      System.err.println("FileNotFound");
       return false;
     }
   }

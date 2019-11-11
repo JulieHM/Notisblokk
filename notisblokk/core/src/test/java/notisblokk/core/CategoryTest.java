@@ -1,6 +1,12 @@
 package notisblokk.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,6 +41,51 @@ public class CategoryTest {
     Assert.assertEquals(1, category.getNumNotes());
     category.addNote(new Note("other title", "other msg"));
     Assert.assertEquals(2, category.getNumNotes());
+  }
+
+  @Test
+  public void testStringListConstructor() {
+    String name = "Test name";
+    Note note1 = new Note("Note 1", "Note 1");
+    Note note2 = new Note("Note 2", "Note 2");
+    List<Note> noteList = new ArrayList<>();
+    noteList.add(note1);
+    noteList.add(note2);
+    Category category = new Category(name, noteList);
+    Assert.assertEquals(name, category.getName());
+    Assert.assertEquals(noteList, category.getNotes());
+  }
+
+  @Test
+  public void testNotesConstructor() {
+    Note note1 = new Note("Note 1", "Note 1");
+    Note note2 = new Note("Note 2", "Note 2");
+    Category category = new Category(note1, note2);
+    Assert.assertEquals(note1, category.getNote(0));
+    Assert.assertEquals(note2, category.getNote(1));
+  }
+
+  @Test
+  public void testNoteCollectionConstructor() {
+    Note note1 = new Note("Note 1", "Note 1");
+    Note note2 = new Note("Note 2", "Note 2");
+    Collection<Note> noteCollection = new ArrayList<>();
+    noteCollection.add(note1);
+    noteCollection.add(note2);
+    Category category = new Category(noteCollection);
+    Assert.assertEquals(note1, category.getNote(0));
+    Assert.assertEquals(note2, category.getNote(1));
+  }
+
+  @Test
+  public void testIterator() {
+    List<Note> notes = new ArrayList<>();
+    Note note1 = new Note("Note 1", "Note 1");
+    Note note2 = new Note("Note 2", "Note 2");
+    notes.add(note1);
+    notes.add(note2);
+    Category category = new Category(notes);
+    Assert.assertEquals(notes.iterator().getClass(), category.iterator().getClass());
   }
 
   /**
@@ -121,6 +172,28 @@ public class CategoryTest {
     }
     category.replaceNote(replacementIndex, noteToBeReplaced);
     Assert.assertEquals(category.getNote(replacementIndex), noteToBeReplaced);
+  }
+
+  @Test
+  public void testSetName() {
+    Category category = new Category("No name");
+    String newName = "TEST NAME";
+    category.setName(newName);
+    Assert.assertEquals(newName, category.getName());
+  }
+
+  @Test
+  public void testToString() {
+    Note note1 = new Note("first title", "first msg");
+    Note note2 = new Note("second title", "second msg");
+    Note note3 = new Note("third title", "third msg");
+    Category category = new Category(note1, note2, note3);
+    String actualToString = "Notes{"
+        + "size=" + category.getNumNotes()
+        + ", notes=" + category.getNotes()
+        + '}';
+
+    Assert.assertEquals(actualToString, category.toString());
   }
 
 }

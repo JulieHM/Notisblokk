@@ -124,17 +124,6 @@ public class Category implements Iterable<Note> {
     return notes.size();
   }
 
-  /**
-   * Sorts the list of Notes by most recent edited date.
-   */
-  public void sortNotesByLastEdited() {
-    notes.sort(Collections.reverseOrder());
-  }
-
-  /**
-   * Replaces current noteindex in notes to a new note.
-   * @return replaced note.
-   */
   public Note replaceNote(int index, Note note) {
     notes.set(index, note);
     return note;
