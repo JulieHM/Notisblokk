@@ -1,4 +1,4 @@
-#Core module
+# Core module
 This directory contains the core logic classes for [notisblokk](../README.md).
 
 The core of our app consists of many notes that the user has created, sorted into different 
