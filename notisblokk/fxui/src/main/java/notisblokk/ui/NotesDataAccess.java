@@ -29,7 +29,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/categories GET
+   * http://localhost:8080/categories GET.
    */
   Collection<Category> getCategories() {
     final URI requestUri = buildRequestUri(""); // baseUrl only
@@ -48,7 +48,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/categories/{categoryIndex} GET
+   * http://localhost:8080/categories/{categoryIndex} GET.
    */
   Category getCategory(int categoryIndex) {
     final URI requestUri = buildRequestUri("/" + categoryIndex);
@@ -67,7 +67,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/categories/{catIndex}/notes GET
+   * http://localhost:8080/categories/{catIndex}/notes GET.
    */
   public Collection<Note> getNotes(int categoryIndex) {
     final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes");
@@ -86,7 +86,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/categories/{catIndex}/notes/{index} GET
+   * http://localhost:8080/categories/{catIndex}/notes/{index} GET.
    */
   public Note getNote(int catIndex, int index) {
     final URI requestUri = buildRequestUri("/" + catIndex + "/notes/" + index);
@@ -105,7 +105,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/categories/{categoryIndex}/notes/{notes} POST
+   * http://localhost:8080/categories/{categoryIndex}/notes/{notes} POST.
    * @param note POST
    */
   void updateNote(int categoryIndex, int index, Note note) {
@@ -114,7 +114,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/categories/{categoryIndex}/notes POST
+   * http://localhost:8080/categories/{categoryIndex}/notes POST.
    */
   void addNote(int categoryIndex, Note note) {
     final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes");
@@ -122,7 +122,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * Helper method for category POST
+   * Helper method for category POST.
    *
    * @param category to be added
    */
@@ -132,7 +132,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * Helper method for category POST
+   * Helper method for category POST.
    *
    * @param category to replace with
    */
@@ -142,9 +142,9 @@ public class NotesDataAccess {
   }
 
   /**
+   * Helper method for category Post.
    *
-   * @param category
-   * @param requestUri
+   * @param category to update
    */
   private void updateCategory(Category category, URI requestUri) {
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
@@ -162,7 +162,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * HELPER METHOD FOR NOTE POST REQUESTS
+   * HELPER METHOD FOR NOTE POST REQUESTS.
    */
   private void postNoteRequest(URI requestUri, Note note) {
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
@@ -180,7 +180,7 @@ public class NotesDataAccess {
   }
 
   /**
-   * http://localhost:8080/{index} DELETE
+   * http://localhost:8080/{index} DELETE.
    */
   void removeNote(int categoryIndex, int index) {
     final URI requestUri = buildRequestUri("/" + categoryIndex + "/notes/" + index);
@@ -197,6 +197,9 @@ public class NotesDataAccess {
     }
   }
 
+  /**
+   * Helper method for deleting category.
+   */
   void deleteCategory(int index) {
     final URI requestUri = buildRequestUri("/" + index);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)

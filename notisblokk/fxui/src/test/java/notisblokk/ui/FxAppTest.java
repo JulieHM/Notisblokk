@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 import notisblokk.core.Note;
@@ -23,6 +22,9 @@ import org.testfx.framework.junit.ApplicationTest;
 
 public class FxAppTest extends ApplicationTest {
 
+  /**
+   * Setup for how tests will show.
+   */
   @BeforeClass
   public static void headless() {
     if (Boolean.parseBoolean(System.getProperty("gitlab-ci", "false"))) {
@@ -58,8 +60,13 @@ public class FxAppTest extends ApplicationTest {
   }
 
   private void setupNotes() {   //vil hente savedNotes
-    Note testNote = new Note("Test123", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test123</body></html>", LocalDateTime.now(), LocalDateTime.now());
-    Note testNote2 = new Note("Test", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>", LocalDateTime.now(), LocalDateTime.now());
+    Note testNote = new Note("Test123",
+        "<html dir=\"ltr\"><head></head><body "
+            + "contenteditable=\"true\">Test123</body></html>",
+        LocalDateTime.now(), LocalDateTime.now());
+    Note testNote2 = new Note("Test",
+        "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>",
+        LocalDateTime.now(), LocalDateTime.now());
     noteList = new ArrayList<>(List.of(testNote, testNote2));
 
     when(notesDataAccess.getNote(anyInt(), anyInt()))
@@ -74,7 +81,7 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Tests that noteListView contains the same elements as noteList
+   * Tests that noteListView contains the same elements as noteList.
    */
   @Test
   public void testListView() {
@@ -83,7 +90,7 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Test for checking if the top element in listView is selected
+   * Test for checking if the top element in listView is selected.
    */
   @Test
   public void testSelected() {
@@ -92,20 +99,13 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Test for checking if the messageField contains the same message as the Note object
+   * Test for checking if the messageField contains the same message as the Note object.
    */
   @Test
   public void testMessageField() {  //tester å legge til note
     final HTMLEditor messageField = lookup("#messageField").query();
     Assert.assertEquals(noteList.get(0).getMessage(), messageField.getHtmlText());
   }
-
-  /**
-   * Test for checking if the titleField contains the same title as the Note object
-   */
-  @Test
-  public void testTitleField() {
-    final TextField titleField = lookup("#titleField").query();
-    Assert.assertEquals(noteList.get(0).getTitle(), titleField.getText());
-  }
 }
+
+

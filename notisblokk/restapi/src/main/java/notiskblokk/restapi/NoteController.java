@@ -1,8 +1,8 @@
 package notiskblokk.restapi;
 
 import java.util.List;
-import notisblokk.core.Note;
 import notisblokk.core.Category;
+import notisblokk.core.Note;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,10 +20,16 @@ public class NoteController {
   @Autowired
   private NoteService service = new NoteService();
 
+  /**
+   * Gets the note service.
+   */
   public NoteService getNoteService() {
     return this.service;
   }
 
+  /**
+   * Gets the categories.
+   */
   @GetMapping(produces = "application/json")
   public ResponseEntity<List<Category>> getCategories() {
     return ResponseEntity.ok(service.getAllCategories());
@@ -74,7 +80,8 @@ public class NoteController {
   /**
    * Appends a note to a category.
    */
-  @PostMapping(value = "/{categoryIndex}/notes", consumes = "application/json", produces = "application/json")
+  @PostMapping(value = "/{categoryIndex}/notes", consumes = "application/json",
+      produces = "application/json")
   public ResponseEntity<Note> addNote(@PathVariable int categoryIndex, @RequestBody Note note) {
     if (service.addNote(categoryIndex, note)) {
       int index = service.getCategory(categoryIndex).getNumNotes() - 1;
@@ -105,7 +112,8 @@ public class NoteController {
    * @param categoryIndex of the category to be replaced.
    * @return a response entity with status.
    */
-  @PostMapping(value = "/{categoryIndex}", consumes = "application/json", produces = "application/json")
+  @PostMapping(value = "/{categoryIndex}", consumes = "application/json",
+      produces = "application/json")
   public ResponseEntity<Category> renameCategory(@RequestBody Category category,
       @PathVariable int categoryIndex) {
     if (service.renameCategory(categoryIndex, category)) {
@@ -139,7 +147,8 @@ public class NoteController {
    * @param note to replace with.
    * @return a response entity with status.
    */
-  @PostMapping(value = "/{catIndex}/notes/{index}", consumes = "application/json", produces = "application/json")
+  @PostMapping(value = "/{catIndex}/notes/{index}", consumes = "application/json",
+      produces = "application/json")
   public ResponseEntity<Note> setNote(@PathVariable int catIndex, @PathVariable int index,
       @RequestBody Note note) {
     if (service.replaceNote(catIndex, index, note)) {

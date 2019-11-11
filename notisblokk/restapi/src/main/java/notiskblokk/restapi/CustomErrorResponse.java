@@ -12,9 +12,9 @@ public class CustomErrorResponse {
   /**
    * Custom error response which includes the datetime, HTTP-status message and an error string.
    *
-   * @param timestamp
-   * @param status
-   * @param error
+   * @param timestamp for when error occurred.
+   * @param status message
+   * @param error string
    */
   public CustomErrorResponse(LocalDateTime timestamp, int status, String error) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -23,14 +23,23 @@ public class CustomErrorResponse {
     this.error = error;
   }
 
+  /**
+   * Gets timestamp.
+   */
   public String getTimestamp() {
     return timestamp;
   }
 
+  /**
+   * Gets status.
+   */
   public int getStatus() {
     return status;
   }
 
+  /**
+   * Gets errors.
+   */
   public String getError() {
     return error;
   }

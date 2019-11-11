@@ -11,20 +11,17 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.control.TextField;
-import notisblokk.core.Category;
 import javafx.scene.control.ToolBar;
 import javafx.scene.web.HTMLEditor;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
+
 
 /**
  * FxAppController is communicating with the server through REST API. All data displayed in the GUI
  * is controlled by the API.
  */
 public class FxAppController {
-
-  @FXML
-  private TextField titleField;
 
   @FXML
   private HTMLEditor messageField;
@@ -73,7 +70,7 @@ public class FxAppController {
   }
 
   /**
-   * Add a new tab
+   * Add a new tab.
    */
   @FXML
   private void onNewCategoryClick() {
@@ -83,7 +80,6 @@ public class FxAppController {
     notesDataAccess.addCategory(newCategory);
     updateCategoryTabView(true);
   }
-
 
   /**
    * Event Handler for the ListView.
@@ -107,7 +103,6 @@ public class FxAppController {
     int index = noteListView.getItems().size(); // current size will be the new index
     updateNoteListView(index);
   }
-
 
   /**
    * Event Handler for the Save button.
@@ -133,6 +128,9 @@ public class FxAppController {
     updateNoteListView(selectedIndex);
   }
 
+  /**
+   * Deletes a category.
+   */
   public void deleteCategory() {
     notesDataAccess.deleteCategory(activeCategoryIndex);
     updateCategoryTabView(false);
@@ -140,7 +138,7 @@ public class FxAppController {
   }
 
   /**
-   * Renames the given category with the new name
+   * Renames the given category with the new name.
    *
    * @param category category to be renamed
    * @param newName  new name
@@ -150,19 +148,21 @@ public class FxAppController {
   }
 
   /**
-   * Displays the content of the note selected in the List View
+   * Displays the content of the note selected in the List View.
    */
   private void displaySelectedNote() {
     int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
     Note selectedNote = notesDataAccess
         .getNote(activeCategoryIndex, selectedIndex);
     if (selectedNote != null) {
-      titleField.setText(selectedNote.getTitle());
       messageField.setHtmlText(selectedNote.getMessage());
       noteListView.scrollTo(selectedIndex); // scroll up/down in list view if needed
     }
   }
 
+  /**
+   * Initializes tab pane.
+   */
   private void initTabView() {
     categoryTabPane.getSelectionModel().selectedItemProperty().addListener(
         (observableValue, tab, t1) -> {
@@ -186,13 +186,12 @@ public class FxAppController {
   private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getHtmlText());
-    note.setTitle(titleField.getText());
   }
 
   /**
    * Updates the tab pane with new category-tabs.
    *
-   * @param newCategory
+   * @param newCategory true if a new category is present.
    */
   private void updateCategoryTabView(boolean newCategory) {
     categoryTabPane.getTabs().clear();
@@ -201,7 +200,6 @@ public class FxAppController {
     if (categories.size() < 1) {
       activeCategory = null;
       noteListView.setItems(null);
-      titleField.setText("");
       messageField.setHtmlText("");
       return;
     }
@@ -231,7 +229,6 @@ public class FxAppController {
     final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
     noteListView.setItems(FXCollections.observableArrayList(noteArray));
     if (noteArray.size() < 1) {
-      titleField.setText("");
       messageField.setHtmlText("");
       return;
     }
@@ -242,12 +239,17 @@ public class FxAppController {
     displaySelectedNote();
   }
 
+  /**
+   * Sets active category.
+   *
+   * @param category that is active
+   */
   public void setActiveCategory(Category category) {
     this.activeCategory = category;
   }
 
   /**
-   * USED TO ALLOW TESTING
+   * USED TO ALLOW TESTING.
    */
   public void setNotesDataAccess(final NotesDataAccess notesDataAccess) {
     this.notesDataAccess = notesDataAccess;
