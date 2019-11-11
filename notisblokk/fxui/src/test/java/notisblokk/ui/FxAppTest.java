@@ -17,6 +17,7 @@ import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 import notisblokk.core.Category;
 import notisblokk.core.Note;
+import notisblokk.json.NoteDeserializer;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -61,6 +62,9 @@ public class FxAppTest extends ApplicationTest {
   }
 
   private void setupNotes() {   //vil hente savedNotes
+    System.out.println("SETUP NOTES");
+    String categoriesApiResponse = "[{\"notes\":[{\"title\":\"Test123\",\"message\":\"\\u003chtml dir\\u003d\\\"ltr\\\"\\u003e\\u003chead\\u003e\\u003c/head\\u003e\\u003cbody contenteditable\\u003d\\\"true\\\"\\u003e\\u003cp\\u003eTest123\\u003c/p\\u003e\\u003c/body\\u003e\\u003c/html\\u003e\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":15,\"minute\":33,\"second\":43,\"nano\":953820700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":15,\"minute\":32,\"second\":49,\"nano\":975265100}}},{\"title\":\"Test\",\"message\":\"\\u003chtml dir\\u003d\\\"ltr\\\"\\u003e\\u003chead\\u003e\\u003c/head\\u003e\\u003cbody contenteditable\\u003d\\\"true\\\"\\u003e\\u003cp\\u003eTest\\u003c/p\\u003e\\u003c/body\\u003e\\u003c/html\\u003e\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":15,\"minute\":33,\"second\":57,\"nano\":262255700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":15,\"minute\":33,\"second\":44,\"nano\":835342900}}},{\"title\":\"New note\",\"message\":\"\",\"lastEditedDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":16,\"minute\":29,\"second\":50,\"nano\":572904700}},\"createdDate\":{\"date\":{\"year\":2019,\"month\":11,\"day\":7},\"time\":{\"hour\":16,\"minute\":29,\"second\":50,\"nano\":571906000}}}],\"name\":\"Test category\"}]";
+
     Note testNote = new Note("Test123", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test123</body></html>", LocalDateTime.now(), LocalDateTime.now());
     Note testNote2 = new Note("Test", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>", LocalDateTime.now(), LocalDateTime.now());
     noteList = new ArrayList<>(List.of(testNote, testNote2));
@@ -69,14 +73,19 @@ public class FxAppTest extends ApplicationTest {
     category.addNotes(noteList);
     categoryList.add(category);
 
+    NoteDeserializer noteDeserializer = new NoteDeserializer();
+    List<Category> catList = noteDeserializer.deserializeCategoriesFromString(categoriesApiResponse);
+
     when(notesDataAccess.getNote(anyInt(), anyInt()))
         .then(invocation -> noteList.get(invocation.getArgument(0)));
     when(notesDataAccess.getNotes(anyInt())).then(invocation -> noteList);
-    controller.setNotesDataAccess(notesDataAccess);
 
-    when(notesDataAccess.getCategory(anyInt())).then(invocation -> category);
-    when(notesDataAccess.getCategories()).then(invocation -> categoryList);
+    when(notesDataAccess.getCategories()).then(invocation -> catList);
+    when(notesDataAccess.getCategory(anyInt())).then(invocation -> catList.get(0));
     when(notesDataAccess.addCategory(any())).then(invocation -> true);
+
+    controller.setNotesDataAccess(notesDataAccess);
+    controller.printDebug();
   }
 
   @Test

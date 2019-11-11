@@ -56,11 +56,11 @@ public class FxAppController {
    */
   @FXML
   public void initialize() {
+    noteListView.setCellFactory(listView -> new NoteCell());
     setupHtmlEditor();
     categoryTabPane.setTabClosingPolicy(TabClosingPolicy.SELECTED_TAB);
-    initTabView();
     updateCategoryTabView(false);
-    noteListView.setCellFactory(listView -> new NoteCell());
+    initTabView();
   }
 
   private void setupHtmlEditor() {
@@ -124,12 +124,10 @@ public class FxAppController {
    */
   @FXML
   public void onNewNoteClick() {
-    System.out.println("ON NEW NOTE CLICK");
     if (activeCategory == null) {
       messageField.setHtmlText("A category is needed to create a note.");
       return;
     }
-    System.out.println("PAST RETURN");
     Note note = new Note("New note", "");
     notesDataAccess.addNote(activeCategoryIndex, note);
     int index = noteListView.getItems().size(); // current size will be the new index
@@ -191,24 +189,18 @@ public class FxAppController {
   }
 
   private void initTabView() {
-    System.out.println("INIT TAB BEFORE");
     categoryTabPane.getSelectionModel().selectedItemProperty().addListener(
         (observableValue, tab, t1) -> {
-          System.out.println("INSIDE BLOCK");
           Category tempCategory;
           try {
-            System.out.println("TRY INIT TAB");
             tempCategory = ((TabWithCategory) t1).getCategory();
           } catch (NullPointerException e) {
-            System.out.println("CATCH INIT TAB");
             return;
           }
-          System.out.println("AFTER TRY-CATCH INIT TAB VIEW");
           activeCategoryIndex = categories.indexOf(tempCategory);
           activeCategory = notesDataAccess.getCategory(activeCategoryIndex);
           updateNoteListView(0);
         });
-    System.out.println("INIT TAB AFTER");
   }
 
   /**
@@ -226,7 +218,6 @@ public class FxAppController {
    * Updates the tab pane with new category-tabs.
    */
   private void updateCategoryTabView(boolean newCategory) {
-    System.out.println("UPDATE CAT TAB VIEW");
     categoryTabPane.getTabs().clear();
     categories = ((List<Category>) notesDataAccess.getCategories());
 
@@ -281,12 +272,15 @@ public class FxAppController {
    */
   public void setNotesDataAccess(final NotesDataAccess notesDataAccess) {
     this.notesDataAccess = notesDataAccess;
-    if (noteListView.getItems() == null) {
-      noteListView.setItems(FXCollections.observableArrayList());
-    } else {
-      noteListView.getItems().clear();
-    }
-    updateNoteListViewTest(0);
+
+  }
+
+  public void printDebug() {
+    System.out.println("__DEBUG__");
+    System.out.println("categories size:" + categories.size());
+    System.out.println("categories: " + categories.toString());
+    System.out.println("active category: " + activeCategory.toString());
+    System.out.println("active category index: " + activeCategoryIndex);
   }
 
   /**

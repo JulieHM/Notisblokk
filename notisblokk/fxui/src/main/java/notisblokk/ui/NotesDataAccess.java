@@ -33,6 +33,7 @@ public class NotesDataAccess {
    * http://localhost:8080/categories GET
    */
   Collection<Category> getCategories() {
+    System.out.println("GET CATEGORIES");
     final URI requestUri = buildRequestUri(""); // baseUrl only
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -52,6 +53,7 @@ public class NotesDataAccess {
    * http://localhost:8080/categories/{categoryIndex} GET
    */
   Category getCategory(int categoryIndex) {
+    System.out.println("GET CATEGORY");
     final URI requestUri = buildRequestUri("/" + categoryIndex);
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
@@ -128,6 +130,7 @@ public class NotesDataAccess {
    * @param category to be added
    */
   boolean addCategory(Category category) {
+    System.out.println("ADD CATEGORY");
     final URI requestUri = buildRequestUri("");
     updateCategory(category, requestUri);
     return true;
@@ -139,6 +142,7 @@ public class NotesDataAccess {
    * @param category to replace with
    */
   void renameCategory(Category category, int index) {
+    System.out.println("RENAME CATEGORY");
     final URI requestUri = buildRequestUri("/" + index);
     updateCategory(category, requestUri);
   }
@@ -149,6 +153,7 @@ public class NotesDataAccess {
    * @param requestUri
    */
   private void updateCategory(Category category, URI requestUri) {
+    System.out.println("UPDATE CATEGORY");
     final HttpRequest request = HttpRequest.newBuilder(requestUri)
         .header("Accept", "application/json")
         .header("Content-Type", "application/json")
