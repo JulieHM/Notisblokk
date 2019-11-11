@@ -1,6 +1,8 @@
 package notisblokk.ui;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
+import notisblokk.core.Category;
 import notisblokk.core.Note;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -38,7 +41,7 @@ public class FxAppTest extends ApplicationTest {
 
   private FxAppController controller;
   private NotesDataAccess notesDataAccess = Mockito.mock(NotesDataAccess.class);
-  private List<Note> noteList;
+  private List<Category> categories = new ArrayList<>();
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -48,7 +51,7 @@ public class FxAppTest extends ApplicationTest {
 
     Scene scene = new Scene(root);
 
-    setupNotes();
+    setupMockData();
 
     stage.setTitle("Notisblokk");
     stage.setScene(scene);
@@ -57,14 +60,51 @@ public class FxAppTest extends ApplicationTest {
     stage.setResizable(false);
   }
 
-  private void setupNotes() {   //vil hente savedNotes
+  private void setupMockData() {
+    /* Create test data */
     Note testNote = new Note("Test123", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test123</body></html>", LocalDateTime.now(), LocalDateTime.now());
     Note testNote2 = new Note("Test", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>", LocalDateTime.now(), LocalDateTime.now());
-    noteList = new ArrayList<>(List.of(testNote, testNote2));
 
-    when(notesDataAccess.getNote(anyInt(), anyInt()))
-        .then(invocation -> noteList.get(invocation.getArgument(0)));
-    when(notesDataAccess.getNotes(anyInt())).then(invocation -> noteList);
+    Category testCategory = new Category("Test category");
+    testCategory.addNotes(testNote, testNote2);
+
+    categories.add(testCategory);
+
+    /* Create mock methods for notesDataAccess
+     * If a method is used during a test it needs to have a mock counterpart to that runs instead.
+     * Most have been implemented, but some remain. The idea is simply adding/removing/getting
+     * the data from the "categories" in here rather than using API.
+     */
+    doAnswer(invocation -> categories).when(notesDataAccess).getCategories();
+
+    doAnswer(invocation ->
+        categories.get(invocation.getArgument(0))
+    ).when(notesDataAccess).getCategory(anyInt());
+
+    doAnswer(invocation ->
+        categories.get(invocation.getArgument(0)).getNotes()
+    ).when(notesDataAccess).getNotes(anyInt());
+
+    doAnswer(invocation ->
+        categories.get(invocation.getArgument(0)).getNote(invocation.getArgument(1))
+    ).when(notesDataAccess).getNote(anyInt(), anyInt());
+
+
+    // doAnswer(invocation -> ).when(notesDataAccess).updateNote(anyInt(), anyInt(), any(Note.class));
+
+    doAnswer(invocation ->
+        categories.get(invocation.getArgument(0)).addNote(invocation.getArgument(1))
+    ).when(notesDataAccess).addNote(anyInt(), any(Note.class));
+
+    // doAnswer(invocation -> ).when(notesDataAccess).addCategory(any(Category.class));
+
+    // doAnswer(invocation -> ).when(notesDataAccess).renameCategory(any(Category.class), anyInt());
+
+    // doAnswer(invocation -> ).when(notesDataAccess).removeNote(anyInt(), anyInt());
+
+    // doAnswer(invocation -> ).when(notesDataAccess).deleteCategory(anyInt());
+
+    /* Reset GUI and override notesDataAccess */
     controller.setNotesDataAccess(notesDataAccess);
   }
 
@@ -79,7 +119,8 @@ public class FxAppTest extends ApplicationTest {
   @Test
   public void testListView() {
     final ListView<Note> noteListView = lookup("#noteListView").query();
-    Assert.assertEquals(noteList, noteListView.getItems());
+    /* should this category index be dynamic? */
+    Assert.assertEquals(categories.get(0).getNotes(), noteListView.getItems());
   }
 
   /**
@@ -116,9 +157,9 @@ public class FxAppTest extends ApplicationTest {
    * Test for checking if the messageField contains the same message as the Note object
    */
   @Test
-  public void testMessageField() {  //tester å legge til note
+  public void testMessageField() {
     final HTMLEditor messageField = lookup("#messageField").query();
-    Assert.assertEquals(noteList.get(0).getMessage(), messageField.getHtmlText());
+    Assert.assertEquals(categories.get(0).getNote(0).getMessage(), messageField.getHtmlText());
   }
 
 }

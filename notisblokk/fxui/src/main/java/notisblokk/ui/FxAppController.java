@@ -274,23 +274,7 @@ public class FxAppController {
    */
   public void setNotesDataAccess(final NotesDataAccess notesDataAccess) {
     this.notesDataAccess = notesDataAccess;
-    if (noteListView.getItems() == null) {
-      noteListView.setItems(FXCollections.observableArrayList());
-    } else {
-      noteListView.getItems().clear();
-    }
-    updateNoteListViewTest(0);
-  }
-
-  /**
-   * Used as the testing function for updateNoteListView.
-   *
-   * @param selectedIndex The new index to select in the list view
-   */
-  private void updateNoteListViewTest(int selectedIndex) {
-    final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
-    noteListView.setItems(FXCollections.observableArrayList(noteArray));
-    noteListView.getSelectionModel().select(selectedIndex);
-    displaySelectedNote();
+    initTabView();
+    updateCategoryTabView(false);
   }
 }
