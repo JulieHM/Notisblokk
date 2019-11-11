@@ -272,7 +272,8 @@ public class FxAppController {
    */
   public void setNotesDataAccess(final NotesDataAccess notesDataAccess) {
     this.notesDataAccess = notesDataAccess;
-
+    initTabView();
+    updateCategoryTabView(false);
   }
 
   public void printDebug() {
@@ -281,17 +282,5 @@ public class FxAppController {
     System.out.println("categories: " + categories.toString());
     System.out.println("active category: " + activeCategory.toString());
     System.out.println("active category index: " + activeCategoryIndex);
-  }
-
-  /**
-   * Used as the testing function for updateNoteListView.
-   *
-   * @param selectedIndex The new index to select in the list view
-   */
-  private void updateNoteListViewTest(int selectedIndex) {
-    final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
-    noteListView.setItems(FXCollections.observableArrayList(noteArray));
-    noteListView.getSelectionModel().select(selectedIndex);
-    displaySelectedNote();
   }
 }
