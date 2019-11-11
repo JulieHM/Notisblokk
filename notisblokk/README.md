@@ -61,6 +61,10 @@ $ git clone https://gitlab.stud.idi.ntnu.no/it1901/gr1915/gr1915.git
 ```bash
 $ ./gradlew clean build
 ```
+
+If you are using macOS you might have to approve your IDE to control your computer to pass FXUI
+tests. This can be set in `System Preferences -> Security & Privacy -> Accessability`.
+
 4. Start the backend Spring Boot server
 ```bash
 $ ./gradlew bootRun

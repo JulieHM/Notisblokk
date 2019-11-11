@@ -2,6 +2,8 @@ package notisblokk.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -11,9 +13,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import notisblokk.core.Category;
 import javafx.scene.control.ToolBar;
 import javafx.scene.web.HTMLEditor;
-import notisblokk.core.Category;
 import notisblokk.core.Note;
 
 
@@ -68,6 +70,38 @@ public class FxAppController {
       bar.getItems().addAll(saveNoteButton, deleteNoteButton);
     }
   }
+
+  /**
+   * Gets text from HTML
+   */
+  private static String getText(String htmlText) {
+
+    String result;
+
+    Pattern pattern = Pattern.compile("<[^>]*>");
+    Matcher matcher = pattern.matcher(htmlText);
+    final StringBuffer text = new StringBuffer(htmlText.length());
+
+    while (matcher.find()) {
+      matcher.appendReplacement(
+          text,
+          " ");
+    }
+
+    matcher.appendTail(text);
+
+    result = text.toString().trim();
+
+    return result;
+  }
+  /**
+   * Extracts title from message
+   */
+  private String extractTitle(String message) {
+    String [] title = getText(message).split(" ");
+    return title[0];
+  }
+
 
   /**
    * Add a new tab.
@@ -186,6 +220,7 @@ public class FxAppController {
   private void updateNoteInfo(Note note) {
     note.setLastEditedDate(); // sets it to current date/time
     note.setMessage(messageField.getHtmlText());
+    note.setTitle(extractTitle(messageField.getHtmlText()));
   }
 
   /**
@@ -239,6 +274,7 @@ public class FxAppController {
     displaySelectedNote();
   }
 
+
   /**
    * Sets active category.
    *
@@ -253,23 +289,7 @@ public class FxAppController {
    */
   public void setNotesDataAccess(final NotesDataAccess notesDataAccess) {
     this.notesDataAccess = notesDataAccess;
-    if (noteListView.getItems() == null) {
-      noteListView.setItems(FXCollections.observableArrayList());
-    } else {
-      noteListView.getItems().clear();
-    }
-    updateNoteListViewTest(0);
-  }
-
-  /**
-   * Used as the testing function for updateNoteListView.
-   *
-   * @param selectedIndex The new index to select in the list view
-   */
-  private void updateNoteListViewTest(int selectedIndex) {
-    final Collection<Note> noteArray = notesDataAccess.getNotes(activeCategoryIndex);
-    noteListView.setItems(FXCollections.observableArrayList(noteArray));
-    noteListView.getSelectionModel().select(selectedIndex);
-    displaySelectedNote();
+    initTabView();
+    updateCategoryTabView(false);
   }
 }

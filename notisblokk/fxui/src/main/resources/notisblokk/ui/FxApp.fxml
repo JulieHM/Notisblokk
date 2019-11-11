@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TabPane?>
@@ -11,6 +12,7 @@
 <AnchorPane prefHeight="484.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/10.0.1"
   xmlns:fx="http://javafx.com/fxml/1" fx:controller="notisblokk.ui.FxAppController">
    <children>
+
       <HTMLEditor fx:id="messageField" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body
       contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" layoutX="162.0"
         layoutY="39" />

@@ -6,4 +6,9 @@ and content. There are also three buttons, that lets you create new category, sa
 
 The GUI is made with javaFX and FXML, which can be found in **fxui/src/main/java** and 
 **fxui/src/main/resources** respectively.
-                           
+<<<<<<< HEAD
+
+MacOS requires additional privileges to run tests using TestFX. This can be set in 
+`System Preferences -> Security & Privacy -> Accessability` and allow your IDE to control the 
+computer.
+
