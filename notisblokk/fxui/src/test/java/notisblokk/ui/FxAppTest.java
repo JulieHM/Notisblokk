@@ -3,14 +3,11 @@ package notisblokk.ui;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -63,8 +60,12 @@ public class FxAppTest extends ApplicationTest {
 
   private void setupMockData() {
     /* Create test data */
-    Note testNote = new Note("Test123", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test123</body></html>", LocalDateTime.now(), LocalDateTime.now());
-    Note testNote2 = new Note("Test", "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>", LocalDateTime.now(), LocalDateTime.now());
+    Note testNote = new Note("Test123",
+        "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">"
+            + "Test123</body></html>", LocalDateTime.now(), LocalDateTime.now());
+    Note testNote2 = new Note("Test",
+        "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">Test</body></html>",
+        LocalDateTime.now(), LocalDateTime.now());
 
     Category testCategory = new Category("Test category");
     testCategory.addNotes(testNote, testNote2);
@@ -90,24 +91,26 @@ public class FxAppTest extends ApplicationTest {
         categories.get(invocation.getArgument(0)).getNote(invocation.getArgument(1))
     ).when(notesDataAccess).getNote(anyInt(), anyInt());
 
-    // doAnswer(invocation -> ).when(notesDataAccess).updateNote(anyInt(), anyInt(), any(Note.class));
+    // doAnswer(invocation -> ).when(notesDataAccess).updateNote(anyInt(), anyInt(),
+    // any(Note.class));
 
     doAnswer(invocation ->
         categories.get(invocation.getArgument(0)).addNote(invocation.getArgument(1))
     ).when(notesDataAccess).addNote(anyInt(), any(Note.class));
 
-     doAnswer(invocation ->
-         categories.add(invocation.getArgument(0))
-         ).when(notesDataAccess).addCategory(any(Category.class));
+    doAnswer(invocation ->
+       categories.add(invocation.getArgument(0))
+    ).when(notesDataAccess).addCategory(any(Category.class));
 
     // doAnswer(invocation -> ).when(notesDataAccess).renameCategory(any(Category.class), anyInt());
 
     doAnswer(invocation -> {
-      categories.get(invocation.getArgument(0)).removeNote((int) invocation.getArgument(1));
+      categories.get(invocation.getArgument(0))
+          .removeNote((int) invocation.getArgument(1));
       return true;
     }).when(notesDataAccess).removeNote(anyInt(), anyInt());
 
-     //oAnswer(invocation -> ).when(notesDataAccess).deleteCategory(anyInt());
+    // DoAnswer(invocation -> ).when(notesDataAccess).deleteCategory(anyInt());
 
     /* Reset GUI and override notesDataAccess */
     controller.setNotesDataAccess(notesDataAccess);
@@ -119,7 +122,7 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Tests that noteListView contains the same elements as noteList
+   * Tests that noteListView contains the same elements as noteList.
    */
   @Test
   public void testListView() {
@@ -129,10 +132,10 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Test for checking that the title is being set correctly
+   * Test for checking that the title is being set correctly.
    */
   @Test
-  public void testTitle(){
+  public void testTitle() {
     final ListView<Note> noteListView = lookup("#noteListView").query();
 
     clickOn("#newNote");
@@ -144,7 +147,7 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Test for checking if the top element in listView is selected
+   * Test for checking if the top element in listView is selected.
    */
   @Test
   public void testSelected() {
@@ -153,16 +156,17 @@ public class FxAppTest extends ApplicationTest {
   }
 
   /**
-   * Test for checking if the messageField contains the same message as the Note object
+   * Test for checking if the messageField contains the same message as the Note object.
    */
   @Test
   public void testMessageField() {
     final HTMLEditor messageField = lookup("#messageField").query();
-    Assert.assertEquals(categories.get(0).getNote(0).getMessage(), messageField.getHtmlText());
+    Assert.assertEquals(categories.get(0).getNote(0).getMessage(),
+        messageField.getHtmlText());
   }
 
   /**
-   * Test for creating a new Note
+   * Test for creating a new Note.
    */
   @Test
   public void testNewNoteButton() {
@@ -172,6 +176,9 @@ public class FxAppTest extends ApplicationTest {
     Assert.assertEquals(previousSize + 1, newSize);
   }
 
+  /**
+   * Test for deleting a Note.
+   */
   @Test
   public void testDeleteButton() {
     int previousSize = categories.get(0).getNumNotes();
@@ -180,6 +187,9 @@ public class FxAppTest extends ApplicationTest {
     Assert.assertEquals(previousSize - 1, newSize);
   }
 
+  /**
+   * Test for creating a new Category.
+   */
   @Test
   public void testNewCategoryButton() {
     int previousSize = categories.size();
