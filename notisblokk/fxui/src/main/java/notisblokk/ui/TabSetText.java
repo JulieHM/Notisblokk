@@ -12,16 +12,26 @@ import javafx.scene.input.MouseEvent;
 import notisblokk.core.Category;
 
 /**
+ * Class to with methods for setting editable tabs.
  * @author utente
  */
 public class TabSetText {
 
   private FxAppController controller;
 
+  /**
+   * Constructor which sets FxAppController as this.controller.
+   */
   public TabSetText(FxAppController controller) {
     this.controller = controller;
   }
 
+  /**
+   * Method for creating editable tabs.
+   *
+   * @param text to be set as title
+   * @param category tab to set editable
+   */
   public TabWithCategory createEditableTab(String text, Category category) {
     final Label label = new Label(text);
     final TabWithCategory tab = new TabWithCategory(category);
@@ -70,5 +80,4 @@ public class TabSetText {
 
     return tab;
   }
-
 }

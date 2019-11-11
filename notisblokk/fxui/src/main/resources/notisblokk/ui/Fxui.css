@@ -1,0 +1,40 @@
+#deleteNoteButton {
+  -fx-background-image: url("deleteButton.png");
+  -fx-background-size: 16 16;
+  -fx-padding: 5 15;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position:center;
+}
+
+#saveNoteButton {
+  -fx-background-image: url("saveButton.png");
+  -fx-background-size: 16 16;
+  -fx-padding: 5 15;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position:center;
+}
+
+#noteListView {
+  -fx-pref-height: 368.0;
+  -fx-pref-width: 164.0;
+}
+
+#categoryTabPane {
+  -fx-pref-height: 38.0;
+  -fx-pref-width: 811.0;
+}
+
+#messageField {
+  -fx-pref-height: 445.0;
+  -fx-pref-width: 649.0;
+}
+
+#newCategory {
+  -fx-pref-height: 27.0;
+  -fx-pref-width: 140.0;
+}
+
+#newNote {
+  -fx-pref-height: 27.0;
+  -fx-pref-width: 140.0;
+}

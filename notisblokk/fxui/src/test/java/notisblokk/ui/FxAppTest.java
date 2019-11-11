@@ -24,6 +24,9 @@ import org.testfx.framework.junit.ApplicationTest;
 
 public class FxAppTest extends ApplicationTest {
 
+  /**
+   * Setup for how tests will show.
+   */
   @BeforeClass
   public static void headless() {
     if (Boolean.parseBoolean(System.getProperty("gitlab-ci", "false"))) {
@@ -199,3 +202,5 @@ public class FxAppTest extends ApplicationTest {
   }
 
 }
+
+

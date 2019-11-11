@@ -3,8 +3,11 @@ package notisblokk.json;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import notisblokk.core.Category;
 import notisblokk.core.Note;
@@ -36,15 +39,22 @@ public class NoteSerializer {
       file.getParentFile().mkdirs();
     }
 
-    try (FileWriter writer = new FileWriter(new File(path))) {
+    try (Writer writer = new OutputStreamWriter(
+        new FileOutputStream(file), StandardCharsets.UTF_8)) {
       writer.write(json);
       return true;
     } catch (FileNotFoundException e) {
-      System.err.println("FileNotFound");
       return false;
     }
   }
 
+  /**
+   * Takes in a notebook and serializes it to a notisblokk.json-formatted string and saves
+   * it locally.
+   *
+   * @param notebook list of all categories
+   * @return true if the action was completed
+   */
   public boolean serializeNotebookToLocal(Notebook notebook, String path)
       throws IOException {
     String json = gsonSerializer.toJson(notebook);
@@ -54,11 +64,11 @@ public class NoteSerializer {
       file.getParentFile().mkdirs();
     }
 
-    try (FileWriter writer = new FileWriter(new File(path))) {
+    try (Writer writer = new OutputStreamWriter(
+        new FileOutputStream(file), StandardCharsets.UTF_8)) {
       writer.write(json);
       return true;
     } catch (FileNotFoundException e) {
-      System.err.println("FileNotFound");
       return false;
     }
   }
@@ -70,7 +80,10 @@ public class NoteSerializer {
     return gsonSerializer.toJson(noteList);
   }
 
-  public String serializeCategoryToString(Category category){
+  /**
+   * Returns a category as a string.
+   */
+  public String serializeCategoryToString(Category category) {
     return gsonSerializer.toJson(category);
   }
 

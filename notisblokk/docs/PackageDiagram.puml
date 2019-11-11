@@ -1,0 +1,41 @@
+@startuml
+
+skinparam monochrome true
+
+component core {
+	package notisblokk.core
+	package notisblokk.json
+}
+
+component gson {
+}
+
+notisblokk.json ..> gson
+
+component fxui {
+	package notisblokk.ui
+}
+
+notisblokk.ui ..> notisblokk.core
+notisblokk.ui ..> notisblokk.json
+
+component javafx {
+	component fxml {
+	}
+}
+
+fxui ..> fxml
+
+component restapi {
+	package notisblokk.restapi
+}
+
+component springBoot {
+}
+
+notisblokk.restapi ..> springBoot
+
+notisblokk.restapi ..> notisblokk.core
+notisblokk.restapi ..> notisblokk.json
+
+@enduml

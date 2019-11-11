@@ -9,7 +9,7 @@ public class NotesSpringBootApp {
   /**
    * Initializes the Spring Boot app.
    *
-   * @param args
+   * @param args arguments
    */
   public static void main(String[] args) {
     SpringApplication.run(NotesSpringBootApp.class, args);

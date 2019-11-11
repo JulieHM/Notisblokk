@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import notisblokk.core.Category;
 import notisblokk.core.Note;
@@ -24,8 +23,9 @@ public class NoteDeserializer {
   }
 
   /**
-   * Deserializes a local notebook. If a list of notes is found instead, a category with those
-   * notes will be created, added to a notebook which is then returned.
+   * Deserializes a local notebook. If a list of notes is found instead, a category with those notes
+   * will be created, added to a notebook which is then returned.
+   *
    * @param path of the local notes
    * @return a notebook with the locally stored categories and notes
    * @throws IOException if path error or similar
@@ -52,23 +52,27 @@ public class NoteDeserializer {
    * Takes a string in json format, and deserializes into notes.
    */
   public List<Note> deserializeNotesFromString(String notesFromString) {
-    Note[] notes = gsonDeserializer.fromJson(notesFromString, Note[].class);
-    if (notes != null) {
+    Note[] notes;
+    try {
+      notes = gsonDeserializer.fromJson(notesFromString, Note[].class);
       return Arrays.asList(notes);
+    }catch(Exception e){
+      Note[] notes1 = new Note[]{new Note("Empty note", "")};
+      return Arrays.asList(notes1);
     }
-
-    Note[] notes1 = new Note[]{new Note("Empty note", "")};
-    return Arrays.asList(notes1);
   }
 
   /**
-   * Takes a string in json format and deserializes into categories
+   * Takes a string in json format and deserializes into categories.
    */
   public List<Category> deserializeCategoriesFromString(String categoriesFromString) {
     Category[] categories = gsonDeserializer.fromJson(categoriesFromString, Category[].class);
     return Arrays.asList(categories);
   }
 
+  /**
+   * Takes a string in json format, and deserializes into category.
+   */
   public Category deserializeCategoryFromString(String categoryFromString) {
     return gsonDeserializer.fromJson(categoryFromString, Category.class);
   }
@@ -77,7 +81,6 @@ public class NoteDeserializer {
    * Takes a string in json format, deserializes it and returns it as a note.
    */
   public Note deserializeNoteFromString(String noteFromString) {
-    System.out.println(noteFromString);
     return gsonDeserializer.fromJson(noteFromString, Note.class);
   }
 }

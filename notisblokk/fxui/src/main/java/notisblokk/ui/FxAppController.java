@@ -18,12 +18,12 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.web.HTMLEditor;
 import notisblokk.core.Note;
 
+
 /**
  * FxAppController is communicating with the server through REST API. All data displayed in the GUI
  * is controlled by the API.
  */
 public class FxAppController {
-
 
   @FXML
   private HTMLEditor messageField;
@@ -71,6 +71,9 @@ public class FxAppController {
     }
   }
 
+  /**
+   * Gets text from HTML
+   */
   private static String getText(String htmlText) {
 
     String result;
@@ -91,7 +94,9 @@ public class FxAppController {
 
     return result;
   }
-
+  /**
+   * Extracts title from message
+   */
   private String extractTitle(String message) {
     String [] title = getText(message).split(" ");
     return title[0];
@@ -99,7 +104,7 @@ public class FxAppController {
 
 
   /**
-   * Add a new tab
+   * Add a new tab.
    */
   @FXML
   private void onNewCategoryClick() {
@@ -109,7 +114,6 @@ public class FxAppController {
     notesDataAccess.addCategory(newCategory);
     updateCategoryTabView(true);
   }
-
 
   /**
    * Event Handler for the ListView.
@@ -158,6 +162,9 @@ public class FxAppController {
     updateNoteListView(selectedIndex);
   }
 
+  /**
+   * Deletes a category.
+   */
   public void deleteCategory() {
     notesDataAccess.deleteCategory(activeCategoryIndex);
     updateCategoryTabView(false);
@@ -165,7 +172,7 @@ public class FxAppController {
   }
 
   /**
-   * Renames the given category with the new name
+   * Renames the given category with the new name.
    *
    * @param category category to be renamed
    * @param newName  new name
@@ -175,7 +182,7 @@ public class FxAppController {
   }
 
   /**
-   * Displays the content of the note selected in the List View
+   * Displays the content of the note selected in the List View.
    */
   private void displaySelectedNote() {
     int selectedIndex = noteListView.getSelectionModel().getSelectedIndex();
@@ -187,6 +194,9 @@ public class FxAppController {
     }
   }
 
+  /**
+   * Initializes tab pane.
+   */
   private void initTabView() {
     categoryTabPane.getSelectionModel().selectedItemProperty().addListener(
         (observableValue, tab, t1) -> {
@@ -216,7 +226,7 @@ public class FxAppController {
   /**
    * Updates the tab pane with new category-tabs.
    *
-   * @param newCategory
+   * @param newCategory true if a new category is present.
    */
   private void updateCategoryTabView(boolean newCategory) {
     categoryTabPane.getTabs().clear();
@@ -264,12 +274,18 @@ public class FxAppController {
     displaySelectedNote();
   }
 
-  void setActiveCategory(Category category) {
+
+  /**
+   * Sets active category.
+   *
+   * @param category that is active
+   */
+  public void setActiveCategory(Category category) {
     this.activeCategory = category;
   }
 
   /**
-   * USED TO ALLOW TESTING
+   * USED TO ALLOW TESTING.
    */
   public void setNotesDataAccess(final NotesDataAccess notesDataAccess) {
     this.notesDataAccess = notesDataAccess;
