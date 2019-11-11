@@ -134,7 +134,6 @@ public class FxAppController {
     updateNoteListView(index);
   }
 
-
   /**
    * Event Handler for the Save button.
    */

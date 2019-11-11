@@ -89,7 +89,6 @@ public class FxAppTest extends ApplicationTest {
         categories.get(invocation.getArgument(0)).getNote(invocation.getArgument(1))
     ).when(notesDataAccess).getNote(anyInt(), anyInt());
 
-
     // doAnswer(invocation -> ).when(notesDataAccess).updateNote(anyInt(), anyInt(), any(Note.class));
 
     doAnswer(invocation ->
@@ -156,4 +155,14 @@ public class FxAppTest extends ApplicationTest {
     Assert.assertEquals(categories.get(0).getNote(0).getMessage(), messageField.getHtmlText());
   }
 
+  /**
+   * Test for creating a new Note
+   */
+  @Test
+  public void testNewNoteButton() {
+    int previousSize = categories.get(0).getNumNotes();
+    clickOn("#newNote");
+    int newSize = categories.get(0).getNumNotes();
+    Assert.assertEquals(previousSize + 1, newSize);
+  }
 }
