@@ -3,6 +3,7 @@ package notisblokk.ui;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -78,7 +79,7 @@ public class FxAppTest extends ApplicationTest {
     doAnswer(invocation -> categories).when(notesDataAccess).getCategories();
 
     doAnswer(invocation ->
-        categories.get(invocation.getArgument(0))
+     categories.get(invocation.getArgument(0))
     ).when(notesDataAccess).getCategory(anyInt());
 
     doAnswer(invocation ->
@@ -95,11 +96,16 @@ public class FxAppTest extends ApplicationTest {
         categories.get(invocation.getArgument(0)).addNote(invocation.getArgument(1))
     ).when(notesDataAccess).addNote(anyInt(), any(Note.class));
 
-    // doAnswer(invocation -> ).when(notesDataAccess).addCategory(any(Category.class));
+     doAnswer(invocation ->
+         categories.add(invocation.getArgument(0))
+         ).when(notesDataAccess).addCategory(any(Category.class));
 
     // doAnswer(invocation -> ).when(notesDataAccess).renameCategory(any(Category.class), anyInt());
 
-    // doAnswer(invocation -> ).when(notesDataAccess).removeNote(anyInt(), anyInt());
+    doAnswer(invocation -> {
+      categories.get(invocation.getArgument(0)).removeNote((int) invocation.getArgument(1));
+      return true;
+    }).when(notesDataAccess).removeNote(anyInt(), anyInt());
 
     // doAnswer(invocation -> ).when(notesDataAccess).deleteCategory(anyInt());
 
@@ -164,5 +170,21 @@ public class FxAppTest extends ApplicationTest {
     clickOn("#newNote");
     int newSize = categories.get(0).getNumNotes();
     Assert.assertEquals(previousSize + 1, newSize);
+  }
+
+  @Test
+  public void testDeleteButton() {
+    int previousSize = categories.get(0).getNumNotes();
+    clickOn("#deleteNoteButton");
+    int newSize = categories.get(0).getNumNotes();
+
+    Assert.assertEquals(previousSize - 1, newSize);
+  }
+
+  @Test
+  public void testNewCategoryButton() {
+    int previousSize = categories.get(0).getNumNotes();
+    clickOn("#");
+    int newSize = categories.get(0).getNumNotes();
   }
 }
