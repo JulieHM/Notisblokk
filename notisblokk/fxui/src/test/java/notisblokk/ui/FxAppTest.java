@@ -107,7 +107,7 @@ public class FxAppTest extends ApplicationTest {
       return true;
     }).when(notesDataAccess).removeNote(anyInt(), anyInt());
 
-    // doAnswer(invocation -> ).when(notesDataAccess).deleteCategory(anyInt());
+     //oAnswer(invocation -> ).when(notesDataAccess).deleteCategory(anyInt());
 
     /* Reset GUI and override notesDataAccess */
     controller.setNotesDataAccess(notesDataAccess);
@@ -177,14 +177,15 @@ public class FxAppTest extends ApplicationTest {
     int previousSize = categories.get(0).getNumNotes();
     clickOn("#deleteNoteButton");
     int newSize = categories.get(0).getNumNotes();
-
     Assert.assertEquals(previousSize - 1, newSize);
   }
 
   @Test
   public void testNewCategoryButton() {
-    int previousSize = categories.get(0).getNumNotes();
-    clickOn("#");
-    int newSize = categories.get(0).getNumNotes();
+    int previousSize = categories.size();
+    clickOn("#newCategory");
+    int newSize = categories.size();
+    Assert.assertEquals(previousSize + 1, newSize);
   }
+
 }
